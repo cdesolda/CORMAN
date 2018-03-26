@@ -1,0 +1,39 @@
+body {
+font-family: montserrat, arial, verdana;
+background: transparent;
+}
+
+#box {
+    height: 500px;
+    -webkit-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 30px 2px rgba(0,0,0,0.3);
+}
+
+#personalInfo {
+    position: relative;
+    height: 220px;
+}
+
+#info {
+float: left;
+}
+
+#editPhoto {
+    margin-top: 110%;
+    margin-left: 100%;
+}
+
+#save {
+    margin-top: 100px;
+}
+
+#profilePhoto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    -webkit-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 30px 2px rgba(0,0,0,0.3);
+    float:left;
+}

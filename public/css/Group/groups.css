@@ -1,0 +1,151 @@
+.panel-heading h3 {
+    display: inline-block;
+    line-height: 1;
+    font-size: 1.50rem;
+}
+
+.panel-heading {
+    float: left;
+}
+
+.fa-eye, .fa-pencil {
+    padding: 5px;
+}
+
+.panel-footer {
+    height: 50px;
+    float: left;
+    width: 100%;
+}
+
+.panel-footer .btn-primary {
+    margin: 8px;
+}
+
+.panel-primary {
+    -webkit-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 30px 10px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 30px 2px rgba(0,0,0,0.3);
+    margin: 10px 10px;
+    float: left;
+}
+
+.panel {
+    border-radius: 2%;
+}
+
+.panel-body {
+    float: left;
+    overflow: hidden;
+}
+
+.icon, .title {
+    float: left;
+}
+
+
+#list_container {
+    margin: 0 auto;
+}
+
+#navbar {
+    margin-bottom: 1rem;
+}
+
+.breadcrumb {
+    padding: 0;
+    background-color: white;
+}
+
+/* Group Single/List */
+
+.group_item{
+    padding: 5px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+#titleCard{
+    font-size: large;
+    margin-left: 5px;
+    margin-right: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+#descriptionCard{
+    font-style: italic;
+    font-size: small;
+    margin-left: 5px;
+    margin-right: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+#groupInfo{
+    background: rgba(180, 180, 180, 0.1);
+    padding: 5px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+#members,h3{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+h6{
+    font-weight: bold;
+}
+
+
+#titleDetail{
+    font-size: 30px;
+    font-weight: bold;
+    word-wrap: break-word;  
+} 
+
+#descriptionDetail{
+    font-style: italic;
+    word-wrap: break-word;
+}
+#membersDetail{
+    word-wrap: break-word;
+}
+
+#footer{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card-block{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+#specialButton, #btn-share, #addTo{
+    background: darkorange;
+    border: darkorange;
+    color: white;
+}
+
+#noLeaveGroup, #yesLeaveGroup{
+    color:white;
+}
+
+#specialButton:hover {
+    background-color: orange;
+    border-color: orange;
+}
+
+
+.textLighter{
+    font-style: italic;
+    font-size: 13px;
+    color: lightslategray;
+}

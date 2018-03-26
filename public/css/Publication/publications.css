@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*.container {padding:20px;}*/
+#title{
+  font-size: large;
+  font-weight: bold;
+}
+
+#authors{
+  font-style: italic;
+  font-size: medium;
+}
+
+#venue{
+  font-size: small;
+}
+
+#topics{
+  font-size: medium;
+}
+
+.publication_item{
+  border: 1px solid rgb(200, 200, 200) !important;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+label{
+  font-weight: bold;
+  text-align: right;
+}
+
+[id~=md]{
+  font-weight: bold;
+  text-align: right;
+}

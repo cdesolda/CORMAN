@@ -1,0 +1,25 @@
+html, body {
+    font-size: 16px;
+    font-family: montserrat, arial, verdana;
+}
+
+/*
+#header {
+    left: 0px;
+}
+*/
+#message_info{
+  /*  border: 1px solid rgb(200, 200, 200);
+    border-radius: 5px;
+  */  padding: 5px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+#pub-table, #table-container, #table-container::before, #table-container::after, .progress {
+    margin: 0 auto;
+}
+
+.modal-body {
+    text-align: center;
+}

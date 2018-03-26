@@ -1,0 +1,48 @@
+#back_1 { 
+    background: url(/../images/bg_landing.jpg) no-repeat center center; 
+    -webkit-background-size: cover;
+    -webkit-filter: grayscale(100%);
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#back_2 { 
+    background: url(/../images/bg_landing.jpg) no-repeat center center; 
+    -webkit-background-size: cover;
+    -webkit-filter: grayscale(100%);
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#back_3 {
+    background: url(/../images/bg_landing.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+    -webkit-filter: grayscale(100%);
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.container-fluid{
+    padding: 0%;
+}
+
+h1{
+    color: black;
+    text-align: center;
+    word-wrap: break-word;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+p{
+    color: black;
+    text-align: center;
+    word-wrap: break-word;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+}

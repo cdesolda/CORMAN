@@ -1,0 +1,47 @@
+#footer{
+    position: fixed;
+    bottom: 0px;
+    z-index: 1000;
+    width: 100%;
+    left: 0px;
+    height: 2em;
+    background-color: #eee !important;
+    font-size: 13px !important;
+    justify-content: center;
+    margin: 0 !important;
+    }
+    
+    #footer p{
+    
+      color: #333;
+      text-decoration: none;
+      margin: 0 !important;
+    }
+    
+    #footer a{
+      color: #333;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    
+    #footer a:hover{
+      text-decoration: none;
+    }
+    
+    
+    /* footer bootstrap class margin reset */
+    .mb-3, .my-3{
+      margin: 0 !important;
+    }
+    
+    @media (max-width : 767px) {
+        #footer p{
+            margin: -0.4em 0 0 0 !important;
+            font-size: 11px !important;
+        }
+    
+        #footer a{
+            margin: -0.4em 0 0 0 !important;
+            font-size: 11px !important;
+        }
+    }

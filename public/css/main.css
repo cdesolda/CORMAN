@@ -1,0 +1,66 @@
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+@media (min-width : 0px) {
+    #mainContainer {
+        margin-top: 11rem;
+        margin-bottom: 10em;
+    }
+}
+
+@media (min-width : 320px) {
+    #mainContainer {
+        margin-top: 11rem;
+        margin-bottom: 10em;
+    }
+}
+@media (min-width : 480px) {
+    #mainContainer {
+        margin-top: 11rem;
+        margin-bottom: 10em;
+    }
+}
+
+@media (min-width: 576px) {
+    #mainContainer {
+        margin-top: 8rem;
+        margin-bottom: 10em;
+    }
+}
+
+@media (min-width: 768px) {
+    #mainContainer {
+        margin-top: 6rem;
+        margin-bottom: 10em;
+
+    }
+    #mainContainer > div.container-fluid > div > div.col-lg-3.col-md-2 {
+        padding-right: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    #mainContainer {
+        margin-top: 6rem;
+        margin-bottom: 10em;
+    }
+    #mainContainer > div.container-fluid > div > div.col-lg-3.col-md-2 {
+        padding-right: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+
+}
+
+/* set icon's size */
+i[class^="ion"]{
+    font-size: 30px;
+    color: cornflowerblue;
+}
+
+/*general buttons color*/
+.btn-primary{
+    background-color: cornflowerblue;
+    border: cornflowerblue;
+}

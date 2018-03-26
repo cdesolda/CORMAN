@@ -1,0 +1,25 @@
+.navbar.brand {
+    font-family: Montsterrat, monospace;
+}
+
+.btn-primary {
+    background-color: cornflowerblue
+}
+
+.navbar-nav {
+    margin: 0 auto;
+}
+
+.navbar-toggler {
+    background-color: cornflowerblue;
+}
+
+#navbarText {
+    font-size: 20px;
+}
+
+#navbarText a:hover {
+    color: cornflowerblue;
+    font-size: 21px;
+}
+

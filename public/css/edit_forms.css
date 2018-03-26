@@ -1,0 +1,46 @@
+input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+input:focus {
+  outline: none;
+  border-bottom: 1px solid tomato;
+}
+
+.hidden {
+  display: none;
+}
+
+.button.save {
+  background: rgb(255, 38, 0);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding:10px;
+  font-family: Helvetica, arial;
+}
+
+a.button:hover {
+  background: rgb(0, 160, 0); /* Best. color name. Ever. */
+}
+
+a.edit {
+  cursor: pointer;
+  color: rgb(255, 38, 0);
+}
+
+a.edit:hover {
+  cursor: pointer;
+  background: none;
+  text-decoration: underline;
+}
+
+input.disabled {
+  background: lightgray;
+  cursor: not-allowed;
+  border: none;
+}
