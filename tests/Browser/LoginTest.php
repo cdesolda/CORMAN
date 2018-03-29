@@ -13,7 +13,19 @@ class LoginTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+
+    public function testLoginFailure()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('login'))
+            ->type('email','login.failure@uniba.it')
+            ->type('password','123456')
+            ->press('Login')
+            ->assertSee('These credentials do not match our records.');
+        });
+    }
+	
+	public function testLogin()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('login'))
@@ -23,4 +35,5 @@ class LoginTest extends DuskTestCase
             ->assertSee('Dashboard');
         });
     }
+	
 }
