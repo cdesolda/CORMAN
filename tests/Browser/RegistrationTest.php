@@ -6,6 +6,8 @@ use Tests\DuskTestCase;
 
 use Laravel\Dusk\Chrome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use \App\User;
+use Illuminate\Support\Facades\Schema;
 
 class RegistrationTest extends DuskTestCase
 {
@@ -14,6 +16,7 @@ class RegistrationTest extends DuskTestCase
      *
      * @return void
      */
+	 		 
     public function testBasicExample()
     {
         $this->browse(function ($browser) {
@@ -37,6 +40,8 @@ class RegistrationTest extends DuskTestCase
             ->type('personal_link','http://example.com')
             ->press('Submit')
             ->assertPathIs('/syncronize');
-        });
+			});
+		Schema::disableForeignKeyConstraints();
+		$user = User::where('email', '=', 'example@example.com')->delete();
     }
 }
