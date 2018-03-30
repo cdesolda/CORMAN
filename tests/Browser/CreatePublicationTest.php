@@ -4,8 +4,9 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Schema;
 use \App\User;
+use \App\Publication;
 
 class CreatePublicationTest extends DuskTestCase
 {
@@ -35,5 +36,7 @@ class CreatePublicationTest extends DuskTestCase
 					->pause(1500)
 					->assertSee('Publications');
         });
+		Schema::disableForeignKeyConstraints();
+		$publication = Publication::where('title', '=', 'Pubblicazione di prova')->delete();
     }
 }
