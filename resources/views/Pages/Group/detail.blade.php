@@ -46,7 +46,7 @@
                 <div class="col-9 col-sm-9 col-md-10 col-lg-9 col-xl-9">
                     <div class="row justify-content-between">                 
                         <div class="col-lg-10">
-                            <a href="#" id="btn-share" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPublication">
+                            <a href="#" id="btn-share" dusk="shareButton" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPublication">
                                 <span class="ion-plus-circled"> Share</span>
                             </a>
                         </div>
