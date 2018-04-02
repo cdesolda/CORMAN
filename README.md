@@ -40,7 +40,7 @@ Per avviare la piattaforma:
 
 Per avviare i test:
 * avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk` 
-* Nota: nel caso non si vuole far aprire il browser quando si lanciano dei test aggiungere nel file /Test/DuskTestCase.php l'opzione '--headless' sotto la riga '--disable-gpu', rimuovendo la virgola
+* Nota: nel caso non si vuole far aprire il dusk browser quando si lanciano i test aggiungere nel file /Tests/DuskTestCase.php l'opzione '--headless' dopo la riga '--disable-gpu' con una virgola tra le due proprietà.
 
 ### Configurazione virtual host ###
 Tutorial su come impostare un virtual host.
