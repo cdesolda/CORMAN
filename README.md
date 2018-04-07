@@ -39,8 +39,8 @@ Per avviare la piattaforma:
 * digitare `php artisan serve` 
 
 Per avviare i test:
-* avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk` 
-
+* avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk`  (avvia tutti i test). Per avviare un singolo test `php artisan dusk --group=tag` sostituendo tag con il nome del tag (senza @) assegnato al test locato nel codice (nei commenti iniziali).
+ 
 ### Configurazione virtual host ###
 Tutorial su come impostare un virtual host.
 
