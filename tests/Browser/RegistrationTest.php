@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Schema;
 class RegistrationTest extends DuskTestCase
 {
     /**
-     * A basic browser test example.
      *
      * @return void
      */
-	 		 
-    public function testBasicExample()
+
+	 /**
+     * @group RegistrationTest
+     */	 
+    public function testRegistration()
     {
         $this->browse(function ($browser) {
             $browser->visit('/signUp')
@@ -30,6 +32,8 @@ class RegistrationTest extends DuskTestCase
             ->script('window.scrollTo(0, 500);');
             $browser
             ->pause(100)
+			->attach('profilePic',storage_path('app/public/test_upload.png')) 
+            ->pause(100)
             ->press('Next')
             ->pause(500)
             ->select('role','Researcher')
@@ -40,6 +44,7 @@ class RegistrationTest extends DuskTestCase
             ->type('personal_link','http://example.com')
             ->press('Submit')
             ->assertPathIs('/syncronize');
+			$this->assertDatabaseHas('users', ['first_name' => 'Nome','last_name' => 'Cognome','email' => 'example@example.com',]);
 			});
 		Schema::disableForeignKeyConstraints();
 		$user = User::where('email', '=', 'example@example.com')->delete();

@@ -11,9 +11,12 @@ use \App\Group;
 class CreateGroupTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
      *
      * @return void
+     */
+	 
+	 /**
+     * @group CreateGroupTest
      */
     public function testCreateGroup()
     {
@@ -22,15 +25,19 @@ class CreateGroupTest extends DuskTestCase
                     ->visit('/users')
 					->click('@newGroupButton')
 					->type('name','Gruppo di prova')
-					->pause(1000)
+					->pause(500)
 					->type('description','Descrizione del gruppo...')
-					->script('window.scrollTo(0, 500);');
+					->pause(2000)
+					->select('users[]','Paolo' ,' Buono')
+					->select('users[]')
+					->script('window.scrollTo(0, 200);');
 
-			$browser->select('users[]','David Gilmour')
-					->select('topics[]','Usability')
-					->pause(1500)
+			$browser->select('topics[]','Usability')
+					->pause(500)
+					->attach('picture',storage_path('app/public/testgroup_upload.jpg')) 
 					->press('Create')
 					->assertSee('Gruppo di prova');
+			$this->assertDatabaseHas('groups', ['name' => 'Gruppo di prova',]);
         });
 		Schema::disableForeignKeyConstraints();
 		$group = Group::where('name', '=', 'Gruppo di prova')->delete();
