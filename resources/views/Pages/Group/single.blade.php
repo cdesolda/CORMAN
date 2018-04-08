@@ -33,7 +33,7 @@
                     @else
                         <a href="#"><i class="ion-eye-disabled"></i></a>
                     @endif 
-                    <a href="{{route('groups.edit', ['id'=>$group->id])}}"><i class="ion-edit"></i></a>
+                    <a href="{{route('groups.edit', ['id'=>$group->id])}}"><i class="ion-edit" dusk="editGroupBtn" ></i></a>
                 </div>
                 <div id="edit_button" class="">
                     <a href="{{route('groups.show', ['id'=>$group->id])}}" id="btn-newgroup" class="btn btn-primary btn-sm" role="button">View More</a>
