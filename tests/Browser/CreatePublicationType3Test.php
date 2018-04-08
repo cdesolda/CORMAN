@@ -25,7 +25,7 @@ class CreatePublicationType3Test extends DuskTestCase
                     ->visit('/users')
 					->click('@newPublicationButton')
 					->type('title','Pubblicazione di prova')
-					->select('authors[]')
+					->select('authors[]',' ')
 					->select('authors[]')
 					->append('publication_date', '01011999')
 					->type('venue','venue di test')
