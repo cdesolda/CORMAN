@@ -27,7 +27,7 @@ Aprire il prompt dei comandi:
 * Installare il dump del database (/database/DB dump.sql) (rimuovere l'abilitazione del check su foreign key)
 * digitare `composer install`
 * digitare `composer update`
-* per settare le impostazioni globali in *.env o .env.dusk.local* file :
+* per settare le impostazioni globali in *.env file :
    * impostare la DB_CONNECTION con il tipo di connessione al db (mysql)
    * impostare il DB_DATABASE con il nome della tabella da utilizzare (CORMAN)
    * impostare la DB_USERNAME con un eventuale nome utente per il db (root è impostata di default)
@@ -39,9 +39,8 @@ Per avviare la piattaforma:
 * digitare `php artisan serve` 
 
 Per avviare i test:
-* avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk` 
-* Nota: nel caso non si vuole far aprire il browser quando si lanciano dei test aggiungere nel file /Test/DuskTestCase.php l'opzione '--headless' sotto la riga '--disable-gpu', rimuovendo la virgola
-
+* avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk`  (avvia tutti i test). Per avviare un singolo test `php artisan dusk --group=tag` sostituendo tag con il nome del tag (senza @) assegnato al test locato nel codice (nei commenti iniziali).
+ 
 ### Configurazione virtual host ###
 Tutorial su come impostare un virtual host.
 

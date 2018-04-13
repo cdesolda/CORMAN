@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use \App\User;
 use \App\Group;
 
-class CreateGroupTest extends DuskTestCase
+class CreateGroupNoInviteTest extends DuskTestCase
 {
     /**
      *
@@ -16,9 +16,9 @@ class CreateGroupTest extends DuskTestCase
      */
 	 
 	 /**
-     * @group CreateGroupTest
+     * @group CreateGroupNoInviteTest
      */
-    public function testCreateGroup()
+    public function testCreateGroupNoInvite()
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -27,14 +27,12 @@ class CreateGroupTest extends DuskTestCase
 					->type('name','Gruppo di prova')
 					->pause(500)
 					->type('description','Descrizione del gruppo...')
-					->pause(2000)
-					->select('users[]','Paolo' ,' Buono')
-					->select('users[]')
 					->script('window.scrollTo(0, 200);');
 
-			$browser->select('topics[]','Usability')
-					->pause(500)
+			$browser->pause(100)
+					->select('topics[]','Usability')
 					->attach('picture',storage_path('app/public/testgroup_upload.jpg')) 
+					->pause(500)
 					->press('Create')
 					->assertSee('Gruppo di prova');
 			$this->assertDatabaseHas('groups', ['name' => 'Gruppo di prova',]);

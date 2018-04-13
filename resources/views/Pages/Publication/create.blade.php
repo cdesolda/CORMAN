@@ -103,7 +103,7 @@
                         <input type="text" name="conference_ee" placeholder="EE"/>
                         <input type="text" name="conference_url" placeholder="URL"/>
                         <a href='#' class="fake_btn_previous" data-role='button'>Previous</a>
-                        <a href='#' class="fake_btn" dusk="buttonNext" data-role='button'>Next</a>
+                        <a href='#' class="fake_btn" dusk="button2Next" data-role='button'>Next</a>
                     </fieldset>
 
 
@@ -119,7 +119,7 @@
                         <input type="text" name="editorship_url" placeholder="URL"/>
 
                         <a href='#' class="fake_btn_previous" data-role='button'>Previous</a>
-                        <a href='#' class="fake_btn" dusk="buttonNext" data-role='button'>Next</a>
+                        <a href='#' class="fake_btn" dusk="button3Next" data-role='button'>Next</a>
                     </fieldset>
 
                     <fieldset id="media">

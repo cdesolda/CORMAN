@@ -167,7 +167,8 @@ class GroupController extends Controller
         // Replace with shares of publication-group-model
         $publicationList = Auth::user()->publications;
         $group = Auth::user()->groups->find($id);
-        $userList = User::where('id', '<>', Auth::user()->id)->get()->sortBy('last_name');
+		$thisgroup = Group::find($id);
+        $userList = User::where('id', '<>', Auth::user()->id)->whereNotin('id', $thisgroup->users->pluck('id'))->get()->sortBy('last_name');
         $topicList = Topic::all()->diff($group->topics);;
 
         return view('Pages.Group.edit', ['topicList' => $topicList, 'publicationList' => $publicationList,

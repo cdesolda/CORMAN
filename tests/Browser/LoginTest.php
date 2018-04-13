@@ -9,11 +9,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class LoginTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
      *
      * @return void
      */
-
+	 /**
+     * @group LoginFailureTest
+     */	
     public function testLoginFailure()
     {
         $this->browse(function (Browser $browser) {
@@ -24,7 +25,9 @@ class LoginTest extends DuskTestCase
             ->assertSee('These credentials do not match our records.');
         });
     }
-	
+	 /**
+     * @group LoginTest
+     */	
 	public function testLogin()
     {
         $this->browse(function (Browser $browser) {

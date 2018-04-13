@@ -10,9 +10,12 @@ use \App\User;
 class AddPublicationTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
      *
      * @return void
+     */
+	 
+	 /**
+     * @group AddPublicationTest
      */
     public function testExample()
     {
@@ -21,10 +24,10 @@ class AddPublicationTest extends DuskTestCase
                     ->visit('/groups')
 					->click('#btn-newgroup')
 					->click('@shareButton')
-					->pause(1500)
+					->pause(1000)
 					->check('btSelectAll')
 					->click('#addTo')
-					->pause(1500)
+					->pause(1000)
 					->assertSee('Your Publication has been added in group');
         });
     }

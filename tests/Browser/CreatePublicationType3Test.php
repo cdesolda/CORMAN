@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use \App\User;
 use \App\Publication;
 
-class CreatePublicationTest extends DuskTestCase
+class CreatePublicationType3Test extends DuskTestCase
 {
     /**
      *
@@ -16,9 +16,9 @@ class CreatePublicationTest extends DuskTestCase
      */
 
 	 /**
-     * @group CreatePublicationTest
+     * @group CreatePublicationType3Test
      */
-    public function testCreatePublication()
+    public function testCreatePublication3()
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
@@ -30,22 +30,23 @@ class CreatePublicationTest extends DuskTestCase
 					->append('publication_date', '01011999')
 					->type('venue','venue di test')
 					->select('topics[]','Usability')
+					->pause(100)
+					->select('type','editorship')
 					->script('window.scrollTo(0, 500);');
 					
 			$browser->pause(1500)
 					->press('Next')
 					->script('window.scrollTo(0, -500);');
 
-					$browser->pause(1500)->type('journal_abstract','test')
-					->type('journal_pages','222-223')
-					->type('journal_key','conf/um/ArditoBDM17')
+					$browser->pause(1500)->type('editorship_abstract','test')
+					->type('editorship_key','conf/um/ArditoBDM17')
 					->script('window.scrollTo(0, 500);');
 					
-					$browser->type('journal_doi','10.1145/3099023.3099089')
-					->type('journal_ee','http://doi.acm.org/10.1145/3099023.3099089')
-					->type('journal_url','http://dblp.org/rec/conf/um/ArditoBDM17')
+					$browser->type('editorship_doi','10.1145/3099023.3099089')
+					->type('editorship_ee','http://doi.acm.org/10.1145/3099023.3099089')
+					->type('editorship_url','http://dblp.org/rec/conf/um/ArditoBDM17')
 					->pause(1500)
-					->click('@buttonNext')
+					->click('@button3Next')
 					->pause(500)
 					->attach('pdf_file',storage_path('app/public/Test_Pdf.pdf'))
 					->attach('media_file[]',storage_path('app/public/test_image_upload.jpg')) 

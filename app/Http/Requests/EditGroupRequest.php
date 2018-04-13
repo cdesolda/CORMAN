@@ -35,7 +35,7 @@ class EditGroupRequest extends FormRequest
             'profile_photo' => 'bail|image|max:15000',
             'visibility' => 'required|in:public,private',
             
-            'users' => 'required|filled',
+            'users' => 'required',
             'users.*' => 'required|filled',
             'topics' => 'nullable',
             'topics.*' => 'filled|max:50'

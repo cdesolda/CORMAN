@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use \App\User;
 use Illuminate\Support\Facades\Schema;
 
-class RegistrationTest extends DuskTestCase
+class RegWithNoSynchronizeTest extends DuskTestCase
 {
     /**
      *
@@ -17,16 +17,16 @@ class RegistrationTest extends DuskTestCase
      */
 
 	 /**
-     * @group RegistrationTest
+     * @group RegWithNoSynchronizeTest
      */	 
-    public function testRegistration()
+    public function testRegNo()
     {
         $this->browse(function ($browser) {
             $browser->visit('/signUp')
-            ->type('first_name','Nome')
-            ->type('last_name','Cognome')
-            ->append('birth_date', '01011999')
-            ->type('email','example@example.com')
+            ->type('first_name','Giuseppe')
+            ->type('last_name','Desolda')
+            ->append('birth_date', '01011989')
+            ->type('email','giuseppe.desolda@example.com')
             ->type('password','123456')
             ->type('password_confirmation','123456')
             ->script('window.scrollTo(0, 500);');
@@ -44,9 +44,12 @@ class RegistrationTest extends DuskTestCase
             ->type('personal_link','http://example.com')
             ->press('Submit')
             ->assertPathIs('/syncronize');
-			$this->assertDatabaseHas('users', ['first_name' => 'Nome','last_name' => 'Cognome','email' => 'example@example.com',]);
+			$browser->press('Skip')
+			->assertPathIs('/users');
+;
+			$this->assertDatabaseHas('users', ['first_name' => 'Giuseppe','last_name' => 'Desolda','email' => 'giuseppe.desolda@example.com',]);
 			});
 		Schema::disableForeignKeyConstraints();
-		$user = User::where('email', '=', 'example@example.com')->delete();
+		$user = User::where('email', '=', 'giuseppe.desolda@example.com')->delete();
     }
 }
