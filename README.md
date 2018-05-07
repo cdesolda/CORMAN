@@ -43,7 +43,8 @@ Per avviare i test:
  
 ### Configurazione Corman Private Chat ###
 
-Per utilizzare correttamente la chat, installare il dump per la versione messenger, inserita nella cartella /database/dump for messenger/corman.sql
+Per utilizzare correttamente la chat:
+* installare il dump per la versione messenger, inserita nella cartella /database/dump for messenger/corman.sql
  
  
  ### Configurazione virtual host ###
