@@ -41,7 +41,12 @@ Per avviare la piattaforma:
 Per avviare i test:
 * avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk`  (avvia tutti i test). Per avviare un singolo test `php artisan dusk --group=tag` sostituendo tag con il nome del tag (senza @) assegnato al test locato nel codice (nei commenti iniziali).
  
-### Configurazione virtual host ###
+### Configurazione Corman Private Chat ###
+
+Per utilizzare correttamente la chat, installare il dump per la versione messenger, inserita nella cartella /database/dump for messenger/corman.sql
+ 
+ 
+ ### Configurazione virtual host ###
 Tutorial su come impostare un virtual host.
 
 **Requisiti:**
