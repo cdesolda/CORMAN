@@ -26,7 +26,8 @@ class CreateUsersTable extends Migration
             $table->integer('affiliation_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->string('reference_link',1620)->nullable();
-            
+			$table->unique( array('first_name','last_name') );    
+			
             $table->timestamps();
             //Constraints
             $table->foreign('affiliation_id')->references('id')->on('affiliations'); #foreign for 1-m relation with affiliations table

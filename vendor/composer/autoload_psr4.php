@@ -27,7 +27,7 @@ return array(
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
-    'Psy\\' => array($vendorDir . '/psy/psysh/src/Psy'),
+    'Psy\\' => array($vendorDir . '/psy/psysh/src'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
@@ -53,7 +53,8 @@ return array(
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
-    'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
+    'Collective\\Html\\' => array($vendorDir . '/laravelcollective/html/src'),
     'Barryvdh\\Debugbar\\' => array($vendorDir . '/barryvdh/laravel-debugbar/src'),
     'App\\' => array($baseDir . '/app'),
+    '' => array($vendorDir . '/nesbot/carbon/src'),
 );

@@ -53,9 +53,11 @@
 
     <hr>
         <div class="row justify-content-center">
+		@if ($publication->getPublicationPDF() <> '')
             <a href="{{url($publication->getPublicationPDF())}}" target="_blank" id="btn-pdf" class="btn btn-primary" role="button" >
-                <span class="ion-android-download"> PDF</span>
+				<span class="ion-android-download"> PDF</span>
             </a>
+		@endif
         </div>
     <hr>
     <!-- Media Carousel -->

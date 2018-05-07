@@ -1,0 +1,86 @@
+/*@media only screen and (min-width: 961px) {
+    body {
+        overflow: hidden;
+    }
+	
+}*/
+
+/* CHAT USERS*/
+#box_users {
+    padding-top: 5px;
+    overflow-y: scroll;
+    max-height: 550px;
+    height: 550px;
+    overflow-x: hidden;
+}
+
+#message_Box {
+    height: 500px;
+}
+
+#box_msg {
+    margin-top: -2%;
+}
+
+#searchBox {
+    background-color: white;
+    color: cornflowerblue;
+    border-color: cornflowerblue;
+}
+
+#searchBox:hover {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: white;
+}
+
+#searchBox:focus {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: white;
+}
+
+#showUser :hover {
+    background: #f0f0f0;
+}
+
+#user_info {
+
+}
+
+#user_picture_path {
+    border-radius: 100%;
+    margin: 10px
+}
+
+.user {
+    margin-top: 15px;
+}
+
+.color {
+    background-color: #f3f3f3;
+}
+
+.colorFont {
+    color: #666;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+#divShowUser:hover {
+	 background-color: #f3f3f3;
+}
+
+.overText {
+     width: 150px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+}
+
+/* END CHAT USERS*/
+
+
+

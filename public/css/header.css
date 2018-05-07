@@ -1,6 +1,88 @@
 body {
-    font-family: montserrat, arial, verdana;
+	font-family: montserrat, arial, verdana;
 }
+
+.navbar-nav p {
+	margin: auto auto;
+	padding-right: .3rem;
+}
+
+#brand,
+#menuIcon {
+	color: cornflowerblue;
+}
+
+#brand {
+	padding-left: 15px;
+	vertical-align: middle;
+}
+
+.navbar-toggler {
+	background-color: cornflowerblue;
+}
+
+.navbar-toggler-icon {
+	color: cornflowerblue;
+}
+
+.nav-link {
+	color: cornflowerblue !important;
+}
+
+#header {
+	background-color: #ddd;
+	position: fixed;
+	top: 0px;
+	z-index: 1000;
+	width: 100%;
+	margin: 0 auto;
+	left: 0px;
+	-webkit-box-shadow: inset 0px 0px 113px -36px rgba(204, 204, 204, 1);
+	-moz-box-shadow: inset 0px 0px 113px -36px rgba(204, 204, 204, 1);
+	box-shadow: inset 0px 0px 113px -36px rgba(204, 204, 204, 1);
+}
+
+#header,
+.breadcrumb {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#breadcrumb {
+	background-color: white;
+	top: -1.25rem;
+	padding-top: 0;
+	padding-bottom: 0rem;
+	margin-bottom: 0.25rem;
+}
+
+#menuIcon img {
+	border-radius: 50%;
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
+#header {
+	justify-content: space-between;
+}
+
+#navbarNavAltMarkup>div>li {
+	margin: auto auto;
+}
+
+#menuIcon {
+	margin: auto auto;
+}
+
+#buttonMenu {
+	margin: 0 auto;
+}
+
+#navbarNavAltMarkup {
+	text-align: center;
+	padding-right: 15px;
+}
+
 
 #searchBox {
     background-color: white;
@@ -20,110 +102,56 @@ body {
     border-color: white;
 }
 
-.navbar-nav p {
-    margin: auto auto;
-    padding-right: .3rem;
-}
-#brand, #menuIcon {
-    color: cornflowerblue;
-}
-
-#brand {
-    padding-left: 15px;
-    vertical-align: middle;
-}
-
-.navbar-toggler {
-    background-color: cornflowerblue;
-}
-
-.navbar-toggler-icon {
-    color: cornflowerblue;
-}
-
-.nav-link{
-    color: cornflowerblue !important;
-}
-
-#header {
-    background-color: #ddd;
-    position: fixed;
-    top: 0px;
-    z-index: 1000;
-    width: 100%;
-    margin: 0 auto;
-    left: 0px;
-    -webkit-box-shadow: inset 0px 0px 113px -36px rgba(204,204,204,1);
--moz-box-shadow: inset 0px 0px 113px -36px rgba(204,204,204,1);
-box-shadow: inset 0px 0px 113px -36px rgba(204,204,204,1);
-}
-
-#header, .breadcrumb {
-    padding-left: 0;
-    padding-right:0 ;
-}
-
-#breadcrumb {
-    background-color: white;
-    top: -1.25rem;
-    padding-top: 0;
-    padding-bottom: 0rem;
-    margin-bottom: 0.25rem;
-}
-
-#menuIcon img {
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-}
-
-#header {
-    justify-content: space-between;
-}
-
-#navbarNavAltMarkup > div > li {
-    margin: auto auto;
-}
-
-#menuIcon {
-    margin: auto auto;
-}
-
-#buttonMenu {
-    margin: 0 auto;
-}
-
-#navbarNavAltMarkup {
-    text-align: center;
-    padding-right: 15px;
+#showUser :hover {
+    background: #f0f0f0;
 }
 
 
+/* SCROLLBAR*/
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #d9d9d9;
+	border-radius: 2px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+/* END SCROLLBAR*/
 
 
 
 /* fix overlay modal/header navbar */
-.modal-content{
-    z-index: 100000 !important;
+
+.modal-content {
+	z-index: 100000 !important;
 }
 
 .brand-div {
-    padding-left: 1.5%;
+	padding-left: 1.5%;
 }
 
 .button-div {
-    padding-right: 3.5%;
-    text-align: right;
+	padding-right: 3.5%;
+	text-align: right;
 }
 
 @media (min-width: 1440px) {
-    .navbar-nav {
-        margin: 0 4rem;
-    }
+	.navbar-nav {
+		margin: 0 4rem;
+	}
 }
 
 @media (min-width: 2560px) {
-    .navbar-nav {
-        margin: 0 26rem;
-    }
+	.navbar-nav {
+		margin: 0 26rem;
+	}
 }

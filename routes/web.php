@@ -18,6 +18,24 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
+/** Pages Messages Routes **/
+Route::get('/chat', 'MessagesController@index');
+Route::get('/chat', 'MessagesController@stampa_utenti');
+Route::get('/messages', 'MessagesController@search');
+Route::get('/chat/profile/{id}', 'MessagesController@showuser');
+Route::get('/chat/messages/{id}', 'MessagesController@show_messages');
+Route::get('/chat/send/{id_to}/{message}', 'MessagesController@send');
+Route::get('/chat/conversations/add/{id_to}', 'MessagesController@insert_conversations');
+Route::get('/chat/conversations', 'MessagesController@show_conversations');
+Route::get('/chat/seen/{id}', 'MessagesController@seen');
+Route::get('/notifications_chat', 'MessagesController@show_notifications_chat');
+
+//INSERIAMO LA ROUTE PER L'INVIO DI ALLEGATI
+Route::get('/chat/send/attach/{id_to}/{attach}', 'MessagesController@send_attach');
+//INSERIAMO LA RUOTE UTILE PER CARICARE I FILE NELLA CARTELLA UPLOADS
+Route::post('/chat','MessagesController@showUploadFile');
+
+
 /** Pages Controller Routes **/
 Route::get('/', 'PagesController@landingPage')->name('landing');
 Route::get('/tutorial', 'PagesController@tutorial');
