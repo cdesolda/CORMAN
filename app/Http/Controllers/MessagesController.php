@@ -28,12 +28,17 @@ class MessagesController extends Controller
      */
     public function stampa_utenti()
     {
+        if (Auth::check())
+        {
+            // The user is logged in...
+
         $data = DB::table('conversation')
             ->where('conversation.user_one', '=', Auth::user()->id)
             ->join('users', 'users.id','=','conversation.user_two')
             ->select('users.*')
             ->get();
         return view('chat.messages', compact('data'));
+        }
     }
 
 
