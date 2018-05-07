@@ -24,7 +24,7 @@ Aprire il prompt dei comandi:
 * digitare `cd corman`
 * digitare `composer install`
 * digitare `composer update`
-* digitare il comando: php artisan key:generate
+* digitare il comando: php artisan key:generate`
 * Installare il dump del database (/database/corman.sql) (rimuovere l'abilitazione del check su foreign key)
 
 * per settare le impostazioni globali in *.env file :
