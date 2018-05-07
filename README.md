@@ -23,7 +23,7 @@ Aprire il prompt dei comandi:
 * digitare `git clone https://github.com/cdesolda/corman.git corman` per clonare il progetto nella cartella "corman"
 * digitare `cd corman`
 * digitare `composer install`
-* digitare `composer update
+* digitare `composer update`
 * digitare il comando: php artisan key:generate
 * Installare il dump del database (/database/corman.sql) (rimuovere l'abilitazione del check su foreign key)
 
