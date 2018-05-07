@@ -44,6 +44,7 @@ Per avviare i test:
 ### Configurazione Corman Private Chat ###
 
 Per utilizzare correttamente la chat:
+* eliminare il contenuto del database CORMAN
 * installare il dump per la versione messenger, inserita nella cartella /database/dump for messenger/corman.sql
  
  
