@@ -22,11 +22,11 @@ Aprire il prompt dei comandi:
 * portarsi nella cartella root dove verrà copiato il progetto (ex.: `cd C:\xampp\htdocs`)
 * digitare `git clone https://github.com/cdesolda/corman.git corman` per clonare il progetto nella cartella "corman"
 * digitare `cd corman`
-* digitare il comando: php artisan key:generate
-* digitare il comando: php artisan migrate:fresh
-* Installare il dump del database (/database/DB dump.sql) (rimuovere l'abilitazione del check su foreign key)
 * digitare `composer install`
-* digitare `composer update`
+* digitare `composer update
+* digitare il comando: php artisan key:generate
+* Installare il dump del database (/database/corman.sql) (rimuovere l'abilitazione del check su foreign key)
+
 * per settare le impostazioni globali in *.env file :
    * impostare la DB_CONNECTION con il tipo di connessione al db (mysql)
    * impostare il DB_DATABASE con il nome della tabella da utilizzare (CORMAN)
@@ -40,12 +40,6 @@ Per avviare la piattaforma:
 
 Per avviare i test:
 * avviare prima la piattaforma con il comando `php artisan serve`, aprire un'altro cmd, posizionarsi sempre nella root del progetto e digitare `php artisan dusk`  (avvia tutti i test). Per avviare un singolo test `php artisan dusk --group=tag` sostituendo tag con il nome del tag (senza @) assegnato al test locato nel codice (nei commenti iniziali).
- 
-### Configurazione Corman Private Chat ###
-
-Per utilizzare correttamente la chat:
-* eliminare il contenuto del database CORMAN
-* installare il dump per la versione messenger, inserita nella cartella /database/dump for messenger/corman.sql
  
  
  ### Configurazione virtual host ###
