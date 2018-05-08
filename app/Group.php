@@ -53,5 +53,17 @@ class Group extends Model
             'App\PublicationGroup'
         );
     }
+
+    public function posted(){
+        return $this->hasMany(
+            'App\PostGroup'
+        );
+    }
+
+    public function commented(){
+        return $this->hasMany(
+            'App\PostComment'
+        );
+    }
 }
 

@@ -1,13 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Creato il: Feb 13, 2018 alle 17:05
--- Versione del server: 10.1.28-MariaDB
--- Versione PHP: 7.1.11
+-- Host: 127.0.0.1
+-- Creato il: Mag 08, 2018 alle 21:24
+-- Versione del server: 5.7.20-log
+-- Versione PHP: 7.2.3
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -20,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cormanDump`
+-- Database: `corman`
 --
 
 --
@@ -127,7 +126,8 @@ INSERT INTO `editorships` (`publication_id`, `abstract`, `volume`, `publisher`, 
 INSERT INTO `groups` (`id`, `name`, `subscribers_count`, `description`, `picture_path`, `public`, `created_at`, `updated_at`) VALUES
 (1, 'UX Bari', 1, 'this is the first group about UX in Bari', 'images/groups/8c199ba437465f903788829512406cf3.jpg', 'public', '2018-02-13 13:38:13', '2018-02-13 13:38:40'),
 (2, 'The dark side of the moon', 1, 'breathe, breathe in the air!', 'images/groups/9450582a1eb645bc7ee8bbdc6cb4a631.jpg', 'public', '2018-02-13 13:59:15', '2018-02-13 13:59:15'),
-(3, 'Animals', 1, 'ahaaa charade you are!', 'images/groups/9bb6c89af9bd4467a7740421d0779ccd.jpeg', 'public', '2018-02-13 14:03:50', '2018-02-13 14:03:50');
+(3, 'Animals', 1, 'ahaaa charade you are!', 'images/groups/9bb6c89af9bd4467a7740421d0779ccd.jpeg', 'public', '2018-02-13 14:03:50', '2018-02-13 14:03:50'),
+(4, 'Interazione Uomo-Macchina', 1, 'Gruppo di IUM 2017-2018', '/images/groups/group_icon.png', 'public', '2018-05-08 17:20:10', '2018-05-08 17:20:10');
 
 --
 -- Dump dei dati per la tabella `journals`
@@ -145,14 +145,31 @@ INSERT INTO `notifications` (`id`, `type`, `notifiable_id`, `notifiable_type`, `
 ('109bebaa-5853-4b58-a884-bb5d74dc0a2d', 'App\\Notifications\\PublicationNotification', 2, 'App\\User', '{\"publication\":{\"title\":\"The Dark Side Of The Moon\",\"year\":\"1970-12-12\",\"venue\":\"Abbey Road\",\"type\":\"editorship\",\"public\":1,\"multimedia_path\":\"\\/9298a235d20e4c128cb3ded230b9079b\",\"updated_at\":\"2018-02-13 14:57:52\",\"created_at\":\"2018-02-13 14:57:52\",\"id\":7},\"user\":{\"id\":2,\"first_name\":\"Roger\",\"last_name\":\"Waters\",\"birth_date\":\"1944-01-01\",\"email\":\"roger.waters@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/7f0c2415c36fd9b8f7e7f5fe362f9c62.jpg\",\"affiliation_id\":1,\"role_id\":1,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:57:52', '2018-02-13 13:57:52'),
 ('2c7c76cd-0213-4735-91db-dd63246e905b', 'App\\Notifications\\GroupNotification', 5, 'App\\User', '{\"group\":{\"name\":\"The dark side of the moon\",\"description\":\"breathe, breathe in the air!\",\"picture_path\":\"images\\/groups\\/9450582a1eb645bc7ee8bbdc6cb4a631.jpg\",\"public\":\"public\",\"subscribers_count\":1,\"updated_at\":\"2018-02-13 14:59:15\",\"created_at\":\"2018-02-13 14:59:15\",\"id\":2},\"authUser\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null},\"user\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null}}', NULL, '2018-02-13 13:59:16', '2018-02-13 13:59:16'),
 ('38b21ed3-ea12-40dc-a0be-55fa628f4536', 'App\\Notifications\\PublicationNotification', 4, 'App\\User', '{\"publication\":{\"title\":\"The Wall\",\"year\":\"2018-02-07\",\"venue\":\"Abbey Road\",\"type\":\"journal\",\"public\":1,\"multimedia_path\":\"\\/3eadda1f9cddbd684c54078dd6e2e58a\",\"updated_at\":\"2018-02-13 14:50:11\",\"created_at\":\"2018-02-13 14:50:11\",\"id\":5},\"user\":{\"id\":4,\"first_name\":\"Richard\",\"last_name\":\"Wright\",\"birth_date\":\"1944-01-01\",\"email\":\"richard.wright@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/caa683bc3c4b57c7c7c92053e9f6643d.jpg\",\"affiliation_id\":12,\"role_id\":4,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:50:12', '2018-02-13 13:50:12'),
+('81362e87-2b52-448b-b758-3bc56159478a', 'App\\Notifications\\CommentNotification', 5, 'App\\User', '{\"group\":{\"id\":4,\"name\":\"Interazione Uomo-Macchina\",\"subscribers_count\":1,\"description\":\"Gruppo di IUM 2017-2018\",\"picture_path\":\"\\/images\\/groups\\/group_icon.png\",\"public\":\"public\",\"created_at\":\"2018-05-08 19:20:10\",\"updated_at\":\"2018-05-08 19:20:10\"},\"authUser\":{\"id\":1,\"first_name\":\"Paolo\",\"last_name\":\"Buono\",\"birth_date\":\"1980-01-01\",\"email\":\"paolo.buono@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/default.png\",\"affiliation_id\":7,\"role_id\":2,\"reference_link\":null},\"user\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null}}', NULL, '2018-05-08 17:21:10', '2018-05-08 17:21:10'),
 ('84ada761-d9c6-49db-871e-e2398751da33', 'App\\Notifications\\PublicationNotification', 4, 'App\\User', '{\"publication\":{\"title\":\"The Dark Side Of The Moon\",\"year\":\"1970-12-12\",\"venue\":\"Abbey Road\",\"type\":\"editorship\",\"public\":1,\"multimedia_path\":\"\\/9298a235d20e4c128cb3ded230b9079b\",\"updated_at\":\"2018-02-13 14:57:52\",\"created_at\":\"2018-02-13 14:57:52\",\"id\":7},\"user\":{\"id\":4,\"first_name\":\"Richard\",\"last_name\":\"Wright\",\"birth_date\":\"1944-01-01\",\"email\":\"richard.wright@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/caa683bc3c4b57c7c7c92053e9f6643d.jpg\",\"affiliation_id\":12,\"role_id\":4,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:57:52', '2018-02-13 13:57:52'),
 ('b59ffccf-8c0a-43d5-b6a9-586ea0273b9e', 'App\\Notifications\\PublicationNotification', 2, 'App\\User', '{\"publication\":{\"title\":\"Astronomy Domine\",\"year\":\"1968-12-12\",\"venue\":\"Abbey Road\",\"type\":\"conference\",\"public\":1,\"multimedia_path\":\"\\/e867adc512ddb0569efa46ec73f4a7c1\",\"updated_at\":\"2018-02-13 14:56:01\",\"created_at\":\"2018-02-13 14:56:01\",\"id\":6},\"user\":{\"id\":2,\"first_name\":\"Roger\",\"last_name\":\"Waters\",\"birth_date\":\"1944-01-01\",\"email\":\"roger.waters@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/7f0c2415c36fd9b8f7e7f5fe362f9c62.jpg\",\"affiliation_id\":1,\"role_id\":1,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:56:02', '2018-02-13 13:56:02'),
 ('b89fd3e8-6c37-4970-a248-f649a2a92902', 'App\\Notifications\\PublicationNotification', 5, 'App\\User', '{\"publication\":{\"title\":\"The Final Cut\",\"year\":\"1999-12-12\",\"venue\":\"Abbey Road\",\"type\":\"journal\",\"public\":1,\"multimedia_path\":\"\\/c65e24020627cbb93e846fd1b2b053ef\",\"updated_at\":\"2018-02-13 15:02:02\",\"created_at\":\"2018-02-13 15:02:02\",\"id\":8},\"user\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null},\"authUser\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null,\"author\":{\"id\":7,\"name\":\"David Gilmour\",\"user_id\":3,\"created_at\":\"2018-02-13 14:42:56\",\"updated_at\":\"2018-02-13 14:42:56\"}}}', NULL, '2018-02-13 14:02:03', '2018-02-13 14:02:03'),
 ('beefe5e5-3c3c-4de9-9aa8-4b49a62edccc', 'App\\Notifications\\PublicationNotification', 3, 'App\\User', '{\"publication\":{\"title\":\"Echoes\",\"year\":\"1968-12-12\",\"venue\":\"Abbey Road\",\"type\":\"conference\",\"public\":1,\"multimedia_path\":\"\\/1fbb1309e485d48f9c04e0667e962c3e\",\"updated_at\":\"2018-02-13 15:08:45\",\"created_at\":\"2018-02-13 15:08:45\",\"id\":10},\"user\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null},\"authUser\":{\"id\":4,\"first_name\":\"Richard\",\"last_name\":\"Wright\",\"birth_date\":\"1944-01-01\",\"email\":\"richard.wright@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/caa683bc3c4b57c7c7c92053e9f6643d.jpg\",\"affiliation_id\":12,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":8,\"name\":\"Richard Wright\",\"user_id\":4,\"created_at\":\"2018-02-13 14:44:44\",\"updated_at\":\"2018-02-13 14:44:44\"}}}', NULL, '2018-02-13 14:08:46', '2018-02-13 14:08:46'),
 ('d204db6c-b9b2-492f-8061-c2a81eb88667', 'App\\Notifications\\PublicationNotification', 2, 'App\\User', '{\"publication\":{\"title\":\"The Wall\",\"year\":\"2018-02-07\",\"venue\":\"Abbey Road\",\"type\":\"journal\",\"public\":1,\"multimedia_path\":\"\\/3eadda1f9cddbd684c54078dd6e2e58a\",\"updated_at\":\"2018-02-13 14:50:11\",\"created_at\":\"2018-02-13 14:50:11\",\"id\":5},\"user\":{\"id\":2,\"first_name\":\"Roger\",\"last_name\":\"Waters\",\"birth_date\":\"1944-01-01\",\"email\":\"roger.waters@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/7f0c2415c36fd9b8f7e7f5fe362f9c62.jpg\",\"affiliation_id\":1,\"role_id\":1,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:50:12', '2018-02-13 13:50:12'),
+('d7bfe225-2d0e-4fef-acfe-67ccc0b9fa6d', 'App\\Notifications\\PostNotification', 5, 'App\\User', '{\"group\":{\"id\":4,\"name\":\"Interazione Uomo-Macchina\",\"subscribers_count\":1,\"description\":\"Gruppo di IUM 2017-2018\",\"picture_path\":\"\\/images\\/groups\\/group_icon.png\",\"public\":\"public\",\"created_at\":\"2018-05-08 19:20:10\",\"updated_at\":\"2018-05-08 19:20:10\",\"users\":[{\"id\":1,\"first_name\":\"Paolo\",\"last_name\":\"Buono\",\"birth_date\":\"1980-01-01\",\"email\":\"paolo.buono@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/default.png\",\"affiliation_id\":7,\"role_id\":2,\"reference_link\":null,\"pivot\":{\"group_id\":4,\"user_id\":1}},{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"pivot\":{\"group_id\":4,\"user_id\":5}}]},\"authUser\":{\"id\":1,\"first_name\":\"Paolo\",\"last_name\":\"Buono\",\"birth_date\":\"1980-01-01\",\"email\":\"paolo.buono@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/default.png\",\"affiliation_id\":7,\"role_id\":2,\"reference_link\":null},\"user\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null}}', NULL, '2018-05-08 17:20:35', '2018-05-08 17:20:35'),
 ('dee7b63c-2f5c-45df-86ec-7b17313b9600', 'App\\Notifications\\PublicationNotification', 4, 'App\\User', '{\"publication\":{\"title\":\"The Final Cut\",\"year\":\"1999-12-12\",\"venue\":\"Abbey Road\",\"type\":\"journal\",\"public\":1,\"multimedia_path\":\"\\/c65e24020627cbb93e846fd1b2b053ef\",\"updated_at\":\"2018-02-13 15:02:02\",\"created_at\":\"2018-02-13 15:02:02\",\"id\":8},\"user\":{\"id\":4,\"first_name\":\"Richard\",\"last_name\":\"Wright\",\"birth_date\":\"1944-01-01\",\"email\":\"richard.wright@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/caa683bc3c4b57c7c7c92053e9f6643d.jpg\",\"affiliation_id\":12,\"role_id\":4,\"reference_link\":null},\"authUser\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null,\"author\":{\"id\":7,\"name\":\"David Gilmour\",\"user_id\":3,\"created_at\":\"2018-02-13 14:42:56\",\"updated_at\":\"2018-02-13 14:42:56\"}}}', NULL, '2018-02-13 14:02:03', '2018-02-13 14:02:03'),
 ('f313ac25-8318-408c-9556-7b9ae8e56f85', 'App\\Notifications\\PublicationNotification', 3, 'App\\User', '{\"publication\":{\"title\":\"Astronomy Domine\",\"year\":\"1968-12-12\",\"venue\":\"Abbey Road\",\"type\":\"conference\",\"public\":1,\"multimedia_path\":\"\\/e867adc512ddb0569efa46ec73f4a7c1\",\"updated_at\":\"2018-02-13 14:56:01\",\"created_at\":\"2018-02-13 14:56:01\",\"id\":6},\"user\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:56:02', '2018-02-13 13:56:02'),
 ('f93f8d1f-03fd-472e-b9c2-657e48057266', 'App\\Notifications\\PublicationNotification', 3, 'App\\User', '{\"publication\":{\"title\":\"The Wall\",\"year\":\"2018-02-07\",\"venue\":\"Abbey Road\",\"type\":\"journal\",\"public\":1,\"multimedia_path\":\"\\/3eadda1f9cddbd684c54078dd6e2e58a\",\"updated_at\":\"2018-02-13 14:50:11\",\"created_at\":\"2018-02-13 14:50:11\",\"id\":5},\"user\":{\"id\":3,\"first_name\":\"David\",\"last_name\":\"Gilmour\",\"birth_date\":\"1944-01-01\",\"email\":\"david.gilmour@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/b4537c6b85bf905d70494f74f0a6009f.jpg\",\"affiliation_id\":8,\"role_id\":2,\"reference_link\":null},\"authUser\":{\"id\":5,\"first_name\":\"Nick\",\"last_name\":\"Mason\",\"birth_date\":\"1944-01-01\",\"email\":\"nick.mason@uniba.it\",\"picture_path\":\"images\\/profilePictures\\/097c139eb79aba0491382f7b34365cbc.jpg\",\"affiliation_id\":6,\"role_id\":4,\"reference_link\":null,\"author\":{\"id\":9,\"name\":\"Nick Mason\",\"user_id\":5,\"created_at\":\"2018-02-13 14:46:44\",\"updated_at\":\"2018-02-13 14:46:44\"}}}', NULL, '2018-02-13 13:50:12', '2018-02-13 13:50:12');
+
+--
+-- Dump dei dati per la tabella `post_comments`
+--
+
+INSERT INTO `post_comments` (`id`, `post_group_id`, `user_id`, `comment_content`, `created_at`, `updated_at`) VALUES
+(1, 1, 5, 'Primo commento!', '2018-05-08 17:20:53', '2018-05-08 17:20:53'),
+(2, 1, 1, 'Secondo commento.', '2018-05-08 17:21:09', '2018-05-08 17:21:09');
+
+--
+-- Dump dei dati per la tabella `post_groups`
+--
+
+INSERT INTO `post_groups` (`id`, `group_id`, `user_id`, `post_content`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, 'Primo post di prova!', '2018-05-08 17:20:34', '2018-05-08 17:20:34');
 
 --
 -- Dump dei dati per la tabella `publications`
@@ -230,7 +247,8 @@ INSERT INTO `topic_group` (`id`, `topic_id`, `group_id`) VALUES
 (4, 2, 2),
 (5, 3, 2),
 (6, 2, 3),
-(7, 3, 3);
+(7, 3, 3),
+(8, 3, 4);
 
 --
 -- Dump dei dati per la tabella `topic_publication`
@@ -272,7 +290,9 @@ INSERT INTO `user_group` (`id`, `user_id`, `group_id`, `role`, `state`, `created
 (2, 3, 2, 'admin', 'accepted', '2018-02-13 13:59:15', '2018-02-13 13:59:15'),
 (3, 5, 2, 'member', 'pending', NULL, NULL),
 (4, 2, 3, 'admin', 'accepted', '2018-02-13 14:03:50', '2018-02-13 14:03:50'),
-(5, 1, 3, 'member', 'accepted', NULL, NULL);
+(5, 1, 3, 'member', 'accepted', NULL, NULL),
+(6, 1, 4, 'admin', 'accepted', '2018-05-08 17:20:10', '2018-05-08 17:20:10'),
+(7, 5, 4, 'member', 'accepted', NULL, NULL);
 
 --
 -- Dump dei dati per la tabella `user_publication`
@@ -300,7 +320,6 @@ INSERT INTO `user_topic` (`id`, `user_id`, `topic_id`) VALUES
 (7, 4, 15),
 (8, 5, 13),
 (9, 5, 21);
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

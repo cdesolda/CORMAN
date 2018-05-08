@@ -84,15 +84,21 @@
             </div>
             <div class="modal-body">
                 @foreach(auth()->user()->unreadNotifications as $notification)
-                @if($notification->type == 'App\Notifications\GroupNotification')
-                @include('Layout.notification.groupNotification')
-                <hr>
-                @elseif($notification->type == 'App\Notifications\PublicationNotification')
-                @include('Layout.notification.publicationNotification')
-                <hr>
-                @else
-                <a href="#">No unread notifications</a>
-                @endif
+                    @if($notification->type == 'App\Notifications\GroupNotification')
+                        @include('Layout.notification.groupNotification')
+                        <hr>
+                    @elseif($notification->type == 'App\Notifications\PostNotification')
+                        @include('Layout.notification.postNotification')
+                        <hr>
+                    @elseif($notification->type == 'App\Notifications\CommentNotification')
+                        @include('Layout.notification.commentNotification')
+                        <hr>
+                    @elseif($notification->type == 'App\Notifications\PublicationNotification')
+                        @include('Layout.notification.publicationNotification')
+                        <hr>
+                    @else
+                        <a href="#">No unread notifications</a>
+                    @endif
                 @endforeach
                 @if(count(auth()->user()->unreadNotifications) == 0)
                 <a href="#">No unread notifications</a>

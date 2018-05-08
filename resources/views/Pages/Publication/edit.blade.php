@@ -105,7 +105,7 @@
                 </div>
 
                 <hr>
-                <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deletePub">Delete Publication</a>
+                <a href="#" id="btn-deletePub" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deletePub">Delete Publication</a>
                 <hr>
                 <input type="submit" name="submit" class="submit action-button" value="Update"/>
             </fieldset>
@@ -122,10 +122,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">    
+                <div class="modal-body">
                     <div class="row align-items-center">
                         <div class="col-lg-12" align="center">Really, do you want to delete this publication?</div>
-                        <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button">Yes, Delete</a>
+                        <form method="post" action="{{route('publications.destroy', $publication->id)}}">
+                            {{csrf_field()}}
+                            {{method_field('DELETE')}}
+                            <button type="submit" class="btn btn-danger btn-sm" dusk="btn-confirmDeletePub">Yes, Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>

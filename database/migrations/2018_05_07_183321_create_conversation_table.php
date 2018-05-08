@@ -18,7 +18,11 @@ class CreateConversationTable extends Migration {
 			$table->integer('user_one');
 			$table->integer('user_two');
 			$table->timestamp('last_messages')->default(DB::raw('CURRENT_TIMESTAMP'));
+
 			$table->unique(['user_one','user_two'], 'user_one');
+
+			//$table->foreign('user_to')->references('id')->on('users');
+            //$table->foreign('group_from')->references('id')->on('users');
 		});
 	}
 

@@ -21,6 +21,9 @@ class CreateMessagesTable extends Migration {
 			$table->timestamp('date')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->boolean('status');
 			$table->string('attachment')->nullable();
+
+			//$table->foreign('user_to')->references('id')->on('users');
+            //$table->foreign('group_from')->references('id')->on('users');
 		});
 	}
 

@@ -64,9 +64,6 @@ Route::get('syncDBLP', 'PublicationController@syncDBLP');
 Route::post('syncToCorman', 'PublicationController@syncToCorman');
 
 
-
-
-
 /** Group Routes **/
 Route::resource('groups','GroupController');
 // Ajax routes
@@ -74,8 +71,11 @@ Route::get('ajaxGroupInfo', 'GroupController@ajaxInfo');
 Route::post('share', 'GroupController@share');
 Route::post('leave', 'GroupController@leave');
 
+//** Post Routes **//
+Route::resource('posts', 'PostController');
 
-
+/** Comment Routes**/
+Route::resource('comments', 'CommentController');
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

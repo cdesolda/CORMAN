@@ -41,7 +41,12 @@
         </div>    
         <!-- nascondere bottoni per visitatori -->
         <div class="col-4 col-sm-4 col-md-3 col-lg-2 col-xl-2" align="right">
-        <a href="{{route('publications.edit', ['id'=>$publication->id])}}"><i class="ion-edit"></i></a>
+            @foreach($publication->authors as $author)
+                @if($author->user_id === Auth::user()->id)
+                    <a href="{{route('publications.edit', ['id'=>$publication->id])}}"><i class="ion-edit"></i></a>
+                @endif
+                @break
+            @endforeach
             @if($publication->public === 1)
                 <i class="ion-eye"></i>
             @else

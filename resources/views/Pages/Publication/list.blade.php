@@ -12,8 +12,14 @@
             <a id="specialButton" role="button" class="btn btn-warning pull-left" href="{{ route('publications.create')}}">
                 <span class="ion-plus-circled"> New Publication</span>
             </a>
+            
             <i class="fa fa-filter fa-2x pull-right" data-container="body" data-toggle="popover" data-html="true" data-placement="left" data-content="@include('Pages.filter')"></i>
         </div>
+        @if(session()->has('message'))
+            <p>
+            <div class="alert alert-success col-lg-12" style="text-align: center;">{{session()->get('message')}}</div>
+            </p>
+        @endif
         @foreach($publicationList as $publication)
             @include('Pages.Publication.single', ['publication'=>$publication])
         @endforeach

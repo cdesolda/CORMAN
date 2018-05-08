@@ -446,16 +446,27 @@ class PublicationController extends Controller
      */
     public function destroy($id)
     {
+        /*
         $publication = Publication::find($id);
         $publication->users()->detach($publication->id);
         $publication->topics()->detach($publication->id);
         $publication->authors()->detach($publication->id);
-
         $publication->details()->delete();
+
 
         //$publication->delete();
 
-        Redirect('/users')->with('success', 'Publication deleted correctly.');
+        //Redirect('/users')->with('success', 'Publication deleted correctly.');
+        
+        return redirect('/users')->with('success', 'Publication deleted correctly.');
+        */
+       
+        $publication = Publication::find($id);
+
+        $publication->delete();
+
+        session()->flash('message', 'Publication deleted correctly.');
+        return redirect('/publications')->with('success', 'Publication deleted correctly.');
 
     }
 

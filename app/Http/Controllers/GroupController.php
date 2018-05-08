@@ -19,6 +19,8 @@ use App\User;
 use App\Topic;
 use App\Group;
 use App\PublicationGroup;
+use App\PostGroup;
+use App\PostComment;
 
 
 class GroupController extends Controller
@@ -153,7 +155,21 @@ class GroupController extends Controller
         $sharesList = Group::find($id)->shares->sortByDesc('created_at');
         $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
         $group = $authUser->groups->find($id);
-        return view('Pages.Group.detail', ['sharesList' => $sharesList, 'groupList' => $groupList, 'theGroup' => $group]);
+        $postList = Group::find($id)->posted->sortByDesc('created_at');
+
+        $postsGroups = PostGroup::where('group_id', $id)->with('commented')->get();
+
+        $commentsList = collect();
+        
+        foreach ($postsGroups as $postGroup){
+
+            foreach($postGroup->commented as $commentPost) {
+                $commentsList->push($commentPost);
+            }
+        }
+        
+
+        return view('Pages.Group.detail', ['sharesList' => $sharesList, 'groupList' => $groupList, 'theGroup' => $group, 'postList' => $postList, 'commentsList' => $commentsList]);
     }
 
     /**
@@ -167,7 +183,7 @@ class GroupController extends Controller
         // Replace with shares of publication-group-model
         $publicationList = Auth::user()->publications;
         $group = Auth::user()->groups->find($id);
-		$thisgroup = Group::find($id);
+        $thisgroup = Group::find($id);
         $userList = User::where('id', '<>', Auth::user()->id)->whereNotin('id', $thisgroup->users->pluck('id'))->get()->sortBy('last_name');
         $topicList = Topic::all()->diff($group->topics);;
 
@@ -327,6 +343,5 @@ class GroupController extends Controller
 
         return response()->json($data);
     }
-
 
 }

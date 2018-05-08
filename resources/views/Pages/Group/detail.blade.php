@@ -44,21 +44,75 @@
 
             <div class="row">
                 <div class="col-9 col-sm-9 col-md-10 col-lg-9 col-xl-9">
-                    <div class="row justify-content-between">                 
+                    <div class="row justify-content-between">
+
                         <div class="col-lg-10">
-                            <a href="#" id="btn-share" dusk="shareButton" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPublication">
-                                <span class="ion-plus-circled"> Share</span>
-                            </a>
-                        </div>
-                        <div class="col-lg-2">
-                            <i class="fa fa-filter fa-2x pull-right" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="@include('Pages.filter')"></i>
-                        </div>
+
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="post-tab" data-toggle="tab" href="#post" role="tab" aria-controls="post" aria-selected="true">Post</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="publications-tab" data-toggle="tab" href="#publications" role="tab" aria-controls="publications" aria-selected="false">Publications</a>
+                                </li>
+                            </ul>
+
+                            <p></p>
+                            
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="post" role="tabpanel" aria-labelledby="post-tab">
+                                  <!-- Post section-->
+                                    
+                                    <div id="titlePost">Write a Post</div>
+                                    <!--<form id="msform" action="{{route('posts.store')}}" method="post">-->
+
+                                        <div id="row">
+                                            <textarea class="form-control" rows="3" id="post_content" name="AddNewPost" placeholder="Update your Post"></textarea>
+                                        </div>
+                                        
+                                        <p></p>
+                                        
+                                        <a href="#" id="btn-post" dusk="postButton" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPost">
+                                            <span class="ion-plus-circled"> Post</span>
+                                        </a>
+                                        <!--<button type="submit" id="btn-post" dusk="postButton" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPost">Post</button>
+                                    </form>--> 
+                                    <div class="row">    
+                                        @foreach($postList as $post)
+                                            @include('Pages.Post.postInGroup', ['post'=>$post, 'commentsList'=>$commentsList, 'theGroup'=>$theGroup])
+                                            @include('Pages.Post.modal', ['post'=>$post])
+                                        @endforeach
+                                    </div>   
+                                     
+                                </div>
+
+                                <div class="tab-pane fade" id="publications" role="tabpanel" aria-labelledby="publications-tab">
+                                  <!-- Publications section -->
+
+                                    <div class="row justify-content-between">
+                                        <div class="col-lg-10">
+                                            <a href="#" id="btn-share" dusk="shareButton" class="btn btn-primary" role="button" data-toggle="modal" data-target="#addPublication">
+                                            <span class="ion-plus-circled"> Share</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <i class="fa fa-filter fa-2x pull-right" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="@include('Pages.filter')"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        @foreach($sharesList as $share)
+                                            @include('Pages.Publication.singleInGroup', ['share'=>$share])
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div> 
+                        
                     </div>
-                    <div class="row">
-                        @foreach($sharesList as $share)
-                            @include('Pages.Publication.singleInGroup', ['share'=>$share])
-                        @endforeach
-                    </div>
+                    
                 </div>
 
                 <!-- Group List -->
@@ -135,16 +189,59 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal CONFIRM Add Post in Group -->
+        <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="addPost" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="addPost">Public Post in this Group</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12" align="center">
+                                <p>Your Post has been published!</p>
+                            </div>
+                            <div class="col-lg-12" align="center">
+                                <a href="{{route('groups.show', ['id'=>$theGroup->id]) }}" id="btn-newgroup" class="btn btn-primary btn-sm" role="button">OK</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endsection
 
 @section('script')
+    <script src="{{ url('js/bootstrap.min.js') }}"></script>
+    <script src="{{ url('js/popper.min.js') }}"></script>
+    <script src="{{ url('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-US.min.js"></script>
     <script src="{{ url('js/Group/sharePublication.js') }}"></script>
+    <script src="{{ url('js/Group/sharePost.js') }}"></script>
     <script>
         $(function () {
             $('[data-toggle=popover]').popover();
         })
     </script>
+    <script>
+        $(document).ready(function() {
+
+            $("a#btn-post").addClass("disabled");
+
+            $("textarea#post_content").on("input", function() {
+                if ($("textarea#post_content").val())
+                    $("a#btn-post").removeClass("disabled");
+                else
+                    $("a#btn-post").addClass("disabled");
+            });
+
+        });
+    </script>
+
 @endsection
