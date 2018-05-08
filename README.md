@@ -25,8 +25,8 @@ Aprire il prompt dei comandi:
 * digitare `composer install`
 * digitare `composer update`
 * digitare il comando: `php artisan key:generate`
-* digitare il comando: `php artisan migrate:fresh`
-* Installare il dump del database (/database/corman.sql) (rimuovere l'abilitazione del check su foreign key)
+* digitare il comando: `php artisan migrate:generate`
+* Installare il dump del database (/database/DB_dump.sql) (rimuovere l'abilitazione del check su foreign key)
 
 * per settare le impostazioni globali in *.env file :
    * impostare la DB_CONNECTION con il tipo di connessione al db (mysql)
