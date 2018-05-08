@@ -32,7 +32,7 @@
             <span class="sr-only">(current)</span>
             </a>
             @endif
-            <a href="http://127.0.0.1:8000/chat" id="menuIcon"
+            <a href="{{url('chat')}}" id="menuIcon"
                 role="button"
                 aria-expanded="false">
             <span class="nav-item nav-link fa fa-envelope fa-2x" style="padding: 8px 0px 8px 8px"></span>
