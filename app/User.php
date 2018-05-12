@@ -48,6 +48,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Group','user_group')->wherePivot('state','accepted');
     }
 
+    public function randomGroupsAsMember(){
+        return $this->belongsToMany('App\Group','user_group')->wherePivot('state','accepted')->inRandomOrder();
+    }
+
     public function groupsAsInvited(){
         return $this->belongsToMany('App\Group','user_group')->wherePivot('state','pending');
     }
