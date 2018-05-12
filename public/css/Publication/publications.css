@@ -20,15 +20,20 @@
 }
 
 .publication_item{
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.forDashboard {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 16px;
   border-bottom-right-radius: 16px;
   background: aliceblue;
   border: 2px solid gray !important;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 10px;
 }
 
 label{

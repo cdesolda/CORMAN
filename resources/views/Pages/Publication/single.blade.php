@@ -2,11 +2,11 @@
     <!-- first row -->
         <div class="row">
             <div class="col-9 col-sm-9 col-md-10 col-lg-10 col-xl-11" id="title" style="cursor: pointer;" data-toggle="modal" data-target="#modalPublication_{{$publication->id}}">{{$publication->title}}</div>
-            <!-- <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1" align="right" id="year">{{date('Y',strtotime($publication->year))}}</div> -->
+            <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1" align="right" id="year">{{date('Y',strtotime($publication->year))}}</div>
         </div>
     
         <!-- second row -->
-        <!-- <div class="row">
+        <div class="row">
         <hr>
         <div id="authors" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <ul class="list-inline">
@@ -19,7 +19,7 @@
                 @endforeach
             </ul>
         </div>
-    </div> -->
+    </div>
 
     <!-- third row -->
     <!-- <div class="row">
@@ -30,7 +30,7 @@
 
     <!-- fourth row -->
     <!-- nascondere bottoni per visitatori -->
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-8 col-sm-8 col-md-9 col-lg-10 col-xl-10" id="topics">
             <ul class="list-inline">
                 @foreach($publication->topics as $topic)
@@ -51,7 +51,7 @@
                 <i class="ion-eye-disabled"></i>
             @endif
         </div>
-    </div> -->
+    </div>
 </div>
 
 <!-- Modal -->

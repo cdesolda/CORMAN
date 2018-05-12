@@ -18,12 +18,12 @@
                         <div id="titlePubblDash">Publications</div>
                         <div class="btn-toolbar justify-content-between col-lg-12">
                             @foreach($publicationList as $publication)
-                                @include('Pages.Publication.single', ['publication'=>$publication])
+                                @include('Pages.Publication.singleInDashboard', ['publication'=>$publication])
                             @endforeach
-                            <a id="specialButton" dusk="newPublicationButton" role="button" class="btn btn-warning pull-left" href="{{ route('publications.create') }}">
+                            <a id="specialButton" dusk="newPublicationButton" role="button" class="btn btn-outline-warning pull-left" href="{{ route('publications.create') }}">
                                 <span class="ion-plus-circled"> New Publication</span>
                             </a>
-                            <a id="button" role="button" class="btn btn-primary pull-right" href="{{ route('publications.index') }}">
+                            <a id="button" role="button" class="btn btn-outline-primary pull-right" href="{{ route('publications.index') }}">
                                 <span> View More</span>
                             </a>
                         </div>        
