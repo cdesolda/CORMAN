@@ -7,7 +7,7 @@ Installazione testata su Windows 7 (x64).
 * S.O. Windows (x86/x64)
 * [Composer](https://getcomposer.org/) ultima versione
 * [XAMPP](https://www.apachefriends.org/it/index.html) con:
-  * PHP >= 7.0.0
+  * PHP >= 7.1.0
   * OpenSSL PHP Extension
   * PDO PHP Extension
   * Tokenizer PHP Extension
