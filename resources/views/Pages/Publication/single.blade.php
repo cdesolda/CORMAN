@@ -2,12 +2,12 @@
     <!-- first row -->
         <div class="row">
             <div class="col-9 col-sm-9 col-md-10 col-lg-10 col-xl-11" id="title" style="cursor: pointer;" data-toggle="modal" data-target="#modalPublication_{{$publication->id}}">{{$publication->title}}</div>
-            <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1" align="right" id="year">{{date('Y',strtotime($publication->year))}}</div>
+            <!-- <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1" align="right" id="year">{{date('Y',strtotime($publication->year))}}</div> -->
         </div>
     
-    <hr>
-    <!-- second row -->
-    <div class="row">
+        <!-- second row -->
+        <!-- <div class="row">
+        <hr>
         <div id="authors" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <ul class="list-inline">
                 @foreach($publication->authors as $author)
@@ -18,28 +18,26 @@
                     @endif
                 @endforeach
             </ul>
-            <!--sistemare lo spazio che lascia dopo le liste-->
         </div>
-    </div>
+    </div> -->
 
     <!-- third row -->
-    <div class="row">
+    <!-- <div class="row">
         <div id="venue" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">{{$publication->venue}}</div>
     </div>
     
-    <hr>
+    <hr> -->
 
     <!-- fourth row -->
-    <div class="row">
+    <!-- nascondere bottoni per visitatori -->
+    <!-- <div class="row">
         <div class="col-8 col-sm-8 col-md-9 col-lg-10 col-xl-10" id="topics">
             <ul class="list-inline">
                 @foreach($publication->topics as $topic)
                     <li class="list-inline-item">{{$topic->name}}</li>
                 @endforeach
             </ul>
-            <!--sistemare lo spazio che lascia dopo le liste-->
         </div>    
-        <!-- nascondere bottoni per visitatori -->
         <div class="col-4 col-sm-4 col-md-3 col-lg-2 col-xl-2" align="right">
             @foreach($publication->authors as $author)
                 @if($author->user_id === Auth::user()->id)
@@ -53,7 +51,7 @@
                 <i class="ion-eye-disabled"></i>
             @endif
         </div>
-    </div>
+    </div> -->
 </div>
 
 <!-- Modal -->
