@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EditProfileRequest;
-
-use App\User;
-use App\Role;
 use App\Affiliation;
+use App\Http\Requests\EditProfileRequest;
+use App\Role;
 use App\Topic;
-
-
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -35,8 +31,7 @@ class UserController extends Controller
         $publicationList = Auth::user()->author->publications->sortByDesc('year')->take(1);
         /* TODO: vedere come ordinare gruppi (prima quelli di cui è admin, poi utente, ecc)*/
         $groupList = Auth::user()->groupsAsMember->take(1);
-        $researchGroupList = [];
-        return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList, 'researchGroupList' => $researchGroupList]);
+        return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList]);
     }
 
     /**
@@ -47,9 +42,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $publicationList=$user->author->publications->sortByDesc('year')->take(25);
-        $groupList=$user->groups;
-        return view('Pages.memberProfile', ['publicationList'=>$publicationList, 'groupList'=>$groupList, 'user'=>$user]);
+        $publicationList = $user->author->publications->sortByDesc('year')->take(25);
+        $groupList = $user->groups;
+        return view('Pages.memberProfile', ['publicationList' => $publicationList, 'groupList' => $groupList, 'user' => $user]);
     }
 
     /**
@@ -76,38 +71,30 @@ class UserController extends Controller
      */
     public function update(EditProfileRequest $request, User $user)
     {
-       
-        
+
         $user->last_name = $request->input('last_name');
         $user->first_name = $request->input('first_name');
-       
+
         $author = $user->author;
         $author->name = $user->first_name . " " . $user->last_name;
         $author->save();
 
-
         $user->birth_date = $request->input('dob');
-        if ($request->input('email') != null){
+        if ($request->input('email') != null) {
             $user->email = $request->input('email');
-        }
-        else{
+        } else {
             $user->email = $user->email;
-        }      
+        }
         if ($request->input('password') != null) {
             $user->password = bcrypt($request->input('password'));
-        }
-        else{
-            $user->password =  $user->password;
+        } else {
+            $user->password = $user->password;
         }
 
-        $user->role_id = $request->input('role');;
+        $user->role_id = $request->input('role');
         $user->affiliation_id = $request->input('affiliation');
 
         $user->reference_link = $request->input('url');
-
-        
-
-       
 
         // Handling user picture
         if ($request->hasFile('user_pic')) {
@@ -139,7 +126,7 @@ class UserController extends Controller
         $user->topics()->detach($removeList);
         $user->topics()->attach($addList);
 
-        foreach($createList as $topic){
+        foreach ($createList as $topic) {
 
             $newTopic = new Topic;
             $newTopic->name = $topic;
@@ -147,9 +134,6 @@ class UserController extends Controller
 
             $user->topics()->attach($newTopic);
         }
-
-        
-       
 
         return Redirect('/users');
     }
@@ -176,7 +160,7 @@ class UserController extends Controller
     public function ajaxInfo()
     {
         $user = Auth::user();
-        
+
         $topicList = $user->topics;
         $role = $user->role;
         $affiliation = $user->affiliation;

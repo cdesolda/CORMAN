@@ -9,11 +9,11 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-7 col-md-7 col-lg-8">
+            <div class="col-12 col-sm-7 col-md-7 col-lg-7">
 
             </div>
 
-            <div class="col-12 col-sm-5 col-md-5 col-lg-4">
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5">
                 <div class="publicationContainer">
                         <div id="titlePubblDash">Publications</div>
                         <div class="btn-toolbar justify-content-between col-lg-12">
@@ -31,13 +31,13 @@
                 <div class="groupContainer">
                     <div id="titleGroupDash">Communities</div>
                     @foreach($groupList as $group)
-                        @include('Pages.Group.single', ['group'=>$group])
+                        @include('Pages.Group.singleInDashboard', ['group'=>$group])
                     @endforeach
                     <div class="btn-toolbar justify-content-between col-lg-12">
                         <a id="specialButton" dusk="newGroupButton" role="button" class="btn btn-warning pull-left" href="{{ route('groups.create') }}">
                             <span class="ion-plus-circled ion-plus"> New Group</span>
                         </a>
-                        <a href="{{ route('groups.index') }}" id="btn-newgroup" class="btn btn-primary pull-right" role="button">View More</a>
+                        <a href="{{ route('groups.index') }}" id="btn-newgroup" class="btn btn-outline-primary pull-right" role="button">View More</a>
                     </div>
                 </div>
             </div>
