@@ -6,6 +6,12 @@
     padding-left: 16px;
 }
 
+#titleActivitiesDash{
+    text-align: left;
+    font-size: 1.3em;
+    /* padding-left: 16px; */
+}
+
 #titleGroupDash{
     text-align: left;
     font-size: 1.3em;

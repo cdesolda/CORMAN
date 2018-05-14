@@ -10,6 +10,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-sm-7 col-md-7 col-lg-7">
+                <div id="titleActivitiesDash">Recent Activities</div>
 
             </div>
 
