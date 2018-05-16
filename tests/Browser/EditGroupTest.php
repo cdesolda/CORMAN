@@ -34,6 +34,7 @@ class EditGroupTest extends DuskTestCase
 			$browser->pause(500)
 					->select('topics[]','Usability')
 					->press("Update")
+					->pause(1000)
 					->assertSee("UX Bari");
 			$this->assertDatabaseHas('groups', ['name' => 'UX Bari','description' => 'this is Test group',]);
         });

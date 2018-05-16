@@ -47,7 +47,7 @@ class RegWithSynchronizeTest extends DuskTestCase
 			$browser->pause(2500)
 			->check('btSelectItem')
 			->press('Add to my CORMAN publications')
-			->pause(1000)
+			->pause(2000)
 			->assertSee('Publications Added');
 			
 			$browser->pause(1000)

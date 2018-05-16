@@ -27,14 +27,13 @@ class EditCommentTest extends DuskTestCase
 					->pause(500)
 					->script('window.scrollTo(0, 500);');
 
-					$browser
-					->pause(1000)
-					->click('@editCommentButton')
-					->pause(500)
+					$browser->click('@editCommentButton')
+					->pause(1500)
 					->type('comment_update','Modifica commento di test')
+					->pause(1000)															
 					->press('Update');
 			$this->assertDatabaseHas('post_comments', ['comment_content' => 'Modifica commento di test',]);
         });
-		$comment = PostComment::where('comment_content', '=', 'Modifica commento di test')->update(['comment_content' => 'commento di prova']);
+		$comment = PostComment::where('comment_content', '=', 'Modifica commento di test')->update(['comment_content' => 'Primo Commento']);
     }
 }

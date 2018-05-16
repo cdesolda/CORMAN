@@ -27,8 +27,7 @@ class CreateGroupTest extends DuskTestCase
 					->type('name','Gruppo di prova')
 					->pause(500)
 					->type('description','Descrizione del gruppo...')
-					->pause(2000)
-					->select('users[]','Paolo' ,' Buono')
+					->pause(500)
 					->select('users[]')
 					->script('window.scrollTo(0, 200);');
 
