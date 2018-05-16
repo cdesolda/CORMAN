@@ -161,15 +161,15 @@ INSERT INTO `notifications` (`id`, `type`, `notifiable_id`, `notifiable_type`, `
 --
 
 INSERT INTO `post_comments` (`id`, `post_group_id`, `user_id`, `comment_content`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 'Primo commento!', '2018-05-08 17:20:53', '2018-05-08 17:20:53'),
-(2, 1, 1, 'Secondo commento.', '2018-05-08 17:21:09', '2018-05-08 17:21:09');
+(1, 1, 1, 'Primo commento!', '2018-05-08 17:20:53', '2018-05-08 17:20:53'),
+(2, 1, 5, 'Secondo commento.', '2018-05-08 17:21:09', '2018-05-08 17:21:09');
 
 --
 -- Dump dei dati per la tabella `post_groups`
 --
 
 INSERT INTO `post_groups` (`id`, `group_id`, `user_id`, `post_content`, `created_at`, `updated_at`) VALUES
-(1, 4, 1, 'Primo post di prova!', '2018-05-08 17:20:34', '2018-05-08 17:20:34');
+(1, 1, 1, 'Primo post di prova!', '2018-05-08 17:20:34', '2018-05-08 17:20:34');
 
 --
 -- Dump dei dati per la tabella `publications`
