@@ -89,8 +89,10 @@ class MessagesController extends Controller
     }
 	
 
-     public function send($id_to,$message)
+     public function send(Request $request, $id_to)
      {
+         $message= $request->input('mex_box');
+
          DB::table('messages')->insertGetId(
             ['user_from' => Auth::user()->id,
                 'user_to' =>$id_to,
@@ -238,7 +240,7 @@ class MessagesController extends Controller
 
     //FUNZIONE PER COPIARE IL FILE NELLA CARTELLA 'UPLOADS'
     public function showUploadFile(Request $request){
-        $file = $request->file('image');
+        $file = $request->file('file');
 
 /*
         //Display File Name

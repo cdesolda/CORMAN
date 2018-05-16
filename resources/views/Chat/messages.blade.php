@@ -30,22 +30,19 @@
                 <hr>
                 <h4 class="user_name">Messages</h4>
                 <hr>
-                <div id="finestra" style="height: 390px !important;  overflow-y: scroll;">
+                <div id="finestra">
                     <div id="mex">
                     </div>
                 </div>
                 <hr>
-                <div class="row" align="center">
-                    <div class="col-md-8">
-                        <textarea id="mex_box" name="mex_box" class="form-control" @keydown="inputHandler"></textarea>
-                        </form>
-                    </div>
-                    <div class="col-md-4 btn-group" align="center" style="padding:10px";>
-                        <button class="btn btn-outline fa fa-paperclip fa-lg" id="myBtn"></button>
-                        <input type="file" id="my_file" style="display:none">
-                        <button class="btn btn-primary" id="bt">Send</button>
-                    </div>
-                </div>
+                <div class="row">
+				<div class="col-md-1 btn-group center" >
+							<button type="button" class="btn btn-outline fa fa-paperclip fa-lg" id="open_modal"></button>
+						</div>
+						<div class="col-md-10 pull-left" id="area_mex">
+						</div>
+						
+				</div>
             </div>
             <div class="col-md-4 pull-right" id="user_info">
                 <hr>
@@ -97,7 +94,7 @@
     var modal = document.getElementById('myModal');
     
     // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+    var btn = document.getElementById("open_modal");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -178,24 +175,32 @@
                  console.log(data);
                  $('.user_name').html(data[0]["first_name"]+" "+data[0]["last_name"]);
                  $('#user_email').html('<a href="mailto:'+ data[0]["email"] + '">'+data[0]["email"]+'</a>');
-    	$('#user_affiliations').html(data[0]["user_affiliation"]);
+    	         $('#user_affiliations').html(data[0]["user_affiliation"]);
                  $('#user_role').html(data[0]["user_role"]);
                  $('#user_picture_path').attr("src",data[0]["picture_path"]);
-    	
-                $('#bt').html('<button onclick="send('+data[0]["id"]+')" class="btn btn-primary" id="bt">Send</button>');
-    
+                 $('#bt').html('<button onclick="send('+data[0]["id"]+')" class="btn btn-primary" id="bt">Send</button>');
+     
     
                 //INSERIAMO NEL MODAL IL FORM IN BASE ALL'UTENTE SELEZIONATO.
-                var url= "http://127.0.0.1:8000/chat";
+                var url= '{{URL::to('chat')}}';
                 $('#send_file').html('<br> <h3 align="center">Select file to send to '+data[0]["first_name"]+" "+data[0]["last_name"] +'</h3>'+
-                    '<br><form action="'+url+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send('+data[0]["id"]+')">' +
+                    '<br><form id="invio" action="'+url+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send_attach('+data[0]["id"]+')">' +
                     '    {{csrf_field()}}' +
-    	   '    <div class="text-center">'+
-                    '    <input id="attach" type="file" name="image">' +
+    	            '    <div class="text-center">'+
+                    '    <input id="attach" type="file" name="file">' +
                     '    <button class="btn btn-info" type="submit">Send File</button>' +
-    	   '    </div>'+
+    	            '    </div>'+
                     '    </form> <br>');
     
+                    //"send_message('+data[0]["id"]+')"
+    
+                $('#area_mex').html(''+
+                    '<form id="invio" action="'+url+'/send/'+data[0]["id"]+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send_message('+data[0]["id"]+')">' +
+                    '  {{csrf_field()}}' +
+					' <div class="row">'+
+                    '  <div class="col-md-10"><input id="mex_box" name="mex_box" class="form-control" autocomplete="off" style="height:50px" required></div>' +
+                    '  <div class="col-sx-2 btn-group" ><button class="btn btn-primary" style="width:100%">Send</button></div>' +
+                    ' </div></form>' );
     
                 var x=data[0]["id"];
                 $('#non_letti' + x).html("");
@@ -207,13 +212,29 @@
      
          $('#mex').html("");
     
-        show_messages(id);
+        show_messages(id); 
+    }
+</script>
+<script>
+    function conversione(data){
+        var data_mex = data.substring(0, data.length - 8);
+        var anno=data_mex.substring(0, 4);
+        var mese=data_mex.substring(5,7);
+        var giorno=data_mex.substring(8, 10);
+    
+        var ora=data.substring(11,16);
+        ora=ora.bold();
+    
+        var new_data = ora + " [" + giorno + "/" + mese + "/"+anno+"]";
+        return new_data;
     
     
     }
 </script>
 <script type="text/javascript">
     function show_messages(id){
+    
+    
     show_notifications_chat();
         $('#mex').html("");
        var url2 = '{{URL::to('chat')}}/messages/'+id;
@@ -230,14 +251,31 @@
     
                 if(data.length==0){
     
-                    $('#mex').html("<p class='colorFont' align='center'>You have no message with the user! Start the conversation!</p>");
+                    $('#mex').html("<p id='no_messages' class='colorFont' align='center'>You have no message with the user! Start the conversation!</p>");
                    // var id=data[i]["user_to"];
                     //insert_conversations(id);
     
                 }
     
+    
+    
+    
                  for (var i = 0; i < data.length; i++) {
     
+                    var old_data=data[i]["date"];
+    
+                     data_convertita=conversione(old_data);
+                    /* var data_mex = data_message.substring(0, data_message.length - 8);
+                     var anno=data_mex.substring(0, 4);
+                     var mese=data_mex.substring(5,7);
+                     var giorno=data_mex.substring(8, 10);
+    
+                     var ora=data_message.substring(11,16);
+                     ora=ora.bold();
+    
+                     var data_convertita= ora + " [" + giorno + "/" + mese + "]";
+    
+                     //alert(data_convertita);*/
     
     
                          //var from=data[i]["user_from"];
@@ -250,14 +288,14 @@
     
                                  //CONTROLLA SE L'UTIMO MESSAGGIO E' UN ALLEGATO
                                  if(data[i]["msg"]==""){
-    						$('#last_mex_date'+ x).html(data[i]["date"]);
+    						        $('#last_mex_date'+ x).html(data_convertita);
                                      $('#last_mex' + x).html(data[i]["attachment"]);
     
     
                                  }
     
                                  else {
-    						$('#last_mex_date'+ x).html(data[i]["date"]);
+    						        $('#last_mex_date'+ x).html(data_convertita);
                                      $('#last_mex' + x).html(data[i]["msg"]);
                                  }
     
@@ -268,14 +306,14 @@
     
                                  //CONTROLLA SE L'UTIMO MESSAGGIO E' UN ALLEGATO
                                  if(data[i]["msg"]==""){
-    						$('#last_mex_date'+ x).html(data[i]["date"]);
+    						$('#last_mex_date'+ x).html(data_convertita);
                                      $('#last_mex' + x).html(data[i]["attachment"]);
     
     
                                  }
     
                                  else {
-    						$('#last_mex_date'+ x).html(data[i]["date"]);
+    						$('#last_mex_date'+ x).html(data_convertita);
                                      $('#last_mex' + x).html(data[i]["msg"]);
                                  }
     
@@ -298,7 +336,7 @@
                                       '  color:#333; border-radius:10px; color:#fff;" title="'+data[i]["date"]+'">' +
                                      '<div align="center"><a href="http://127.0.0.1:8000/uploads/'+ data[i]["attachment"]+'" download><span class="fa fa-file fa-3x" style="color:white"></span><br><font size="3" color=white>'+ data[i]["attachment"]+'</font></a></div>'+
                                      ' </div>' +
-                                     '</div>' + '<br> <p class="colorFont" style="float:right; font-size:10px; margin-right:15px">' + data[i]["date"]+ '</p>'+
+                                     '</div>' + '<br> <p class="colorFont" style="float:right; font-size:10px; margin-right:15px">' + data_convertita+ '</p>'+
                                      ' </div><br>');
     
     
@@ -308,7 +346,7 @@
                                  ' <div  style="float:right; background-color:#0084ff; padding:5px 15px 5px 15px;' +
                                  '  color:#333; border-radius:10px; color:#fff;" title="'+data[i]["date"]+'">' + data[i]["msg"] +
                                  ' </div>' +   
-                                 '</div>' +'<br> <p class="colorFont" style="float:right; font-size:10px; margin-right:15px">' + data[i]["date"]+ '</p>'+
+                                 '</div>' +'<br><p class="colorFont" style="float:right; font-size:10px; margin-right:15px">' + data_convertita + '</p>'+
                                  '<br>');
                              }
                          }
@@ -327,7 +365,7 @@
                                  '<div align="center"><a href="http://127.0.0.1:8000/uploads/'+ data[i]["attachment"]+'" download><span class="fa fa-file fa-3x"></span><br><font size="3" color=black>'+ data[i]["attachment"]+'</font></a></div>'+
                                  ' </div>' +
                                  ' </div>' +
-                                 ' </div>' +'<br> <p class="colorFont" style="float:left; font-size:10px; margin-left:15px">' + data[i]["date"]+ '</p>'+
+                                 ' </div>' +'<br> <p class="colorFont" style="float:left; font-size:10px; margin-left:15px">' + data_convertita+ '</p>'+
                                  '<br>');
     
     
@@ -341,7 +379,7 @@
                                  '  border-radius:10px; text-align:left; ">' + data[i]["msg"] +
                                  ' </div>' +
                                  '' +
-                                 ' </div>' +'<br> <p class="colorFont" style="float:left; font-size:10px; margin-left:15px">' + data[i]["date"]+ '</p>'+
+                                 ' </div>' +'<br> <p class="colorFont" style="float:left; font-size:10px; margin-left:15px">' + data_convertita+ '</p>'+
                                  '<br>');
     					
                              }
@@ -371,36 +409,23 @@
     }
 </script>
 <script type="text/javascript">
-    function send(id) {
-    
+    function send_attach(id) {
     
     
              $('#mex').html("");
-            var message=$('textarea#mex_box').val();
     
-         var lastChar = message[message.length -1];
-    
-            if (lastChar=='?'){
-                alert('Punto interrogativo');
-            }
     
     
             //TROVIAMO IL PERCORSO
             var attach=$('input#attach').val();
     
     
-            if (attach==''){
     
-                var url2 = '{{URL::to('chat')}}/send/'+id+'/'+message;
+        //RICAVIAMO IL NOME DEL FILE E LO MANDIAMO AL CONTROLLER PER POTERLO INSERIRE NEL DB
+        attach = attach.slice(12);
+        var url2 = '{{URL::to('chat')}}/send/attach/'+id+'/'+attach;
     
-            }
     
-            else {
-                //RICAVIAMO IL NOME DEL FILE E LO MANDIAMO AL CONTROLLER PER POTERLO INSERIRE NEL DB
-                attach = attach.slice(12);
-                var url2 = '{{URL::to('chat')}}/send/attach/'+id+'/'+attach;
-    
-            }
     
     
             document.getElementById('mex_box').value = '';
@@ -430,8 +455,8 @@
     
     
         show_conversation();
-       show_messages(id);
-    show_notifications_chat();
+         show_messages(id);
+        show_notifications_chat();
     
           //showUsers(id_from);
     
@@ -459,9 +484,115 @@
             console.log(message);
             alert(message);*/
     
+    
      };
     
     
+</script>
+<script>
+    function send_message(id) {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+    
+        if(dd<10) {
+            dd = '0'+dd
+        }
+    
+        if(mm<10) {
+            mm = '0'+mm
+        }
+    
+        today =dd + '/' + mm + '/' + yyyy;
+        var d = new Date(); // for now
+        var a=d.getHours(); // => 9
+        var b=d.getMinutes(); // =>  30
+        if (b<10){
+            b= '0'+b;
+    
+        }
+        var c=d.getSeconds()+1; // => 51
+    
+       var ora = a + ':' + b;
+       ora=ora.bold();
+       var data= ora + ' [' + today +']';
+    
+    
+        var message = $('#mex_box').val();
+    
+    
+     $('#mex').append('<div class="col-md-10  pull-right" style="margin-top:10px">' +
+            ' <div  style="float:right; background-color:#0084ff; padding:5px 15px 5px 15px;' +
+            '  color:#333; border-radius:10px; color:#fff;">' + message +
+            ' </div>' +
+            '</div>' +'<br> <p class="colorFont" style="float:right; font-size:10px; margin-right:15px">' +data+ '</p>'+
+            '<br>');
+    
+    
+
+    
+    
+    insert_conversations(id);
+    var objDiv = document.getElementById("finestra");
+    objDiv.scrollTop = objDiv.scrollHeight;
+    
+    //$('#mex').html('');
+    //show_messages(id);
+
+    /*console.log(url2);
+    
+    
+    $.ajax({
+    type: 'get',
+    url: url2,
+    success: function (data) {
+    console.log(data);
+    }
+    })*/
+    
+    
+    
+    // $('#mex').html("");
+    // alert('Messaggio inviato correttamente!');
+    
+    
+    show_conversation();
+    //show_messages(id);
+    show_notifications_chat();
+    
+    //document.getElementById("invio").reset();
+    
+    
+    //showUsers(id_from);
+    
+    
+    /* $.post('send', submit(function() {
+    var message=$('textarea#mex_box').val();
+    console.log(message);
+    $.ajax({
+    
+    type: "POST",
+    url: "send",
+    data: message,
+    success: function (data) {
+    
+    console.log(data);
+    
+    }
+    
+    })
+    
+    })*/
+    
+    /* var message = $('textarea#mex_box').val();
+    document.getElementById('mex_box').value = '';
+    console.log(message);
+    alert(message);*/
+    no_messages.style.display = 'none';
+    
+    };
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -472,6 +603,7 @@
         conversations.style.display = 'none';
     
         $('#conversations').html("");
+    
         var url2 = '{{URL::to('chat')}}/conversations';
         //console.log(url2);
     
@@ -502,11 +634,6 @@
                          ' </a>');
     
     
-    
-    
-    
-    
-    
                     var utente2=data[i]["id"];
                     //alert(utente2);
                     (show_messages_conversation(utente2));
@@ -519,19 +646,13 @@
                 //$('#mex').html('');
     
     
-    
-    
-    
-    
-    
-    
                 /*var utente2=data[0]["id"];
                 alert(utente2);*/
-    
+
+                //RESET FORM INVIO
+                document.getElementById("invio").reset();
             }
-    
-    
-    
+       
         })
     
        // alert('Caricamento conversazioni...');
@@ -593,8 +714,8 @@
                     show_conversation();
                 }, 5000);
     </script>
-    
-    -->
+-->
+
 <script>
     function seen(id) {
     show_notifications_chat();
@@ -607,8 +728,11 @@
             url: url2,
             success: function (data) {
                 console.log(data);
+
             }
         })
+
+
     }
     
 </script>
@@ -628,6 +752,11 @@
             var i=0;
     
                     for (var i = 0; i < data.length; i++) {
+    
+    
+                        var old_data=data[i]["date"];
+    
+                        data_convertita=conversione(old_data);
                     var to = data[i]["user_to"];
                     if (data[i]["user_from"] == <?php echo Auth::user()->id; ?>) {
     
@@ -652,15 +781,14 @@
                              var x = data[i]["user_to"];
                                  if(data[i]["msg"]==""){
                                      //CONTROLLA SE L'UTIMO MESSAGGIO E' UN ALLEGATO
-    						var v1 = data[i]["date"];
                                      $('#last_mex' + x).html(data[i]["attachment"]);
-    						$('#last_mex_date'+ x).html(v1);
+                                     $('#last_mex_date'+ x).html(data_convertita);
     
                                 }
     
                             else{
                                  $('#last_mex' + x).html(data[i]["msg"]);
-                                 $('#last_mex_date'+ x).html(data[i]["date"]);
+                                 $('#last_mex_date'+ x).html(data_convertita);
     				   
     
                                  }
@@ -673,7 +801,7 @@
                                     //CONTROLLA SE L'UTIMO MESSAGGIO E' UN ALLEGATO
     
                                     $('#last_mex' + x).html(data[i]["attachment"]);
-    					   $('#last_mex_date'+ x).html(data[i]["date"]);
+                                    $('#last_mex_date'+ x).html(data_convertita);
     
     
                                 }
@@ -681,7 +809,7 @@
                                 else {
                                     $('#last_mex' + x).html(data[i]["msg"]);
                                     //Inserimento data e ora ultimo messaggio  data[i]["date"]
-    					   $('#last_mex_date'+ x).html(data[i]["date"]);
+                                    $('#last_mex_date'+ x).html(data_convertita);
                                 }
     
                             }
@@ -696,7 +824,7 @@
     
                             }
     
-                        $('#conversations').fadeIn(1300);
+                        $('#conversations').fadeIn(100);
     
                     }
     

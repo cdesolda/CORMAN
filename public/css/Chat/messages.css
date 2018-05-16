@@ -5,18 +5,27 @@
 	
 }*/
 
+
+
 /* CHAT USERS*/
 #box_users {
     padding-top: 5px;
     overflow-y: scroll;
-    max-height: 550px;
-    height: 550px;
+    max-height: 500px;
+    min-height: 300px;
+	height: 100%;
     overflow-x: hidden;
 }
 
-#message_Box {
-    height: 500px;
+
+
+#finestra {
+	
+	height: 350px !important;  
+	overflow-y: scroll;
 }
+
+
 
 #box_msg {
     margin-top: -2%;

@@ -24,7 +24,10 @@ Route::get('/chat', 'MessagesController@stampa_utenti');
 Route::get('/messages', 'MessagesController@search');
 Route::get('/chat/profile/{id}', 'MessagesController@showuser');
 Route::get('/chat/messages/{id}', 'MessagesController@show_messages');
-Route::get('/chat/send/{id_to}/{message}', 'MessagesController@send');
+
+Route::post('/chat/send/{id_to}', 'MessagesController@send');
+
+
 Route::get('/chat/conversations/add/{id_to}', 'MessagesController@insert_conversations');
 Route::get('/chat/conversations', 'MessagesController@show_conversations');
 Route::get('/chat/seen/{id}', 'MessagesController@seen');
