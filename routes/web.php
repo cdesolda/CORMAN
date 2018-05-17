@@ -18,26 +18,6 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
-/** Pages Messages Routes **/
-Route::get('/chat', 'MessagesController@index');
-Route::get('/chat', 'MessagesController@stampa_utenti');
-Route::get('/messages', 'MessagesController@search');
-Route::get('/chat/profile/{id}', 'MessagesController@showuser');
-Route::get('/chat/messages/{id}', 'MessagesController@show_messages');
-
-Route::post('/chat/send/{id_to}', 'MessagesController@send');
-
-
-Route::get('/chat/conversations/add/{id_to}', 'MessagesController@insert_conversations');
-Route::get('/chat/conversations', 'MessagesController@show_conversations');
-Route::get('/chat/seen/{id}', 'MessagesController@seen');
-Route::get('/notifications_chat', 'MessagesController@show_notifications_chat');
-
-//INSERIAMO LA ROUTE PER L'INVIO DI ALLEGATI
-Route::get('/chat/send/attach/{id_to}/{attach}', 'MessagesController@send_attach');
-//INSERIAMO LA RUOTE UTILE PER CARICARE I FILE NELLA CARTELLA UPLOADS
-Route::post('/chat','MessagesController@showUploadFile');
-
 
 /** Pages Controller Routes **/
 Route::get('/', 'PagesController@landingPage')->name('landing');
@@ -46,15 +26,11 @@ Route::get('/sitemap', 'PagesController@sitemap');
 Route::get('/memberProfile', 'PagesController@memberProfile');
 
 
-
-
 /** User Routes **/
 // Resource Controller
 Route::resource('users','UserController',['except' => ['create', 'store']]);
 // Ajax routes
 Route::get('ajaxUserInfo', 'UserController@ajaxInfo');
-
-
 
 
 /** Publication Routes **/
@@ -95,5 +71,28 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+
+// User Chat Routes 
+Route::get('/chat', 'MessagesController@index');
+Route::get('/chat', 'MessagesController@stampa_utenti');
+Route::get('/messages', 'MessagesController@search');
+Route::get('/chat/profile/{id}', 'MessagesController@showuser');
+
+// Conversations Routes 
+Route::get('/chat/messages/{id}', 'MessagesController@show_messages');
+Route::post('/chat/send/{id_to}', 'MessagesController@send');
+Route::get('/chat/conversations/add/{id_to}', 'MessagesController@insert_conversations');
+Route::get('/chat/conversations', 'MessagesController@show_conversations');
+Route::get('/chat/seen/{id}', 'MessagesController@seen');
+
+// Notification chat Routes
+Route::get('/notifications_chat', 'MessagesController@show_notifications_chat');
+
+// Attachments Routes 
+Route::get('/chat/send/attach/{id_to}/{attach}', 'MessagesController@send_attach');
+Route::post('/chat','MessagesController@showUploadFile');
+
+
 //Notification
 Route::resource('notifications/{id}','NotificationController');
+

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use app\user;
 use DB;
+use Illuminate\Support\Facades\Crypt;
 
 
 class MessagesController extends Controller
@@ -54,13 +55,29 @@ class MessagesController extends Controller
     }
 
 
-	public function show_messages($id)
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function show_messages($id)
     {
         $mess=DB::table('messages')
 			->whereIn('messages.user_from', [Auth::user()->id, $id])
             ->whereIn('messages.user_to', [Auth::user()->id, $id])
             ->select('messages.*')
             ->get();
+
+        $mess = json_decode($mess, true);
+
+        for ($i = 0, $n = count($mess); $i < $n ; $i++) {
+
+            if($mess[$i]['msg']!=""){
+
+                $value=$mess[$i]['msg'];
+                $value=decrypt($value);
+                $mess[$i]['msg']=$value;
+            }
+        }
         return($mess);
     }
 
@@ -83,8 +100,6 @@ class MessagesController extends Controller
             ->select('messages.user_from')
             ->GroupBy('messages.user_from')
             ->get();
-			
-		//$notifications_chat = count($notifications_chat1);
         return ($notifications_chat1);
     }
 	
@@ -93,6 +108,8 @@ class MessagesController extends Controller
      {
          $message= $request->input('mex_box');
 
+         $message=encrypt($message);
+
          DB::table('messages')->insertGetId(
             ['user_from' => Auth::user()->id,
                 'user_to' =>$id_to,
@@ -100,7 +117,6 @@ class MessagesController extends Controller
                 'status' => '0',
 
             ]);
-
     }
 
     //FUNZIONE CHE INSERISCE IL NOME DEL FILE NEL CAMPO ATTACHMENT DELLA TABELLA MESSAGES
@@ -114,34 +130,28 @@ class MessagesController extends Controller
                 'status' => '0',
                 'attachment' => $attach,
             ]);
-
-
     }
 
-   public function insert_conversations($id_to)
+    public function insert_conversations($id_to)
     {
         DB::table('conversation')
             ->whereIn('.user_one', [Auth::user()->id, $id_to])
             ->whereIn('user_two', [Auth::user()->id, $id_to])
             ->delete();
 
-
-
         DB::table('conversation')->insertGetId(
                  ['user_one' => Auth::user()->id,
                 'user_two' =>$id_to,
             ]);
 
-
         DB::table('conversation')->insertGetId(
             ['user_two' => Auth::user()->id,
                 'user_one' =>$id_to,
             ]);
-
     }
 
 
-     public function search(Request $request)
+    public function search(Request $request)
     {
         if ($request->ajax()){
             $output="";
@@ -160,12 +170,10 @@ class MessagesController extends Controller
                      '</a>'.'</div>';
             }
             return Response($output);
-
         }
-
     }
 
-	 public function seen($id)
+	public function seen($id)
     {
         DB::table('messages')
             ->where('id','=', $id)
@@ -173,8 +181,6 @@ class MessagesController extends Controller
             [
                 'status' => '1',
             ]);
-
-
     }
 
     public function create()
@@ -242,36 +248,8 @@ class MessagesController extends Controller
     public function showUploadFile(Request $request){
         $file = $request->file('file');
 
-/*
-        //Display File Name
-        echo 'File Name: '.$file->getClientOriginalName();
-        echo '<br>';
-
-        //Display File Extension
-        echo 'File Extension: '.$file->getClientOriginalExtension();
-        echo '<br>';
-
-        //Display File Real Path
-        echo 'File Real Path: '.$file->getRealPath();
-        echo '<br>';
-
-        //Display File Size
-        echo 'File Size: '.$file->getSize();
-        echo '<br>';
-
-        //Display File Mime Type
-        echo 'File Mime Type: '.$file->getMimeType();*/
-
         //Move Uploaded File
         $destinationPath = 'uploads';
         $file->move($destinationPath,$file->getClientOriginalName());
-
-        echo "<a href='http://127.0.0.1:8000/chat'>Link</a>";
-
         }
-
-    //return view('chat.search');
-
-
-
 }
