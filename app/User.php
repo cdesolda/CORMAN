@@ -40,6 +40,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Group','user_group');
     }
 
+    public function researchGroups(){
+        return $this->belongsToMany('App\Group','user_research_group');
+    }
+
     public function groupsAsAdmin(){
         return $this->belongsToMany('App\Group','user_group')->wherePivot('role','admin');
     }
@@ -48,12 +52,28 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Group','user_group')->wherePivot('state','accepted');
     }
 
+    public function researchGroupsAsAdmin(){
+        return $this->belongsToMany('App\ResearchGroup','user_research_group')->wherePivot('role','admin');
+    }
+
+    public function researchGroupsAsMember(){
+        return $this->belongsToMany('App\ResearchGroup','user_research_group')->wherePivot('state','accepted');
+    }
+
     public function randomGroupsAsMember(){
         return $this->belongsToMany('App\Group','user_group')->wherePivot('state','accepted')->inRandomOrder();
     }
 
     public function groupsAsInvited(){
         return $this->belongsToMany('App\Group','user_group')->wherePivot('state','pending');
+    }
+
+    public function randomresearchGroupsAsMember(){
+        return $this->belongsToMany('App\ResearchGroup','user_research_group')->wherePivot('state','accepted')->inRandomOrder();
+    }
+
+    public function researchGroupsAsInvited(){
+        return $this->belongsToMany('App\ResearchGroup','user_research_group')->wherePivot('state','pending');
     }
 
     public function affiliation(){
