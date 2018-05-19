@@ -36,7 +36,7 @@
                     @endforeach
                     <div class="btn-toolbar justify-content-between col-lg-12">
                         <a id="specialButton" dusk="newGroupButton" role="button" class="btn btn-warning pull-left" href="{{ route('groups.create') }}">
-                            <span class="ion-plus-circled ion-plus"> New Group</span>
+                            <span class="ion-plus-circled ion-plus"> New Community</span>
                         </a>
                         <a href="{{ route('groups.index') }}" id="btn-newgroup" class="btn btn-outline-primary pull-right" role="button">View More</a>
                     </div>
