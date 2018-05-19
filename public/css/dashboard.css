@@ -17,6 +17,15 @@
     font-size: 1.3em;
     padding-left: 0px;
     margin-bottom: 4px;
+    margin-top: 16px;
+}
+
+#titleResearchGroupDash{
+    text-align: left;
+    font-size: 1.3em;
+    padding-left: 16px;
+    margin-bottom: 4px;
+    margin-top: 16px;
 }
 
 div.publicationContainer {

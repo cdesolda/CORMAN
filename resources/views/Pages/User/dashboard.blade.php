@@ -29,6 +29,18 @@
                             </a>
                         </div>        
                 </div>
+                <div class="researchGroupContainer">
+                    <div id="titleResearchGroupDash">Research Groups</div>
+                    @foreach($researchGroupsList as $researchGroup)
+                        @include('Pages.ResearchGroup.singleInDashboard', ['researchGroup'=>$researchGroup])
+                    @endforeach
+                    <div class="btn-toolbar justify-content-between col-lg-12">
+                        <a id="specialButton" dusk="newResearchGroupButton" role="button" class="btn btn-warning pull-left">
+                            <span class="ion-plus-circled ion-plus"> New Research Group</span>
+                        </a>
+                        <a   id="btn-newresearchGroup" class="btn btn-outline-primary pull-right" role="button">View More</a>
+                    </div>
+                </div>
                 <div class="groupContainer">
                     <div id="titleGroupDash">Communities</div>
                     @foreach($groupList as $group)
