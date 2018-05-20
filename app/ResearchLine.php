@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResearchLine extends Model
 {
-    //
+    protected $table = 'research_line';
     protected $hidden = ['created_at','updated_at'];
 
     public function researchGroups(){

@@ -1,0 +1,128 @@
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+input .form-control {
+    margin: 0;
+}
+.create-group {
+    background-color: cornflowerblue;
+}
+
+.custom-file-label {
+    cursor: pointer;
+}
+
+
+#radioGroup {
+    padding: 0;
+    width: 100%;
+    margin: 0 auto;
+}
+
+body {
+    font-family: montserrat, arial, verdana;
+}
+
+.create-group {
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+/*inputs*/
+.create-group input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+#msform input:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid cornflowerblue;
+    outline-width: 0;
+    transition: All 0.5s ease-in;
+    -webkit-transition: All 0.5s ease-in;
+    -moz-transition: All 0.5s ease-in;
+    -o-transition: All 0.5s ease-in;
+}
+
+/*buttons*/
+.create-group .action-button {
+    width: 150px;
+    height: 50px;
+    background: cornflowerblue;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10% auto 5%;
+}
+
+#msform #visibilityRadio {
+    font-size: 13px;
+    margin: 0 auto;
+}
+
+#msform fieldset {
+    margin: 0 auto;
+}
+.create-group .action-button:hover, #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px cornflowerblue;
+}
+
+#msform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 0px !important;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+    resize: none;
+}
+
+#formContainer {
+    margin: 3% auto;
+
+}
+
+label input {
+    margin: 0;
+}
+
+.col-form-label {
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+#upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    opacity: 100;
+    height: auto;
+}

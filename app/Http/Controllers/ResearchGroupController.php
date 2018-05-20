@@ -54,122 +54,127 @@ class ResearchGroupController extends Controller
         $officesList = Office::all();
         $userList = User::where('id', '!=', Auth::id())->get()->sortBy('last_name');
 
-        return view('Pages.Group.create', ['researchLinesList' => $researchLinesList, 'userList' => $userList, 'officesList' => $officesList]);
+        return view('Pages.ResearchGroup.create', ['researchLinesList' => $researchLinesList, 'userList' => $userList, 'officesList' => $officesList]);
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(CreateGroupRequest $request)
-    // {
-    //     $newGroup = new Group;
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateResearchGroupRequest $request)
+    {
+        $newResearchGroup = new ResearchGroup;
 
-    //     $newGroup->name = $request->input('name');
-    //     $newGroup->description = $request->input('description');
-    //     //$newGroup->picture_path = $request->input('picture');
+        $newResearchGroup->name = $request->input('name');
+        $newResearchGroup->description = $request->input('description');
+        $newResearchGroup->contacts = $request->input('contacts');
 
-    //     if (($request->hasFile('picture'))) {
-    //         $file = $request->file('picture');
-    //         if ($file->isValid()) {
+        if (($request->hasFile('picture'))) {
+            $file = $request->file('picture');
+            if ($file->isValid()) {
 
-    //             $hashName = "/" . md5($file->path() . date('c'));
-    //             $fileName = $hashName . "." . $file->getClientOriginalExtension();
-    //             $filePath = 'images/groups' . $fileName;
-    //             Image::make($file)->fit(200)->save($filePath);
-    //             $newGroup->picture_path = $filePath;
-    //         }
-    //     } else {
-    //         $newGroup->picture_path = '/images/groups/group_icon.png';
-    //         //TODO replace default path in database table
-    //     }
-
-    //     if ($request->input('visibility') == 'public') {
-    //         $newGroup->public = 'public';
-    //     } else {
-    //         $newGroup->public = 'private';
-    //     }
+                $hashName = "/" . md5($file->path() . date('c'));
+                $fileName = $hashName . "." . $file->getClientOriginalExtension();
+                $filePath = 'images/researchGroups' . $fileName;
+                Image::make($file)->fit(200)->save($filePath);
+                $newResearchGroup->picture_path = $filePath;
+            }
+        } else {
+            $newResearchGroup->picture_path = '/images/researchGroups/researchGroup_icon.png';
+        }
 
 
-    //     //Increment count for the first member
-    //     $newGroup->subscribers_count = 1;
-    //     $newGroup->save();
+        //Increment count for the first member
+        $newResearchGroup->subscribers_count = 1;
+        $newResearchGroup->save();
 
-    //     // Adding the creator as admin of the group.
-    //     $newGroup->users()->attach(Auth::id(), ['group_id' => $newGroup->id, 'role' => 'admin', 'state' => 'accepted', 'created_at' => now(), 'updated_at' => now()]);
+        // Adding the creator as admin of the group.
+        $newResearchGroup->users()->attach(Auth::id(), ['research_group_id' => $newResearchGroup->id, 'role' => 'admin', 'state' => 'accepted', 'created_at' => now(), 'updated_at' => now()]);
 
-    //     // Adding the list of topic
-    //     $topicINList = $request->input('topics');
-    //     if (isset($topicINList)) {
-    //         foreach ($topicINList as $topicKey => $topicInput) {
-    //             $topicInput = strtolower($topicInput);
-    //             //Search and retrieve the topic from db
-    //             $topic = Topic::where('name', $topicInput)->first();
-    //             //Check if the topic is already in the db, otherwise create a new one and attach to the user
-    //             if ($topic != null) {
-    //                 $newGroup->topics()->attach($topic->id);
-    //             } else {
-    //                 $newTopic = new Topic;
-    //                 $newTopic->name = $topicInput;
-    //                 $newTopic->save();
+        // Adding the list of researchLines
+        $researchLineINList = $request->input('researchLines');
+        if (isset($researchLineINList)) {
+            foreach ($researchLineINList as $researchLineKey => $researchLineInput) {
+                //Search and retrieve the research line from db
+                $researchLine = ResearchLine::where('name', $researchLineInput)->first();
+                //Check if the research line is already in the db, otherwise create a new one and attach to the user
+                if ($researchLine != null) {
+                    $newResearchGroup->research_lines()->attach($researchLine->id);
+                } else {
+                    $newResearchLine = new ResearchLine;
+                    $newResearchLine->name = $researchLineInput;
+                    $newResearchLine->save();
 
-    //                 $newGroup->topics()->attach($newTopic->id);
-    //             }
-    //         }
-    //     }
+                    $newResearchGroup->research_lines()->attach($newResearchLine->id);
+                }
+            }
+        }
 
-    //     // Adding the list of members and send notification
-    //     User::where('id', $request->users)->get()->each(function ($user) use ($newGroup) {
-    //         $newGroup->users()->attach($user->id, [
-    //             'role' => 'member',
-    //             'state' => 'pending'
-    //         ]);
+        // Adding the list of offices
+        $officesINList = $request->input('offices');
+        if (isset($officesINList)) {
+            foreach ($officesINList as $officeKey => $officeInput) {
+                //Search and retrieve the office from db
+                $office = Office::where('address', $officeInput)->first();
+                //Check if the office is already in the db, otherwise create a new one and attach to the user
+                if ($office != null) {
+                    $newResearchGroup->offices()->attach($office->id);
+                } else {
+                    $newOffice = new Office;
+                    $newOffice->address = $officeInput;
+                    $newOffice->save();
 
-    //         $user->notify(new GroupNotification($newGroup, auth()->user()));
-    //     });
+                    $newResearchGroup->offices()->attach($newOffice->id);
+                }
+            }
+        }
+
+        // Adding the list of members and send notification
+        User::where('id', $request->users)->get()->each(function ($user) use ($newResearchGroup) {
+            $newResearchGroup->users()->attach($user->id, [
+                'role' => 'member',
+                'state' => 'pending'
+            ]);
+
+            $user->notify(new ResearchGroupNotification($newResearchGroup, auth()->user()));
+        });
 
 
-    //     return redirect()->route('groups.show', ['id' => $newGroup->id]);
-    //     // TODO handling private field $newGroup->isPrivate =
-    //     // Handling user invitations
+        return redirect()->route('researchGroups.show', ['id' => $newResearchGroup->id]);
+    }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return redirect()->route('researchGroups.index');
+        // // Replace with shares of publication-group-model
+        // $authUser =  Auth::user();
+        // $sharesList = Group::find($id)->shares->sortByDesc('created_at');
+        // $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
+        // $group = $authUser->groups->find($id);
+        // $postList = Group::find($id)->posted->sortByDesc('created_at');
 
-    //     // Handling user as admin
+        // $postsGroups = PostGroup::where('group_id', $id)->with('commented')->get();
 
-
-    // }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show($id)
-    // {
-    //     // Replace with shares of publication-group-model
-    //     $authUser =  Auth::user();
-    //     $sharesList = Group::find($id)->shares->sortByDesc('created_at');
-    //     $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
-    //     $group = $authUser->groups->find($id);
-    //     $postList = Group::find($id)->posted->sortByDesc('created_at');
-
-    //     $postsGroups = PostGroup::where('group_id', $id)->with('commented')->get();
-
-    //     $commentsList = collect();
+        // $commentsList = collect();
         
-    //     foreach ($postsGroups as $postGroup){
+        // foreach ($postsGroups as $postGroup){
 
-    //         foreach($postGroup->commented as $commentPost) {
-    //             $commentsList->push($commentPost);
-    //         }
-    //     }
+        //     foreach($postGroup->commented as $commentPost) {
+        //         $commentsList->push($commentPost);
+        //     }
+        // }
         
 
-    //     return view('Pages.Group.detail', ['sharesList' => $sharesList, 'groupList' => $groupList, 'theGroup' => $group, 'postList' => $postList, 'commentsList' => $commentsList]);
-    // }
+        // return view('Pages.Group.detail', ['sharesList' => $sharesList, 'groupList' => $groupList, 'theGroup' => $group, 'postList' => $postList, 'commentsList' => $commentsList]);
+    }
 
     // /**
     //  * Show the form for editing the specified resource.

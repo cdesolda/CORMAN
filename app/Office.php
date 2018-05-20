@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
 {
-    //
+    protected $table = 'office';
     protected $hidden = ['created_at','updated_at'];
 
     public function researchGroups(){
