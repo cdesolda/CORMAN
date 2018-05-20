@@ -1,22 +1,23 @@
 @extends('Layout.main')
 
 @section('head')
-    <link rel="stylesheet" href="{{ url('css/Group/groups.css') }}">
+    <link rel="stylesheet" href="{{ url('css/ResearchGroup/researchGroup.css') }}">
+    <link rel="stylesheet" href="{{ url('css/ResearchGroup/newCard.css') }}">
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="btn-toolbar justify-content-between col-lg-12">
-            <a id="specialButton" role="button" class="btn btn-warning pull-left" href="{{ route('researchGroups.create')}}">
+        <div class="btn-toolbar justify-content-end col-lg-12">
+            <div></div>
+            <a id="specialButton" role="button" class="btn btn-warning" href="{{ route('researchGroups.create') }}">
                 <span class="ion-plus-circled ion-plus"> New Research Group</span>
             </a>
-            <i class="fa fa-filter fa-2x pull-right" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="@include('Pages.filter')"></i>
         </div>
-        <div id="list_container" class="row">
+        <div id="list_container" class="row no-gutters">
             @foreach($researchGroupList as $researchGroup)
-                <div id="group_item" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    @include('Pages.ResearchGroup.single', ['researchGroup'=>$researchGroup])
-                </div>
+            <div class="col-12 col-md-6">
+                @include('Pages.ResearchGroup.single', ['researchGroup'=>$researchGroup, 'isEven'=>$loop->iteration  % 2 == 0])
+            </div>
             @endforeach
         </div>
     </div>
