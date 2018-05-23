@@ -7,11 +7,14 @@ use App\Http\Requests\EditProfileRequest;
 use App\Role;
 use App\Topic;
 use App\User;
+use App\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
+use App\Group;
+use App\ResearchGroup;
 
 class UserController extends Controller
 {
@@ -32,8 +35,59 @@ class UserController extends Controller
         /* TODO: vedere come ordinare gruppi (prima quelli di cui è admin, poi utente, ecc)*/
         $groupList = Auth::user()->randomGroupsAsMember->take(1);
         // error_log(print_r($q->first_name, true));
-        $researchGroupsList = [];
-        return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList, 'researchGroupsList' => $researchGroupsList]);
+        $researchGroupsList = Auth::user()->randomresearchGroupsAsMember->take(1);
+        // return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList, 'researchGroupsList' => $researchGroupsList]);
+        $items = $this->createDashboardItems($publicationList->first(), $groupList->first(), $researchGroupsList->first());
+        return view('Pages.User.dashboard', ['items' => $items]);
+    }
+
+    private function createDashboardItems(Publication $publication, Group $group, ResearchGroup $researchGroup) {
+        $groupTopicNames = $group->topics()->get()->map(function ($topic) {
+            return $topic->name;
+        })->reduce(function ($acc, $next) {
+            error_log($acc);
+            error_log($next);
+            if ($acc == '') {
+                return $next;
+            } else {
+                return $acc . ', ' . $next;
+            }
+        }, '');
+        return [
+            [
+                'groupTitle' => 'Publications',
+                'title' => $publication->title,
+                'subtitle' => '',
+                'imagePath' => '',
+                'viewMoreRoute' => 'publications.index',
+                'createRoute' => 'publications.create',
+                'createName' => 'New Publication',
+                'duskID' => 'newPublicationButton',
+                'item' => $publication
+            ],
+            [
+                'groupTitle' => 'Research Groups',
+                'title' => $researchGroup->name,
+                'subtitle' => $researchGroup->description,
+                'imagePath' => $researchGroup->picture_path,
+                'viewMoreRoute' => 'researchGroups.index',
+                'createRoute' => 'researchGroups.create',
+                'createName' => 'New Research Group',
+                'duskID' => 'newResearchGroupButton',
+                'item' => $researchGroup
+            ],
+            [
+                'groupTitle' => 'Groups',
+                'title' => $group->name,
+                'subtitle' => $groupTopicNames,
+                'imagePath' => $group->picture_path,
+                'viewMoreRoute' => 'groups.index',
+                'createRoute' => 'groups.create',
+                'createName' => 'New Group',
+                'duskID' => 'newGroupButton',
+                'item' => $group
+            ]
+        ];
     }
 
     /**

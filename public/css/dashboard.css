@@ -34,3 +34,28 @@ div.publicationContainer {
 div.groupContainer {
     margin: 0 16px 8px 16px;
 }
+
+div.item-container>div:first-child {
+    border: 1px solid rgb(78, 78, 78);
+    margin: 0px;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background: aliceblue;
+}
+
+div.item-container>div:first-child div.item-image {
+    text-align: right;
+}
+
+div.item-container {
+    width: 100%;
+}
+
+img.groupImage {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+
