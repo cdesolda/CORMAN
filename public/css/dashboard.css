@@ -59,3 +59,32 @@ img.groupImage {
 }
 
 
+img.user-image {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+}
+
+div.activity-image {
+    display: inline;
+}
+
+div.my-rounded {
+    border-radius: 8px;
+}
+
+button.myBtn {
+    background: transparent;
+    border: none;
+    color: #737373;
+    cursor: pointer;
+}
+
+button.myBtn:hover {
+    text-decoration: underline;
+}
+
+div.comment-content {
+    background-color: #f3f3f3;
+}
+

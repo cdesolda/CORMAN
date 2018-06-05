@@ -38,7 +38,46 @@ class UserController extends Controller
         $researchGroupsList = Auth::user()->randomresearchGroupsAsMember->take(1);
         // return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList, 'researchGroupsList' => $researchGroupsList]);
         $items = $this->createDashboardItems($publicationList->first(), $groupList->first(), $researchGroupsList->first());
-        return view('Pages.User.dashboard', ['items' => $items]);
+        $activities = $this->createActivities();
+        return view('Pages.User.dashboard', ['items' => $items, 'activities' => $activities]);
+    }
+
+    private function createActivities() {
+        $activities = [];
+        $posts = $this->getAllPosts();
+        usort($posts, function($a, $b) {
+            $ad = new \DateTime($a['created_at']);
+            $bd = new \DateTime($b['created_at']);
+            if ($ad == $bd) {
+              return 0;
+            }
+            return $ad > $bd ? -1 : 1;
+          });
+        foreach ($posts as  $post) {
+            array_push($activities, [
+                'type' => 'postAdded',
+                'user' => $post->user,
+                'post' => $post,
+                'postID' => $post->id,
+                'group' => $post->group,
+                'comments' => $post->commented
+            ]);
+        }
+        return $activities;
+    }
+    
+    private function getAllPosts() {
+        $groups = Auth::user()->groupsAsMember->all();
+        $posts = [];
+        foreach ($groups as $group) {
+            $groupPosts = $group->posted()->get()->all();
+            if (count($groupPosts) > 0) {
+                foreach ($groupPosts as $groupPost) {
+                    array_push($posts, $groupPost);
+                };
+            }
+        }
+        return $posts;
     }
 
     private function createDashboardItems(Publication $publication, Group $group, ResearchGroup $researchGroup) {
