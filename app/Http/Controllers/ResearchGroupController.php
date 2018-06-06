@@ -157,7 +157,6 @@ class ResearchGroupController extends Controller
         // Replace with shares of publication-group-model
         $authUser =  Auth::user();
         $researchGroup = ResearchGroup::find($id);
-        error_log(print_r($id, true));
         $isMember = in_array($authUser->id, $researchGroup->users->map(function ($user) {
             return $user->id;
         })->toArray());
@@ -179,6 +178,13 @@ class ResearchGroupController extends Controller
         
 
         return view('Pages.ResearchGroup.detail', ['user'=>$authUser, 'researchGroup'=>$researchGroup,'sharesList'=>collect(), 'isMember'=>$isMember]);
+    }
+
+    public function requestToJoin() {
+        $userID = \Route::getCurrentRequest()->query('userID');
+        $groupID = \Route::getCurrentRequest()->query('groupID');
+        error_log('User ' . print_r($userID, true) . ' requested to join research group ' . print_r($groupID, true));
+        return redirect()->route('researchGroups.show', ['id' => $groupID]);
     }
 
     // /**

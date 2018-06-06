@@ -19,7 +19,7 @@
                 <div class="col-7 col-sm-7 col-md-7 col-lg-6 col-xl-6">
                     <div style="display:inline;" id="titleDetail">{{ $researchGroup->name }}</div>
                     @if(!$isMember)
-                    <a href="{{route('researchGroups.show', ['id'=>$researchGroup->id])}}" class="btn btn-primary pull-right myButton">JOIN</a>
+                    <a href="{{action('ResearchGroupController@requestToJoin', ['groupID'=>$researchGroup->id,'userID'=>$user->id])}}" class="btn btn-success mt-1 pull-right myButton">JOIN</a>
                     @endif
                     <a href="#">
                         <i class="ion-edit col-lg-4"></i>
