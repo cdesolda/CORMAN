@@ -38,7 +38,8 @@ class ResearchGroupController extends Controller
     public function index()
     {
         /* vedere todo dashboard pubblicazioni*/
-        $researchGroupList = Auth::user()->researchGroups;
+        $researchGroupList = ResearchGroup::get();
+        // $researchGroupList = Auth::user()->researchGroups;
         return view('Pages.ResearchGroup.list', ['researchGroupList' => $researchGroupList]);
     }
 
@@ -155,7 +156,11 @@ class ResearchGroupController extends Controller
     {
         // Replace with shares of publication-group-model
         $authUser =  Auth::user();
-        $researchGroup = $authUser->researchGroups->find($id);
+        $researchGroup = ResearchGroup::find($id);
+        error_log(print_r($id, true));
+        $isMember = in_array($authUser->id, $researchGroup->users->map(function ($user) {
+            return $user->id;
+        })->toArray());
         // $sharesList = Group::find($id)->shares->sortByDesc('created_at');
         // $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
         // $group = $authUser->groups->find($id);
@@ -173,7 +178,7 @@ class ResearchGroupController extends Controller
         // }
         
 
-        return view('Pages.ResearchGroup.detail', ['user'=>$authUser, 'researchGroup'=>$researchGroup,'sharesList'=>collect()]);
+        return view('Pages.ResearchGroup.detail', ['user'=>$authUser, 'researchGroup'=>$researchGroup,'sharesList'=>collect(), 'isMember'=>$isMember]);
     }
 
     // /**

@@ -134,6 +134,7 @@ img.myImage {
 img.user-image {
     /* object-fit: contain; */
     max-height: 45px;
+    border-radius: 50%;
 }
 
 #members,h3{

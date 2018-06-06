@@ -41,7 +41,8 @@ class UserController extends Controller
         /* TODO: vedere come ordinare gruppi (prima quelli di cui è admin, poi utente, ecc)*/
         $groupList = Auth::user()->randomGroupsAsMember->take(1);
         // error_log(print_r($q->first_name, true));
-        $researchGroupsList = Auth::user()->randomresearchGroupsAsMember->take(1);
+        // $researchGroupsList = Auth::user()->randomresearchGroupsAsMember->take(1);
+        $researchGroupsList = ResearchGroup::inRandomOrder()->get()->take(1);
         // return view('Pages.User.dashboard', ['publicationList' => $publicationList, 'groupList' => $groupList, 'researchGroupsList' => $researchGroupsList]);
         $items = $this->createDashboardItems($publicationList->first(), $groupList->first(), $researchGroupsList->first());
         $activities = $this->createActivities();
