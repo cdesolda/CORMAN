@@ -119,10 +119,21 @@ li.list-inline-item:not(:last-child):after {
 }
 
 #groupInfo{
-    background: rgba(180, 180, 180, 0.1);
-    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    padding: 8px;
     margin-top: 0px;
     margin-bottom: 10px;
+}
+
+img.myImage {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+img.user-image {
+    /* object-fit: contain; */
+    max-height: 45px;
 }
 
 #members,h3{

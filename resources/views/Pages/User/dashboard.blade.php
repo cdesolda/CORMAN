@@ -14,14 +14,16 @@
                 @foreach($activities as $activity)
                     @switch($activity['type'])
                         @case('postAdded')
-                            @include('Pages.Post.singleInDashboard', ['activity'=>$activity])
+                        @include('Pages.Post.singleInDashboard', ['activity'=>$activity])
                         @break
                     @endswitch
                 @endforeach
             </div>
             <div class="col-12 col-sm-5 col-md-5 col-lg-5">
                 @foreach($items as $item)
-                    @include('Pages.User.dashboardItem', ['item'=>$item])
+                    @if(!is_null($item))
+                        @include('Pages.User.dashboardItem', ['item'=>$item])
+                    @endif
                 @endforeach
             </div>
         </div>

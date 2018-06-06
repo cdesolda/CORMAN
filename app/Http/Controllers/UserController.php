@@ -32,6 +32,12 @@ class UserController extends Controller
     {
         /* TODO: tenere conto che bisogna passare i dati dell'utente (immagine, ecc)*/
         $publicationList = Auth::user()->author->publications->sortByDesc('year')->take(1);
+        if(is_null($publicationList)) {
+            error_log('NO PUBS!!');
+            $publicationList = collect();
+        } else {
+            error_log('WTF PUBS!!');
+         }
         /* TODO: vedere come ordinare gruppi (prima quelli di cui è admin, poi utente, ecc)*/
         $groupList = Auth::user()->randomGroupsAsMember->take(1);
         // error_log(print_r($q->first_name, true));
@@ -80,20 +86,22 @@ class UserController extends Controller
         return $posts;
     }
 
-    private function createDashboardItems(Publication $publication, Group $group, ResearchGroup $researchGroup) {
-        $groupTopicNames = $group->topics()->get()->map(function ($topic) {
-            return $topic->name;
-        })->reduce(function ($acc, $next) {
-            error_log($acc);
-            error_log($next);
-            if ($acc == '') {
-                return $next;
-            } else {
-                return $acc . ', ' . $next;
-            }
-        }, '');
+    private function createDashboardItems( $publication,  $group,  $researchGroup) {
+        if (!is_null($group)) {
+            $groupTopicNames = $group->topics()->get()->map(function ($topic) {
+                return $topic->name;
+            })->reduce(function ($acc, $next) {
+                error_log($acc);
+                error_log($next);
+                if ($acc == '') {
+                    return $next;
+                } else {
+                    return $acc . ', ' . $next;
+                }
+            }, '');
+        }
         return [
-            [
+            !is_null($publication) ? [
                 'groupTitle' => 'Publications',
                 'title' => $publication->title,
                 'subtitle' => '',
@@ -103,8 +111,8 @@ class UserController extends Controller
                 'createName' => 'New Publication',
                 'duskID' => 'newPublicationButton',
                 'item' => $publication
-            ],
-            [
+            ] : null,
+            !is_null($researchGroup) ?[
                 'groupTitle' => 'Research Groups',
                 'title' => $researchGroup->name,
                 'subtitle' => $researchGroup->description,
@@ -114,8 +122,8 @@ class UserController extends Controller
                 'createName' => 'New Research Group',
                 'duskID' => 'newResearchGroupButton',
                 'item' => $researchGroup
-            ],
-            [
+            ] : null,
+            !is_null($group) ?[
                 'groupTitle' => 'Groups',
                 'title' => $group->name,
                 'subtitle' => $groupTopicNames,
@@ -125,7 +133,7 @@ class UserController extends Controller
                 'createName' => 'New Group',
                 'duskID' => 'newGroupButton',
                 'item' => $group
-            ]
+            ] : null
         ];
     }
 

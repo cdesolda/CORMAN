@@ -153,9 +153,9 @@ class ResearchGroupController extends Controller
      */
     public function show($id)
     {
-        return redirect()->route('researchGroups.index');
-        // // Replace with shares of publication-group-model
-        // $authUser =  Auth::user();
+        // Replace with shares of publication-group-model
+        $authUser =  Auth::user();
+        $researchGroup = $authUser->researchGroups->find($id);
         // $sharesList = Group::find($id)->shares->sortByDesc('created_at');
         // $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
         // $group = $authUser->groups->find($id);
@@ -173,7 +173,7 @@ class ResearchGroupController extends Controller
         // }
         
 
-        // return view('Pages.Group.detail', ['sharesList' => $sharesList, 'groupList' => $groupList, 'theGroup' => $group, 'postList' => $postList, 'commentsList' => $commentsList]);
+        return view('Pages.ResearchGroup.detail', ['user'=>$authUser, 'researchGroup'=>$researchGroup,'sharesList'=>collect()]);
     }
 
     // /**
