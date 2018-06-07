@@ -21,7 +21,7 @@
                     @if(!$isMember)
                     <a href="{{action('ResearchGroupController@requestToJoin', ['groupID'=>$researchGroup->id,'userID'=>$user->id])}}" class="btn btn-success mt-1 pull-right myButton">JOIN</a>
                     @endif
-                    <a href="#">
+                    <a href="{{route('researchGroups.edit', ['id'=>$researchGroup->id])}}">
                         <i class="ion-edit col-lg-4"></i>
                     </a>
                     <i id="exit" class="ion-android-exit col-lg-4" role="button" data-toggle="modal" data-target="#exitGroup"></i>

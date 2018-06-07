@@ -195,135 +195,148 @@ class ResearchGroupController extends Controller
         return redirect()->route('researchGroups.show', ['id' => $groupID]);
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     // Replace with shares of publication-group-model
-    //     $publicationList = Auth::user()->publications;
-    //     $group = Auth::user()->groups->find($id);
-    //     $thisgroup = Group::find($id);
-    //     $userList = User::where('id', '<>', Auth::user()->id)->whereNotin('id', $thisgroup->users->pluck('id'))->get()->sortBy('last_name');
-    //     $topicList = Topic::all()->diff($group->topics);;
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $group = Auth::user()->groups->find($id);
+        $thisgroup = ResearchGroup::find($id);
+        $userList = User::where('id', '<>', Auth::user()->id)->whereNotin('id', $thisgroup->users->pluck('id'))->get()->sortBy('last_name');
+        $memberList = User::where('id', '<>', Auth::user()->id)
+                            ->whereIn('id', $thisgroup->members->pluck('id'))
+                            ->get()
+                            ->sortBy('last_name');
+        $researchLinesList = ResearchLine::all()->diff($thisgroup->research_lines);;
+        $officesList = Office::all()->diff($thisgroup->offices);
 
-    //     return view('Pages.Group.edit', ['topicList' => $topicList, 'publicationList' => $publicationList,
-    //         'group' => $group, 'userList' => $userList]);
-    // }
+        // error_log(print_r($pendingList->toArray(), true));
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request $request
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(EditGroupRequest $request, $id)
-    // {
+        return view('Pages.ResearchGroup.edit', [
+            'officesList' => $researchLinesList, 
+            'researchLinesList' => $researchLinesList,
+            'researchGroup' => $thisgroup, 
+            'userList' => $userList,
+            'membersList' => $memberList,
+            'group' => $thisgroup
+            ]);
+    }
 
-    //     $group = Group::find($id);
-    //     $group->name = $request->input('group_name');
-    //     $group->description = $request->input('description');
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EditResearchGroupRequest $request, $id)
+    {
 
-    //     if (($request->hasFile('profile_photo'))) {
-    //         $file = $request->file('profile_photo');
-    //         if ($file->isValid()) {
+        $group = ResearchGroup::find($id);
+        // $group->name = $request->input('group_name');
+        // $group->description = $request->input('description');
 
-    //             $hashName = "/" . md5($file->path() . date('c'));
-    //             $fileName = $hashName . "." . $file->getClientOriginalExtension();
-    //             $filePath = 'images/groups' . $fileName;
-    //             Image::make($file)->fit(200)->save($filePath);
-    //             $group->picture_path = $filePath;
-    //         }
-    //     }
+        // if (($request->hasFile('profile_photo'))) {
+        //     $file = $request->file('profile_photo');
+        //     if ($file->isValid()) {
 
-    //     // Handle group Visibility
-    //     if ($request->input('visibility') == 'public') {
-    //         $group->public = 'public';
-    //     } else {
-    //         $group->public = 'private';
-    //     }
+        //         $hashName = "/" . md5($file->path() . date('c'));
+        //         $fileName = $hashName . "." . $file->getClientOriginalExtension();
+        //         $filePath = 'images/groups' . $fileName;
+        //         Image::make($file)->fit(200)->save($filePath);
+        //         $group->picture_path = $filePath;
+        //     }
+        // }
 
-    //     $group->save();
+        // // Handle group Visibility
+        // if ($request->input('visibility') == 'public') {
+        //     $group->public = 'public';
+        // } else {
+        //     $group->public = 'private';
+        // }
 
-    //     // Handling add and deletion of group topics
-    //     $topicList = Topic::all()->pluck('id');
-    //     $groupTopicList = Group::find($id)->topics->pluck('id');
-    //     $newTopicList = collect($request->input('topics'));
+        // $group->save();
 
-    //     $removeList = $groupTopicList->diff($newTopicList); // get items to delete
-    //     $addList = $newTopicList->diff($groupTopicList); //intermediate result
-    //     $createList = $addList->diff($topicList); // get items to create
-    //     $addList = $addList->diff($createList); // get items to add
+        // // Handling add and deletion of group topics
+        // $topicList = Topic::all()->pluck('id');
+        // $groupTopicList = Group::find($id)->topics->pluck('id');
+        // $newTopicList = collect($request->input('topics'));
 
-    //     $group->topics()->detach($removeList);
-    //     $group->topics()->attach($addList);
+        // $removeList = $groupTopicList->diff($newTopicList); // get items to delete
+        // $addList = $newTopicList->diff($groupTopicList); //intermediate result
+        // $createList = $addList->diff($topicList); // get items to create
+        // $addList = $addList->diff($createList); // get items to add
 
-    //     foreach ($createList as $topic) {
+        // $group->topics()->detach($removeList);
+        // $group->topics()->attach($addList);
 
-    //         $newTopic = new Topic;
-    //         $newTopic->name = $topic;
-    //         $newTopic->save();
+        // foreach ($createList as $topic) {
 
-    //         $group->topics()->attach($newTopic);
-    //     }
+        //     $newTopic = new Topic;
+        //     $newTopic->name = $topic;
+        //     $newTopic->save();
 
-    //     // Adding the list of members
-    //     $memberList = Group::find($id)->users->pluck('id');
-    //     $newMemberList = collect($request->input('users'));
+        //     $group->topics()->attach($newTopic);
+        // }
 
-    //     $remove = $memberList->diff($newMemberList);
-    //     $add = $newMemberList->diff($memberList);
+        // // Adding the list of members
+        // $memberList = Group::find($id)->users->pluck('id');
+        // $newMemberList = collect($request->input('users'));
 
-    //     $group->users()->detach($remove);
+        // $remove = $memberList->diff($newMemberList);
+        // $add = $newMemberList->diff($memberList);
 
-    //     User::where('id', $request->users)->get()->each(function ($user) use ($group, $add) {
-    //         foreach ($add as $useradd) {
-    //             if ($user->id == $useradd) {
-    //                 $group->users()->attach([$useradd  => ['state' => 'pending']]);
-    //                 $user->notify(new GroupNotification($group, auth()->user()));
-    //             }
-    //         }
-    //     });
+        // $group->users()->detach($remove);
 
-    //     if ($request->input('visibility') == 'public') {
-    //         $group->public = 'public';
-    //     } else {
-    //         $group->public = 'private';
-    //     }
+        // User::where('id', $request->users)->get()->each(function ($user) use ($group, $add) {
+        //     foreach ($add as $useradd) {
+        //         if ($user->id == $useradd) {
+        //             $group->users()->attach([$useradd  => ['state' => 'pending']]);
+        //             $user->notify(new GroupNotification($group, auth()->user()));
+        //         }
+        //     }
+        // });
 
-    //     return redirect()->route('groups.show', ['id' => $group->id]);
+        // if ($request->input('visibility') == 'public') {
+        //     $group->public = 'public';
+        // } else {
+        //     $group->public = 'private';
+        // }
 
-    // }
+        return redirect()->route('researchGroups.show', ['id' => $group->id]);
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     $user = User::find(Auth::id());
-    //     $group = Group::find($id);
-    //     if ($group->users->find($user->id)->role == 'admin') {
-    //         $group->users()->detach($group->id);
-    //         $group->members()->detach($group->id);
-    //         $group->invited()->detach($group->id);
-    //         $group->admins()->detach($group->id);
-    //         $group->topics()->detach($group->id);
-    //         $group->shares()->detach($group->id);
-    //         $group->delete();
+    }
 
-    //         Redirect('/users')->with('success', 'Group deleted correctly.');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // $user = User::find(Auth::id());
+        $group = ResearchGroup::find($id);
+        // if ($group->users->find($user->id)->role == 'admin') {
+        //     $group->users()->detach($group->id);
+        //     $group->members()->detach($group->id);
+        //     $group->invited()->detach($group->id);
+        //     $group->admins()->detach($group->id);
+        //     $group->topics()->detach($group->id);
+        //     $group->shares()->detach($group->id);
+        //     $group->delete();
 
-    //     } else {
-    //         return "You can't delete this group, your are not an admin!";
-    //     }
-    // }
+        //     Redirect('/users')->with('success', 'Group deleted correctly.');
+
+        // } else {
+        //     return "You can't delete this group, your are not an admin!";
+        // }
+
+        return redirect()->route('researchGroups.show', ['id' => $group->id]);
+    }
 
     // public function share(Request $request)
     // {
@@ -356,14 +369,16 @@ class ResearchGroupController extends Controller
         $researchGroup = ResearchGroup::find($request->query('id'));
         $researchLinesList = $researchGroup->research_lines;
         $officesList = $researchGroup->offices;
-        $memberList = $researchGroup->users; //->where('id','<>',Auth::user()->id);
-        $adminsList = $researchGroup->admins; //->where('id','<>',Auth::user()->id);
+        $memberList = $researchGroup->users; 
+        $adminsList = $researchGroup->admins;
+        $pendingList = $researchGroup->invited->pluck('id');
         $data = array(
             'researchLinesList' => $researchLinesList, 
             'officesList' => $officesList, 
             'researchLinesList' => $researchLinesList, 
             'adminsList' => $adminsList,
-            'memberList' => $memberList
+            'memberList' => $memberList,
+            'pendingList' => $pendingList
         );
         return response()->json($data);
     }
