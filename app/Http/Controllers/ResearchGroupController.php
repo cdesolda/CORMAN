@@ -351,13 +351,21 @@ class ResearchGroupController extends Controller
     //     return response()->json(['redirectTo' => '/groups']);
     // }
 
-    // public function ajaxInfo(Request $request)
-    // {
-    //     $topicList = Group::find($request->query('id'))->topics;
-    //     $memberList = Group::find($request->query('id'))->users; //->where('id','<>',Auth::user()->id);
-    //     $data = array('topicList' => $topicList, 'memberList' => $memberList);
-
-    //     return response()->json($data);
-    // }
+    public function ajaxInfo(Request $request)
+    {
+        $researchGroup = ResearchGroup::find($request->query('id'));
+        $researchLinesList = $researchGroup->research_lines;
+        $officesList = $researchGroup->offices;
+        $memberList = $researchGroup->users; //->where('id','<>',Auth::user()->id);
+        $adminsList = $researchGroup->admins; //->where('id','<>',Auth::user()->id);
+        $data = array(
+            'researchLinesList' => $researchLinesList, 
+            'officesList' => $officesList, 
+            'researchLinesList' => $researchLinesList, 
+            'adminsList' => $adminsList,
+            'memberList' => $memberList
+        );
+        return response()->json($data);
+    }
 
 }
