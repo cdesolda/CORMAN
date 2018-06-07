@@ -21,7 +21,7 @@
 
     <!-- Form -->
     <div class="row">
-        <form id="msform" action="{{ route('researchGroups.update', ['id'=>$group->id]) }}"
+        <form id="msform" action="{{ route('researchGroups.update', ['id'=>$researchGroup->id]) }}"
             method="post" enctype="multipart/form-data">
             {{ csrf_field() }} {{ method_field('PUT') }}
             <!-- fieldsets HEAD-->
@@ -54,7 +54,7 @@
                     <label class="col-sm-12 col-md-3 col-lg-3" align="right">Members</label>
                     <select class="col-sm-12 col-md-9 col-lg-8 form-control" id="usersDropdown" name="users[]" multiple>
                         @foreach($userList as $user)
-                                <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
+                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -112,9 +112,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="row align-items-center">
-                        <div class="col-lg-12" align="center">Really, do you want to delete this group?</div>
-                        <a href="{{ route('groups.destroy', ['id'=>$group->id]) }}" id="btn-newgroup"
-                            class="btn btn-danger btn-sm" role="button">Yes, Delete</a>
+                        <div class="col-lg-12" align="center">Really, do you want to delete this research group?</div>
+                        <form action="{{ route('researchGroups.destroy', ['id'=>$researchGroup->id]) }}"
+                            method="POST">
+                            <fieldset id="edit_group" class="edit_group">
+                                    {{ csrf_field() }} {{ method_field('DELETE') }}
+                                <div class="modal-footer no-border">
+                                    <input type="submit" name="submit" class="btn btn-danger btn-sm" role="button" value="Yes, Delete">
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>

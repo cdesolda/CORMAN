@@ -33,7 +33,6 @@ class EditResearchGroupRequest extends FormRequest
             'group_name' => 'bail|required|filled|max:255|unique:groups,name,'.$groupID,
             'description' => 'bail|nullable|max:1000',
             'profile_photo' => 'bail|image|max:15000',
-            'visibility' => 'required|in:public,private',
             
             'users' => 'required',
             'users.*' => 'required|filled',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateResearchGroupRequest;
+use App\Http\Requests\EditResearchGroupRequest;
 use App\Notifications\JoinResearchGroupNotification;
 use App\Notifications\ResearchGroupNotification;
 use App\Office;
@@ -318,23 +319,27 @@ class ResearchGroupController extends Controller
      */
     public function destroy($id)
     {
-        // $user = User::find(Auth::id());
+        $user = User::find(Auth::id());
         $group = ResearchGroup::find($id);
         // if ($group->users->find($user->id)->role == 'admin') {
-        //     $group->users()->detach($group->id);
-        //     $group->members()->detach($group->id);
-        //     $group->invited()->detach($group->id);
-        //     $group->admins()->detach($group->id);
-        //     $group->topics()->detach($group->id);
-        //     $group->shares()->detach($group->id);
-        //     $group->delete();
+        if ($group->admins->pluck('id')->contains($user->id)) {
+            error_log('User ' . $user->id . ' is admin of group ' . $group->id);
+            $group->users()->detach();
+            $group->members()->detach();
+            $group->invited()->detach();
+            $group->admins()->detach();
+            $group->offices()->detach();
+            $group->research_lines()->detach();
+            $group->delete();
 
-        //     Redirect('/users')->with('success', 'Group deleted correctly.');
+            return redirect()->route('users.index');
 
-        // } else {
-        //     return "You can't delete this group, your are not an admin!";
-        // }
+        } else {
+            error_log('User ' . $user->id . ' is NOT admin of group ' . $group->id);
+            return "You can't delete this group, your are not an admin!";
+        }
 
+        error_log('User ' . $user->id . 'is WTF admin of group ' . $group->id);
         return redirect()->route('researchGroups.show', ['id' => $group->id]);
     }
 
