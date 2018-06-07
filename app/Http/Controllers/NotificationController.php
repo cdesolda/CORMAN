@@ -23,6 +23,21 @@ class NotificationController extends Controller
             ResearchGroup::find($acceptedNotification->data['researchGroup']['id'])->users()->syncWithoutDetaching([$acceptedNotification->data['user']['id'] => ['state' => 'accepted']]);
             $acceptedNotification->delete();
             return redirect()->route('researchGroups.show', $acceptedNotification->data['researchGroup']['id']);
+        } else if (strlen($id) == 40) {
+            $refusedid = substr($id, 0, strlen($id) - 4);
+            $acceptedNotification = $user->notifications()->where('id', $refusedid)->first();
+            $researchGroup = ResearchGroup::find($acceptedNotification->data['researchGroup']['id']);
+            $userID = $acceptedNotification->data['authUser']['id'];
+            // Se ha premuto su accetta
+            if (substr($id, -1) == '1') {
+                //Rendo lo user della notfica membro del gruppo
+                $researchGroup->users()->syncWithoutDetaching([$userID => ['state' => 'accepted']]);
+            } else {
+                //Elimino lo user dai membri (pendenti) del gruppo
+                $researchGroup->users()->detach($userID);
+            }
+            $acceptedNotification->delete();
+            return redirect()->route('researchGroups.show', $acceptedNotification->data['researchGroup']['id']);
         } else if (strlen($id) == 37) {
             $refusedid = substr($id, 0, strlen($id) - 1);
             $refusedNotification = $user->notifications()->where('id', $refusedid)->first();

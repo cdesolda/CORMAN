@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\ResearchGroupNotification;
-
-use Illuminate\Support\Facades\Redirect;
-use Image;
-
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-
 use App\Http\Requests\CreateResearchGroupRequest;
-
-use App\User;
-use App\ResearchLine;
+use App\Notifications\JoinResearchGroupNotification;
+use App\Notifications\ResearchGroupNotification;
 use App\Office;
 use App\ResearchGroup;
-
-
+use App\ResearchLine;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Image;
 
 class ResearchGroupController extends Controller
 {
@@ -86,7 +79,6 @@ class ResearchGroupController extends Controller
             $newResearchGroup->picture_path = '/images/researchGroups/researchGroup_icon.png';
         }
 
-
         //Increment count for the first member
         $newResearchGroup->subscribers_count = 1;
         $newResearchGroup->save();
@@ -136,12 +128,11 @@ class ResearchGroupController extends Controller
         User::where('id', $request->users)->get()->each(function ($user) use ($newResearchGroup) {
             $newResearchGroup->users()->attach($user->id, [
                 'role' => 'member',
-                'state' => 'pending'
+                'state' => 'pending',
             ]);
 
             $user->notify(new ResearchGroupNotification($newResearchGroup, auth()->user()));
         });
-
 
         return redirect()->route('researchGroups.show', ['id' => $newResearchGroup->id]);
     }
@@ -155,7 +146,7 @@ class ResearchGroupController extends Controller
     public function show($id)
     {
         // Replace with shares of publication-group-model
-        $authUser =  Auth::user();
+        $authUser = Auth::user();
         $researchGroup = ResearchGroup::find($id);
         $isMember = in_array($authUser->id, $researchGroup->users->map(function ($user) {
             return $user->id;
@@ -168,22 +159,39 @@ class ResearchGroupController extends Controller
         // $postsGroups = PostGroup::where('group_id', $id)->with('commented')->get();
 
         // $commentsList = collect();
-        
+
         // foreach ($postsGroups as $postGroup){
 
         //     foreach($postGroup->commented as $commentPost) {
         //         $commentsList->push($commentPost);
         //     }
         // }
-        
 
-        return view('Pages.ResearchGroup.detail', ['user'=>$authUser, 'researchGroup'=>$researchGroup,'sharesList'=>collect(), 'isMember'=>$isMember]);
+        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => collect(), 'isMember' => $isMember]);
     }
 
-    public function requestToJoin() {
+    public function requestToJoin()
+    {
         $userID = \Route::getCurrentRequest()->query('userID');
         $groupID = \Route::getCurrentRequest()->query('groupID');
         error_log('User ' . print_r($userID, true) . ' requested to join research group ' . print_r($groupID, true));
+        $researchGroup = ResearchGroup::find($groupID);
+        //Ottengo tutti gli admin del gruppo
+        $groupAdmins = $researchGroup->admins();
+        $groupAdmins->get()->each(function ($admin) use ($researchGroup, $userID) {
+            //Inserisco l'utente tra i membri pendenti del gruppo
+            $researchGroup->users()->attach($userID, [
+                'role' => 'member',
+                'state' => 'pending',
+                'created_at' => now(), 
+                'updated_at' => now()
+            ]);
+
+            error_log('User ' . print_r($admin->first_name, true) . '  ' . print_r($admin->last_name, true) . 'notified!');
+            //Mando una notifica ad ogni admin per richiedere l'accettazione
+            $admin->notify(new JoinResearchGroupNotification($researchGroup, auth()->user()));
+        });
+
         return redirect()->route('researchGroups.show', ['id' => $groupID]);
     }
 
@@ -220,7 +228,6 @@ class ResearchGroupController extends Controller
     //     $group->name = $request->input('group_name');
     //     $group->description = $request->input('description');
 
-
     //     if (($request->hasFile('profile_photo'))) {
     //         $file = $request->file('profile_photo');
     //         if ($file->isValid()) {
@@ -241,7 +248,6 @@ class ResearchGroupController extends Controller
     //     }
 
     //     $group->save();
-
 
     //     // Handling add and deletion of group topics
     //     $topicList = Topic::all()->pluck('id');
@@ -265,7 +271,6 @@ class ResearchGroupController extends Controller
     //         $group->topics()->attach($newTopic);
     //     }
 
-
     //     // Adding the list of members
     //     $memberList = Group::find($id)->users->pluck('id');
     //     $newMemberList = collect($request->input('users'));
@@ -273,9 +278,7 @@ class ResearchGroupController extends Controller
     //     $remove = $memberList->diff($newMemberList);
     //     $add = $newMemberList->diff($memberList);
 
-
     //     $group->users()->detach($remove);
-
 
     //     User::where('id', $request->users)->get()->each(function ($user) use ($group, $add) {
     //         foreach ($add as $useradd) {
@@ -291,7 +294,6 @@ class ResearchGroupController extends Controller
     //     } else {
     //         $group->public = 'private';
     //     }
-
 
     //     return redirect()->route('groups.show', ['id' => $group->id]);
 
@@ -348,7 +350,6 @@ class ResearchGroupController extends Controller
 
     //     return response()->json(['redirectTo' => '/groups']);
     // }
-
 
     // public function ajaxInfo(Request $request)
     // {

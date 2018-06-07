@@ -82,6 +82,9 @@
                         @elseif($notification->type == 'App\Notifications\ResearchGroupNotification')
                         @include('Layout.notification.researchGroupNotification')
                         <hr>
+                        @elseif($notification->type == 'App\Notifications\JoinResearchGroupNotification')
+                        @include('Layout.notification.joinResearchGroupNotification')
+                        <hr>
                         @elseif($notification->type == 'App\Notifications\PostNotification')
                         @include('Layout.notification.postNotification')
                         <hr>
