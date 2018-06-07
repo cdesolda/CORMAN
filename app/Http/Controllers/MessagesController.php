@@ -119,19 +119,6 @@ class MessagesController extends Controller
             ]);
     }
 
-    //FUNZIONE CHE INSERISCE IL NOME DEL FILE NEL CAMPO ATTACHMENT DELLA TABELLA MESSAGES
-    public function send_attach($id_to, $attach)
-    {
-
-      DB::table('messages')->insertGetId(
-            ['user_from' => Auth::user()->id,
-                'user_to' =>$id_to,
-                'msg'=> '',
-                'status' => '0',
-                'attachment' => $attach,
-            ]);
-    }
-
     public function insert_conversations($id_to)
     {
         DB::table('conversation')
@@ -181,6 +168,43 @@ class MessagesController extends Controller
             [
                 'status' => '1',
             ]);
+    }
+	
+	public function getUpdate()
+    {
+        $mess = DB::table('messages')
+            ->where('messages.user_to', '=' , Auth::user()->id)
+            ->where('messages.status', '=', '0')
+            ->select('messages.*')
+            ->get();
+
+            $mess = json_decode($mess, true);
+
+             for ($i = 0, $n = count($mess); $i < $n ; $i++) {
+
+                 if($mess[$i]['msg']!=""){
+
+                        $value=$mess[$i]['msg'];
+                        $value=decrypt($value);
+                        $mess[$i]['msg']=$value;
+                    }
+
+
+         }
+            return($mess);
+
+    }
+
+    public function last_id()
+    {
+        $mess = DB::table('messages')
+            ->where('messages.user_to', '=' , Auth::user()->id)
+            ->select('messages.*')
+            ->orderBy('id','desc')
+            ->get();
+
+        return($mess);
+
     }
 
     public function create()
@@ -245,11 +269,30 @@ class MessagesController extends Controller
     }
 
     //FUNZIONE PER COPIARE IL FILE NELLA CARTELLA 'UPLOADS'
-    public function showUploadFile(Request $request){
+    public function showUploadFile(Request $request, $id_to)
+
+
+    {
+
         $file = $request->file('file');
+        $current_timestamp_by_mktime = mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"));
+        $ext = strtolower($file->getClientOriginalExtension());
+        $file1 = $current_timestamp_by_mktime;
+        $nome= $file->getClientOriginalName();
+        $file2= $file1  . '_' . $nome;
 
         //Move Uploaded File
         $destinationPath = 'uploads';
-        $file->move($destinationPath,$file->getClientOriginalName());
-        }
+        $file->move($destinationPath, $file2);
+
+        DB::table('messages')->insertGetId(
+            [  'user_from' => Auth::user()->id,
+                'user_to' => $id_to,
+                'msg' => '',
+                'status' => '0',
+                'attachment' => $file2,
+            ]);
+    }
+		
+
 }

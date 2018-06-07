@@ -97,9 +97,11 @@ Route::get('/chat/seen/{id}', 'MessagesController@seen');
 Route::get('/notifications_chat', 'MessagesController@show_notifications_chat');
 
 // Attachments Routes 
-Route::get('/chat/send/attach/{id_to}/{attach}', 'MessagesController@send_attach');
-Route::post('/chat','MessagesController@showUploadFile');
+Route::post('/chat/{id_to}','MessagesController@showUploadFile');
 
+// Real Time Routes
+Route::get('/chat/getUpdate','MessagesController@getUpdate');
+Route::get('/chat/last_id', 'MessagesController@last_id');
 
 //Notification
 Route::resource('notifications/{id}','NotificationController');

@@ -12,14 +12,13 @@
             </form>
             <div id="result_search">
             </div>
-			<div id="cv">
-            <h4 align="center" class="colorFont">Conversations</h4>
-            <hr></div>
+            <h4 align="center" id="cv" class="colorFont">Conversations</h4>
+            <hr>
             <div id="conversations" class="displayNone">  </div>
         </div>
     </div>
     <div class="col-md-8 pull-right" id="main_welcome">
-        <div class="col-sx-12" align="center" style="padding: 150px">
+        <div class="col-sm-12" align="center" style="padding: 150px">
             <img src="images/logo_corman.png" height="100" width="100" alt="CORMAN Logo"><br>
             <h4 align="center" class="colorFont">Start a new conversation</h4>
             <p align="center" class="colorFont">Connect, share and start to build new knowledge right now!</p>
@@ -29,7 +28,7 @@
         <div class="row">
             <div class="col-md-8 msg_main">
                 <hr>
-                <h4 class="user_name">Messages</h4>
+                <h4 class="user_name"></h4>
                 <hr>
                 <div id="finestra">
                     <div id="mex">
@@ -37,10 +36,10 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-1 btn-group center" >
+                    <div  id="cv2" class="col-xs-1 col-md-1 btn-group" >
                         <button type="button" class="btn btn-outline fa fa-paperclip fa-lg" id="open_modal"></button>
                     </div>
-                    <div class="col-md-10 pull-left" id="area_mex">
+                    <div class="col-xs-11 col-md-11 pull-left" id="area_mex">
                     </div>
                 </div>
             </div>
@@ -57,7 +56,7 @@
                             <h4 class="user_name"></h4>
                             <hr>
                         </div>
-                        <div class="col-md-12" style="margin:10px; font-size:13px">
+                        <div class="col-md-12" style="margin:10px; font-size:0.8125em">
                             <b>Email: </b><a id="user_email"></a><br>
                             <b>Role: </b><a id="user_role"></a><br>
                             <b>Affiliation: </b><i id="user_affiliations"></i><br>
@@ -110,7 +109,7 @@
                 url: url1,
                 data: {'messages': $ricerca},
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $('#result_search').html(data);
                 }
             });
@@ -136,18 +135,21 @@
             url: url1,
     
             success: function (data) {
-                 console.log(data);
+                // console.log(data);
                  $('.user_name').html(data[0]["first_name"]+" "+data[0]["last_name"]);
                  $('#user_email').html('<a href="mailto:'+ data[0]["email"] + '">'+data[0]["email"]+'</a>');
     	         $('#user_affiliations').html(data[0]["user_affiliation"]);
                  $('#user_role').html(data[0]["user_role"]);
                  $('#user_picture_path').attr("src",data[0]["picture_path"]);
                  $('#bt').html('<button onclick="send('+data[0]["id"]+')" class="btn btn-primary" id="bt">Send</button>');
+				 
+				 var d = new Date();
+				var n = d.getTime();
      
                 //INSERIAMO NEL MODAL IL FORM IN BASE ALL'UTENTE SELEZIONATO
                 var url= '{{URL::to('chat')}}';
                 $('#send_file').html('<br> <h3 align="center">Select file to send to '+data[0]["first_name"]+" "+data[0]["last_name"] +'</h3>'+
-                    '<br><form id="invio" action="'+url+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send_attach('+data[0]["id"]+')">' +
+                    '<br><form id="invio" action="'+url+'/'+data[0]["id"]+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send_message('+data[0]["id"]+')">' +
                     '    {{csrf_field()}}' +
     	            '    <div class="text-center">'+
                     '    <input id="attach" type="file" name="file">' +
@@ -159,8 +161,8 @@
                     '<form id="invio" action="'+url+'/send/'+data[0]["id"]+'" method="POST" enctype="multipart/form-data" target="my_iframe" onsubmit="send_message('+data[0]["id"]+')">' +
                     '  {{csrf_field()}}' +
 					' <div class="row">'+
-                    '  <div class="col-md-10"><input id="mex_box" name="mex_box" class="form-control" autocomplete="off" style="height:50px" required></div>' +
-                    '  <div class="col-sx-2 btn-group" ><button class="btn btn-primary">Send</button></div>' +
+                    '  <div class="col-sm-10 col-md-10"><input id="mex_box" name="mex_box" class="form-control" autocomplete="off"  style="height:50px" required></div>' +
+                    '  <div class="col-sm-2 col-md-2 btn-group" ><button class="btn btn-primary">Send</button></div>' +
                     ' </div></form>' );
     
                 var x=data[0]["id"];
@@ -189,8 +191,9 @@
 </script>
 
 <script type="text/javascript">
+	var schermata=0;
     function show_messages(id){
-		show_notifications_chat();
+		schermata=id;
         $('#mex').html("");
         var url2 = '{{URL::to('chat')}}/messages/'+id;
     
@@ -199,7 +202,7 @@
             type: 'get',
             url: url2,
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 msg = data;
                 var num_non_letti=0;
                 var i=0;
@@ -293,34 +296,10 @@
                      objDiv.scrollTop = objDiv.scrollHeight;
                  }  
         });  
+		show_notifications_chat();
     }
 </script>
 
-<script type="text/javascript">
-    function send_attach(id) {
-        $('#mex').html("");
-
-        //TROVIAMO IL PERCORSO
-        var attach=$('input#attach').val();
-    
-        //RICAVIAMO IL NOME DEL FILE E LO MANDIAMO AL CONTROLLER PER POTERLO INSERIRE NEL DB
-        attach = attach.slice(12);
-        var url2 = '{{URL::to('chat')}}/send/attach/'+id+'/'+attach;
-        document.getElementById('mex_box').value = '';
-        insert_conversations(id);
-        console.log(url2);
-        $.ajax({
-                type: 'get',
-                url: url2,
-                success: function (data) {
-                    console.log(data);
-                }
-          })
-        show_conversation();
-        show_messages(id);
-        show_notifications_chat();
-     };
-</script>
 
 <script>
    function send_message(id) {
@@ -356,16 +335,30 @@
 	var message = $('#mex_box').val();
 
 
-	$('#mex').append('<div class="col-lg-10  pull-right">' +
-		' <div class="rightMsg">' + message+ '</div>' +
-		' </div>' + '<br> <p class="colorFont rightDate">' + data + '</p><br>');
+	if(message==""){
+
+        var attach=$('input#attach').val();
+        //RICAVIAMO IL NOME DEL FILE E LO MANDIAMO AL CONTROLLER PER POTERLO INSERIRE NEL DB
+        attach = attach.slice(12);
+        $('#mex').append('<div class="col-lg-10  pull-right">' +
+            ' <div class="rightMsg">Hai inviato il file: ' + attach+ '</div>' +
+            ' </div>' + '<br> <p class="colorFont rightDate">' + data + '</p><br>');
+
+    }
+    else {
+        $('#mex').append('<div class="col-lg-10  pull-right">' +
+            ' <div class="rightMsg">' + message + '</div>' + ' </div>' + '<br> <p class="colorFont rightDate">' + data + '</p><br>');
+
+    }
 
 	insert_conversations(id);
 	var objDiv = document.getElementById("finestra");
 	objDiv.scrollTop = objDiv.scrollHeight;
-	show_conversation();
+	refresh_conversation();
 	show_notifications_chat();
 	no_messages.style.display = 'none';
+	
+
 
 };
 </script>
@@ -374,8 +367,6 @@
     function show_conversation() {
     
 		show_notifications_chat();
-        conversations.style.display = 'none';
-    
         $('#conversations').html("");
 
         var url2 = '{{URL::to('chat')}}/conversations';
@@ -384,12 +375,10 @@
             type: 'get',
             url: url2,
             success: function (data) {
-                console.log(data);
-    
-    
+                //console.log(data);
+       
                 for (var i = 0; i < data.length; i++) {
-    
-                    $('#conversations').append('<a id="prova" href="#" onclick="showUsers('+data[i]["id"]+')">' +
+                    $('#conversations').append('<a href="#" id="'+data[i]["id"]+'" onclick="showUsers('+data[i]["id"]+')">' +
                     ' <div class="row color" style="margin-top: 5px;">' +
     				' <div class="col-2 pull-left"  style="margin:15px; ">' +
     				' <img src="'+data[i]["picture_path"]+'" width="50" height="50" alt="User Picture" style="border-radius:100%; margin-left: 15px">' +
@@ -399,11 +388,61 @@
     				' <p class="colorFont overText"  id="last_mex' +data[i]["id"]+'"></p>' +
     				' </div>' +
     				' <div class="col-4"  style="margin-top:15px; text-align:center">' +
-    				' <b class="colorFont" Style="font-size:10px;" id="last_mex_date' + data[i]["id"]+ '"></b>' +
+    				' <b class="colorFont" Style="font-size:0.625em;" id="last_mex_date' + data[i]["id"]+ '"></b>' +
     				' </div></div></a>');
                     var utente2=data[i]["id"];
                     (show_messages_conversation(utente2));
                 }
+				$("#mex_box").val('');
+
+            }
+        })
+    }
+    
+</script>
+
+
+<script type="text/javascript">
+    function refresh_conversation() {
+    
+		show_notifications_chat();
+		
+    
+
+        var url2 = '{{URL::to('chat')}}/conversations';
+   
+        $.ajax({
+            type: 'get',
+            url: url2,
+            success: function (data) {
+                //console.log(data);
+				
+				var elem = document.getElementById(data[0]["id"]);
+				if(elem){
+					document.getElementById(data[0]["id"]).remove();
+				}
+
+
+				     //var id=data[0]["id"];
+				    //$("#+data[0]['id"]+'").fadeIn(5000);
+
+                    $('#conversations').prepend('<a href="#" id="'+data[0]["id"]+'" onclick="showUsers('+data[0]["id"]+')">' +
+                    ' <div class="row color" style="margin-top: 5px;">' +
+    				' <div class="col-2 pull-left"  style="margin:15px; ">' +
+    				' <img src="'+data[0]["picture_path"]+'" width="50" height="50" alt="User Picture" style="border-radius:100%; margin-left: 15px">' +
+    				' </div>' +
+    				' <div class="col-5 pull-right" style="margin-top:15px;">' +
+    				' <b>'+data[0]["first_name"] + ' ' + data[0]["last_name"]+' ' + ' <font size="4" color="red"><b id="non_letti'+data[0]["id"]+'"></font></b>'+''+'</b>' +
+    				' <p class="colorFont overText"  id="last_mex' +data[0]["id"]+'"></p>' +
+    				' </div>' +
+    				' <div class="col-4"  style="margin-top:15px; text-align:center">' +
+    				' <b class="colorFont" Style="font-size:0.625em;" id="last_mex_date' + data[0]["id"]+ '"></b>' +
+    				' </div></div></a>');
+                    //var utente2=data[0]["id"];
+                    (show_messages_conversation(data[0]["id"]));
+
+
+                
 
                 document.getElementById("invio").reset();
             }
@@ -415,12 +454,12 @@
     function insert_conversations(id) {
     
         var url2 = '{{URL::to('chat')}}/conversations/add/'+id;
-        console.log(url2);
+        //console.log(url2);
         $.ajax({
             type: 'get',
             url: url2,
             success: function (data) {
-                console.log(data);
+                //console.log(data);
             }
         })
  
@@ -431,12 +470,12 @@
     function seen(id) {
     
         var url2 = '{{URL::to('chat')}}/seen/' + id;
-        console.log(url2);
+        //console.log(url2);
         $.ajax({
             type: 'get',
             url: url2,
             success: function (data) {
-                console.log(data);
+                //console.log(data);
     
             }
         })
@@ -455,7 +494,7 @@
             type: 'get',
             url: url2,
             success: function (data) {
-            console.log(data);
+            //console.log(data);
             msg = data;
             var num_non_letti=0;
             var i=0;
@@ -524,7 +563,7 @@
     
                             }
     
-                        $('#conversations').fadeIn(100);
+                        $('#conversations').fadeIn(500);
     
                     }
             }
@@ -534,12 +573,81 @@
 </script>
 
 <script type="text/javascript">
-    window.onload = function(){ 
+    
+	window.onload = function(){ 
     show_notifications_chat();
     show_conversation();
+	last_id();
     };
 </script>
 
+
+<script>
+        function getUpdate(id_mex) {
+            var url = '{{URL::to('chat')}}/getUpdate';
+            $.ajax({
+                type: 'get',
+                url: url,
+                async: false,
+                success: function (data) {
+                    //console.log(data);
+                    var i=data.length-1;
+                    if(data.length>0){
+                       if(data[i]["id"]>id_mex){
+                          refresh_conversation();
+                           ultimo_mex_id=data[i]["id"];
+                           if(data[i]["user_from"]==schermata){
+                               seen(data[i]["id"]);
+                               if (data[i]["msg"] == "") {
+                                   // QUANTO INVIA UN ALLEGATO IL CAMPO MSG = 0, QUINDI NON DEVE USCIRE L'ALLEGATO FILE
+                                   $('#mex').append('<div class="col-lg-10 pull-left">' +
+                                       '  <div  class="leftMsg">'+
+                                       '  <div align="center"><a href="{{url('/uploads')}}'+ '/'+ data[i]["attachment"]+'" download><span class="fa fa-file fa-3x"></span><br><font size="3" color="black">'+ data[i]["attachment"]+'</font></a></div>'+
+                                       '  </div></div></div>' +'<br> <p class="colorFont leftDate">' + data_convertita+ '</p>'+
+                                       '<br>');
+									   
+                               }
+                               else {
+                                   $('#mex').append('<div class="col-lg-10 pull-left">' +
+                                       '<div class="leftMsg">' + data[i]["msg"] +
+                                       ' </div></div><br> <p class="colorFont leftDate">' + data_convertita + '</p><br>');
+
+                               }
+                               var objDiv = document.getElementById("finestra");
+                               objDiv.scrollTop = objDiv.scrollHeight;
+                           }
+                       }
+                    }
+                }
+            });
+        }
+</script>
+
+<script>
+    var ultimo_mex_id=0;
+    function last_id() {
+        var url = '{{URL::to('chat')}}/last_id';
+        $.ajax({
+            type: 'get',
+            url: url,
+            async: false,
+            success: function (data) {
+            if(data.length>0){
+                ultimo_mex_id = data[0]["id"];
+                 }
+            }
+        });
+    }
+</script>
+
+<!-- REFRESH FUNCTION -->
+
+<script type="text/javascript">
+    setInterval(function() {
+
+        getUpdate(ultimo_mex_id);
+    }, 5000);
+</script>
 <script>
     //GESTIONE DEL MODAL
     var modal = document.getElementById('myModal');
