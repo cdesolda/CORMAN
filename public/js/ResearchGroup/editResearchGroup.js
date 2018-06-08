@@ -28,21 +28,21 @@ $(document).ready(function() {
 
     $.getJSON("/ajaxResearchGroupInfo?id="+groupId, function(data,status){
        $.each(data.researchLinesList, function(index,value) {
-            var newOption = new Option(value.name, value.id, false, true);
+            let newOption = new Option(value.name, value.id, false, true);
             $('#researchLinesDropdown').append(newOption);
         });
        $.each(data.officesList, function(index,value) {
-            var newOption = new Option(value.address, value.id, false, true);
+            let newOption = new Option(value.address, value.id, false, true);
             $('#officesDropdown').append(newOption);
         });
         $.each(data.memberList, function(index,value) {
-            var name = value.last_name+" " +value.first_name;
+            let name = value.last_name+" " +value.first_name;
             name = data.pendingList.includes(value.id) ? '(Pending) ' + name : name;
-            var newOption = new Option(name, value.id, false, true);
+            let newOption = new Option(name, value.id, false, true);
             $('#usersDropdown').append(newOption);
         });
         $.each(data.adminsList, function(index,value) {
-            var newOption = new Option(value.last_name+" " +value.first_name, value.id, false, true);
+            let newOption = new Option(value.last_name+" " +value.first_name, value.id, false, true);
             $('#adminsDropdown').append(newOption);
         });
     });

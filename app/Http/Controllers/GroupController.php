@@ -40,7 +40,8 @@ class GroupController extends Controller
     public function index()
     {
         /* vedere todo dashboard pubblicazioni*/
-        $groupList = Auth::user()->groups;
+        $groupList = Auth::user()->groups()->distinct()->get();
+        error_log(print_r($groupList, true));
         return view('Pages.Group.list', ['groupList' => $groupList]);
     }
 
@@ -292,13 +293,15 @@ class GroupController extends Controller
     {
         $user = User::find(Auth::id());
         $group = Group::find($id);
-        if ($group->users->find($user->id)->role == 'admin') {
-            $group->users()->detach($group->id);
-            $group->members()->detach($group->id);
-            $group->invited()->detach($group->id);
-            $group->admins()->detach($group->id);
-            $group->topics()->detach($group->id);
-            $group->shares()->detach($group->id);
+        if ($group->admins->pluck('id')->contains($user->id)) {
+            $group->users()->detach();
+            $group->members()->detach();
+            $group->invited()->detach();
+            $group->admins()->detach();
+            $group->topics()->detach();
+            foreach ($group->shares() as $share) {
+                $share->dissociate();
+            }
             $group->delete();
 
             Redirect('/users')->with('success', 'Group deleted correctly.');
