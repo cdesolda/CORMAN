@@ -59,6 +59,7 @@
                     </select>
                 </div>
 
+                @if($isAdmin)
                 <div class="form-group">
                     <label class="col-sm-12 col-md-3 col-lg-3" align="right">Admins</label>
                     <select class="col-sm-12 col-md-9 col-lg-8 form-control" id="adminsDropdown" name="admins[]" multiple>
@@ -67,6 +68,7 @@
                         @endforeach
                     </select>
                 </div>
+                @endif
 
                 <div class="form-group">
                     <label class="col-sm-12 col-md-3 col-lg-3" align="right">Edit Research Lines</label>
@@ -90,10 +92,11 @@
                     </select>
                 </div>
 
-                <!-- inserire if per bottone visibile solo da admin -->
+                @if($isAdmin)
                 <hr>
                 <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deleteGro">Delete Group</a>
                 <hr>
+                @endif
 
                 <input type="submit" name="submit" class="next action-button" value="Update" />
             </fieldset>

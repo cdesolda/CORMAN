@@ -149,9 +149,7 @@ class ResearchGroupController extends Controller
         // Replace with shares of publication-group-model
         $authUser = Auth::user();
         $researchGroup = ResearchGroup::find($id);
-        $isMember = in_array($authUser->id, $researchGroup->users->map(function ($user) {
-            return $user->id;
-        })->toArray());
+        $isMember = in_array($authUser->id, $researchGroup->users->pluck('id')->toArray());
         // $sharesList = Group::find($id)->shares->sortByDesc('created_at');
         // $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
         // $group = $authUser->groups->find($id);
@@ -169,6 +167,12 @@ class ResearchGroupController extends Controller
         // }
 
         return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => collect(), 'isMember' => $isMember]);
+    }
+
+    private function isAdmin($groupID, $userID) {
+        $researchGroup = ResearchGroup::find($groupID);
+        $adminsList = $researchGroup->admins->pluck('id');
+        return in_array($userID, $adminsList->toArray());
     }
 
     public function requestToJoin()
@@ -214,6 +218,8 @@ class ResearchGroupController extends Controller
         $researchLinesList = ResearchLine::all()->diff($thisgroup->research_lines);;
         $officesList = Office::all()->diff($thisgroup->offices);
 
+        $isAdmin = $this->isAdmin($id, Auth::user()->id);
+
         // error_log(print_r($pendingList->toArray(), true));
 
         return view('Pages.ResearchGroup.edit', [
@@ -222,7 +228,8 @@ class ResearchGroupController extends Controller
             'researchGroup' => $thisgroup, 
             'userList' => $userList,
             'membersList' => $memberList,
-            'group' => $thisgroup
+            'group' => $thisgroup,
+            'isAdmin' => $isAdmin
             ]);
     }
 
@@ -310,10 +317,31 @@ class ResearchGroupController extends Controller
             foreach ($add as $useradd) {
                 if ($user->id == $useradd) {
                     $group->users()->attach([$useradd  => ['state' => 'pending']]);
-                    $user->notify(new GroupNotification($group, auth()->user()));
+                    $user->notify(new ResearchGroupNotification($group, auth()->user()));
                 }
             }
         });
+
+        //Editing the list of admins
+        $adminsList = $group->admins->pluck('id');
+        $newAdminsList = collect($request->input('admins'));
+
+        $remove = $adminsList->diff($newAdminsList);
+        $add = $newAdminsList->diff($adminsList);
+
+        foreach ($group->members as $member) {
+            $isNewAdmin = in_array($member->id, $add->toArray());
+            $isNoMoreAdmin = in_array($member->id, $remove->toArray());
+            if ($isNewAdmin) {
+                $member->pivot->role = 'admin';
+                $member->pivot->save();
+            } elseif ($isNoMoreAdmin) {
+                $member->pivot->role = 'member';
+                $member->pivot->save();
+            }
+        }
+
+        error_log('Remove ' . print_r($remove, true));
 
         return redirect()->route('researchGroups.show', ['id' => $group->id]);
 
