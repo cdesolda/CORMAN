@@ -173,6 +173,7 @@ h6{
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 #specialButton, #btn-share, #addTo{
+    border: 1px solid;
     border-color: darkorange;
     color: darkorange;
     background-color: white;
@@ -222,4 +223,27 @@ div.card.border-primary {
 
 div.h4.border-primary {
     
+}
+
+.toggle-handle {
+    background: white;
+    border: 2px solid #eaeaea;
+}
+
+.toggle-off {
+    background: #f3f3f3;
+}
+
+.toggle {
+    border: 1px solid var(--primary);
+}
+.toggle.off {
+    border: 1px solid #c4c4c4;
+}
+
+.section-header {
+    background: #f3f3f3;
+}
+.section-content {
+    margin-top: 8px;
 }

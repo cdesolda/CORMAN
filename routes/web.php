@@ -55,7 +55,7 @@ Route::resource('researchGroups','ResearchGroupController');
 Route::get('requestToJoin', 'ResearchGroupController@requestToJoin');
 // // Ajax routes
 Route::get('ajaxResearchGroupInfo', 'ResearchGroupController@ajaxInfo');
-// Route::post('share', 'GroupController@share');
+Route::post('researchGroupShare', 'ResearchGroupController@share');
 // Route::post('leave', 'GroupController@leave');
 
 //** Post Routes **//

@@ -54,5 +54,12 @@ class ResearchGroup extends Model
             'research_groups_office'
         );
     }
+
+    public function shares(){
+        return $this->hasMany(
+            'App\PublicationResearchGroup',
+            'rgroup_id'
+        );
+    }
 }
 

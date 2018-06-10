@@ -8,6 +8,7 @@ use App\Notifications\JoinResearchGroupNotification;
 use App\Notifications\ResearchGroupNotification;
 use App\Office;
 use App\ResearchGroup;
+use App\PublicationResearchGroup;
 use App\ResearchLine;
 use App\User;
 use Illuminate\Http\Request;
@@ -150,23 +151,9 @@ class ResearchGroupController extends Controller
         $authUser = Auth::user();
         $researchGroup = ResearchGroup::find($id);
         $isMember = in_array($authUser->id, $researchGroup->users->pluck('id')->toArray());
-        // $sharesList = Group::find($id)->shares->sortByDesc('created_at');
-        // $groupList = $authUser->groupsAsMember->where('id', '<>', $id);
-        // $group = $authUser->groups->find($id);
-        // $postList = Group::find($id)->posted->sortByDesc('created_at');
+        $sharesList = $researchGroup->shares->sortByDesc('created_at');
 
-        // $postsGroups = PostGroup::where('group_id', $id)->with('commented')->get();
-
-        // $commentsList = collect();
-
-        // foreach ($postsGroups as $postGroup){
-
-        //     foreach($postGroup->commented as $commentPost) {
-        //         $commentsList->push($commentPost);
-        //     }
-        // }
-
-        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => collect(), 'isMember' => $isMember]);
+        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember]);
     }
 
     private function isAdmin($groupID, $userID) {
@@ -376,23 +363,23 @@ class ResearchGroupController extends Controller
         return redirect()->route('researchGroups.show', ['id' => $group->id]);
     }
 
-    // public function share(Request $request)
-    // {
+    public function share(Request $request)
+    {
 
-    //     $publicationList = $request->input('publicationList');
-    //     $userId = Auth::user()->id;
-    //     $groupId = $request->input('groupId');
-    //     foreach ($publicationList as $publication) {
-    //         $share = PublicationGroup::firstOrNew(['publication_id' => $publication['id'], 'group_id' => $groupId]);
-    //         $share->user_id = $userId;
+        $publicationList = $request->input('publicationList');
+        $userId = Auth::user()->id;
+        $groupId = $request->input('groupId');
+        foreach ($publicationList as $publication) {
+            $share = PublicationResearchGroup::firstOrNew(['publication_id' => $publication['id'], 'rgroup_id' => $groupId]);
+            $share->user_id = $userId;
 
-    //         $share->save();
-    //     }
-    //     $redirectPath = '/groups/' . $groupId;
-    //     return response()->json(['message' => 'Your pubblications have been added! Take a look at',
-    //         'redirectTo' => $redirectPath]);
+            $share->save();
+        }
+        $redirectPath = '/researchGroups/' . $groupId;
+        return response()->json(['message' => 'Your pubblications have been added! Take a look at',
+            'redirectTo' => $redirectPath]);
 
-    // }
+    }
 
     // public function leave(Request $request){
     //     $group = Group::find($request->input('groupID'));
