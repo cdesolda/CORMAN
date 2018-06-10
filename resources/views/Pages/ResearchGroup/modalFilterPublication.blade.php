@@ -49,8 +49,8 @@
         <label class="input-group-text" for="date-sorting-select">Date</label>
     </div>
     <select class="custom-select" id="date-sorting-select">
-        <option value="desc">Descending</option>
-        <option selected value="asc">Ascending</option>
+        <option selected value="desc">Descending</option>
+        <option value="asc">Ascending</option>
     </select>
 </div>
 <div class="row">

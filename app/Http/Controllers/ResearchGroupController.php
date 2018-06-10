@@ -161,24 +161,40 @@ class ResearchGroupController extends Controller
     private function filterPublications($publications) {
         $authorsFilter = \Route::getCurrentRequest()->query('author');
         $linesFilter = \Route::getCurrentRequest()->query('research_lines');
-        $typesFilter = \Route::getCurrentRequest()->query('types');
+        $typeFilter = \Route::getCurrentRequest()->query('type');
         $dateSorting = \Route::getCurrentRequest()->query('date');
 
         if($authorsFilter) {
-            foreach($authorsFilter as $authorID) {
-                error_log('Need to filter for author ' . print_r($authorID, true));
-            }
             $publications = $publications->filter(function ($value, $key)  use ($authorsFilter) {
                 $publication = $value->publication;
                 $authorsID = $publication->authors->pluck('id')->toArray();
                 $diff = array_diff($authorsFilter, $authorsID);
-                error_log('Authors ' . print_r($authorsID, true));
-                error_log('Diff ' . print_r($diff, true));
                 return count($diff) != count($authorsFilter);
             });
         }
 
-        return $publications->sortByDesc('created_at');
+        if ($typeFilter) {
+            $publications = $publications->filter(function ($value, $key)  use ($typeFilter) {
+                $publication = $value->publication;
+                return (strcmp($publication->type, $typeFilter) == 0);
+            });
+        }
+
+        if ($dateSorting && strcmp($dateSorting, 'asc') == 0) {
+            $publications = $publications->sortBy(function ($value, $key) {
+                return $this->getPublicationTimestamp($value->publication);
+            });
+        } else {
+            $publications = $publications->sortByDesc(function ($value, $key) {
+                return $this->getPublicationTimestamp($value->publication);
+            });
+        }
+
+        return $publications;
+    }
+
+    private function getPublicationTimestamp(Publication $publication) {
+        return \DateTime::createFromFormat('Y-m-d', $publication->year)->getTimestamp();
     }
 
     private function getListSettings($researchGroup) {
