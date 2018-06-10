@@ -102,17 +102,17 @@ class UserController extends Controller
             }, '');
         }
         return [
-            !is_null($publication) ? [
+            [
                 'groupTitle' => 'Publications',
-                'title' => $publication->title,
+                'title' => !is_null($publication) ? $publication->title : 'No publications',
                 'subtitle' => '',
                 'imagePath' => '',
                 'viewMoreRoute' => 'publications.index',
                 'createRoute' => 'publications.create',
                 'createName' => 'New Publication',
                 'duskID' => 'newPublicationButton',
-                'item' => $publication
-            ] : null,
+                'item' => $publication 
+            ],
             !is_null($researchGroup) ?[
                 'groupTitle' => 'Research Groups',
                 'title' => $researchGroup->name,

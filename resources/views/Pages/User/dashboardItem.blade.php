@@ -13,7 +13,7 @@
                     <img class="groupImage" src="{{ url($item['imagePath']) }}" alt="Card image cap">
                 </div>
             @endif
-            @if(!$item['imagePath']) 
+            @if(!$item['imagePath'] && $item['item']) 
                 <div class="item-text no-image col-12" data-toggle="modal" data-target="#modalPublication_{{ $item['item']->id }}">
                     <div id="title">{{ $item['title'] }}</div>
                     <div id="subtitle">{{ $item['subtitle'] }}</div>
@@ -34,6 +34,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            @endif
+            @if(!$item['imagePath'] && !$item['item']) 
+                <div class="item-text no-image col-12">
+                    <div id="title">{{ $item['title'] }}</div>
                 </div>
             @endif
         </div>
