@@ -173,6 +173,21 @@ class ResearchGroupController extends Controller
             });
         }
 
+        if($linesFilter) {
+            $publications = $publications->filter(function ($value, $key)  use ($linesFilter) {
+                $publication = $value;
+                if ($publication->rline) {
+                    $linesID = collect($publication->rline->id)->toArray();
+                    $diff = array_diff($linesFilter, $linesID);
+                    error_log('linesID ' . print_r($linesID, true) );
+                    error_log('Diff ' . print_r($diff, true) );
+                    return count($diff) != count($linesFilter);
+                } else {
+                    return true;
+                }
+            });
+        }
+
         if ($typeFilter) {
             $publications = $publications->filter(function ($value, $key)  use ($typeFilter) {
                 $publication = $value->publication;
@@ -207,7 +222,12 @@ class ResearchGroupController extends Controller
             $publication = Publication::find($item->publication_id);
             return $publication->type;
         })->unique();
-        return array('researchers'=>$authors, 'research_lines'=>collect(), 'publication_types'=>$publication_types);
+        $research_lines = $publications->map(function ($item, $key) use ($researchGroup) {
+            $researchGroupPublication = PublicationResearchGroup::where(['publication_id' => $item->publication_id, 'rgroup_id' => $researchGroup->id])->get()->first();
+            $researchLine = $researchGroupPublication->rline;
+            return $researchLine;
+        })->unique('id');
+        return array('researchers'=>$authors, 'research_lines'=>$research_lines, 'publication_types'=>$publication_types);
     }
 
     private function isAdmin($groupID, $userID) {

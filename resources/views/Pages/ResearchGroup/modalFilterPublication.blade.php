@@ -19,14 +19,16 @@
     </div>
 </div>
 @foreach(($listSettings['research_lines']) as $research_line)
-    <div class="row section-content">
-        <div class="col-10">
-            <span>{{ $research_line->name }}</span>
+    @if($research_line) 
+        <div class="row section-content">
+            <div class="col-10">
+                <span>{{ $research_line->name }}</span>
+            </div>
+            <div class="col-2">
+                <input id="toggle-researchLine-{{ $research_line->id }}" type="checkbox" checked data-toggle="toggle">
+            </div>
         </div>
-        <div class="col-2">
-            <input id="toggle-researchLine-{{ $research_line->id }}" type="checkbox" checked data-toggle="toggle">
-        </div>
-    </div>
+    @endif
 @endforeach
 <div class="row mt-2">
     <div class="col-12 section-header pt-2">

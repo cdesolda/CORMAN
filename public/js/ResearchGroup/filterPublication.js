@@ -23,12 +23,20 @@ function getURLParam(key,target){
 }
 
 function getCheckedIDforKey(key, toggleInputs) {
-    const arr =  toggleInputs.filter(function (idx,toggle) {
+    const filteredInputs = toggleInputs.filter(function (idx,toggle) {
         return toggle.checked && toggle.id.includes(key);
-    }).map(function (idx, toggle) {
+    });
+    const arr =  filteredInputs.map(function (idx, toggle) {
         return toggle.id.split('-')[2];
     }).toArray();
-    return arr.length != toggleInputs.toArray().length ? arr : []
+    if (filteredInputs.toArray().length == 0) {
+        return [-1];
+    } else if (arr.length == filteredInputs.toArray().length) {
+        return [];
+    }  else {
+        return arr
+    }
+    // return arr.length != filteredInputs.toArray().length ? arr : []
 }
 
 function getSelectValueExcludingDefault(defaultValue, selectID) {
@@ -42,7 +50,7 @@ function setEnabledForKey(key, enabled) {
     $('[data-toggle=toggle]').filter(function (idx,toggle) {
         return toggle.id.includes(key);
     }).each(function (idx, toggle) {
-        const isEnabled = enabled.includes(toggle.id.split('-')[2]);
+        const isEnabled = enabled.includes('\b' + toggle.id.split('-')[2] + '\b');
         $(toggle).bootstrapToggle(isEnabled ? 'on' : 'off');
     })
 }
@@ -62,7 +70,7 @@ function setFilters() {
         setEnabledForKey('researcher', urlParams.author)
     }
     if (urlParams.research_lines) {
-        setEnabledForKey('researcher', urlParams.research_lines)
+        setEnabledForKey('researchLine', urlParams.research_lines)
     }
     if (urlParams.type) {
         setSelectValue('type-select', urlParams.type)

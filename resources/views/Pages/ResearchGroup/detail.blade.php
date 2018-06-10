@@ -89,7 +89,7 @@
 
                 <div class="row">
                     @foreach($sharesList as $share)
-                        @include('Pages.Publication.singleInGroup', ['share'=>$share])
+                        @include('Pages.Publication.singleInResearchGroup', ['share'=>$share])
                     @endforeach
                 </div>
             </div>
