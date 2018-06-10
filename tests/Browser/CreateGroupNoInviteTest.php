@@ -9,12 +9,7 @@ use \App\User;
 use \App\Group;
 
 class CreateGroupNoInviteTest extends DuskTestCase
-{
-    /**
-     *
-     * @return void
-     */
-	 
+{	 
 	 /**
      * @group CreateGroupNoInviteTest
      */
@@ -22,7 +17,9 @@ class CreateGroupNoInviteTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/users')
+					->visit('/users')
+					->waitFor('[dusk=newGroupButton]')
+					->scrollTo('[dusk=newGroupButton]')
 					->click('@newGroupButton')
 					->type('name','Gruppo di prova')
 					->pause(500)
