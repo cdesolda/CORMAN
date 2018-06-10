@@ -19,6 +19,10 @@ class PublicationResearchGroup extends Model
         return $this->belongsTo('App\ResearchGroup');
     }
 
+    public function rline(){
+        return $this->belongsTo('App\ResearchLine');
+    }
+
     public function publication(){
         return $this->belongsTo('App\Publication');
     }

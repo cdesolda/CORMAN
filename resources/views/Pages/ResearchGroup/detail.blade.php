@@ -124,7 +124,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @include('Pages.Group.modalAddPublication')
+                    @include('Pages.ResearchGroup.modalAddPublication')
                 </div>
             </div>
         </div>
@@ -187,8 +187,10 @@
     <script src="{{ url('js/popper.min.js') }}"></script>
     <script src="{{ url('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-US.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/editable/bootstrap-table-editable.min.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="{{ url('js/ResearchGroup/sharePublication.js') }}"></script>
     <script src="{{ url('js/ResearchGroup/filterPublication.js') }}"></script>

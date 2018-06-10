@@ -424,8 +424,10 @@ class ResearchGroupController extends Controller
         $userId = Auth::user()->id;
         $groupId = $request->input('groupId');
         foreach ($publicationList as $publication) {
+            error_log('Publication ' . print_r($publication['id'], true) . 'to group ' .  print_r($groupId, true) . ' with research line ' . $publication['research_lines']);
             $share = PublicationResearchGroup::firstOrNew(['publication_id' => $publication['id'], 'rgroup_id' => $groupId]);
             $share->user_id = $userId;
+            $share->rline_id = $publication['research_lines'];
 
             $share->save();
         }
@@ -447,6 +449,9 @@ class ResearchGroupController extends Controller
     {
         $researchGroup = ResearchGroup::find($request->query('id'));
         $researchLinesList = $researchGroup->research_lines;
+        $researchLinesListSelect = $researchLinesList->map(function ($researchLine) {
+            return (object) ['value' => $researchLine->id, 'text' => $researchLine->name];
+        });
         $officesList = $researchGroup->offices;
         $memberList = $researchGroup->users; 
         $adminsList = $researchGroup->admins;
@@ -455,10 +460,22 @@ class ResearchGroupController extends Controller
             'researchLinesList' => $researchLinesList, 
             'officesList' => $officesList, 
             'researchLinesList' => $researchLinesList, 
+            'researchLinesListSelect' => $researchLinesListSelect, 
             'adminsList' => $adminsList,
             'memberList' => $memberList,
             'pendingList' => $pendingList
         );
+        return response()->json($data);
+    }
+
+    public function ajaxResearchLineInfo(Request $request)
+    {
+        $researchGroup = ResearchGroup::find($request->query('id'));
+        $researchLinesList = $researchGroup->research_lines;
+        $researchLinesListSelect = $researchLinesList->map(function ($researchLine) {
+            return (object) ['value' => $researchLine->id, 'text' => $researchLine->name];
+        });
+        $data = $researchLinesListSelect;
         return response()->json($data);
     }
 

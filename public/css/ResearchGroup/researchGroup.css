@@ -247,3 +247,22 @@ div.h4.border-primary {
 .section-content {
     margin-top: 8px;
 }
+
+.glyphicon-ok:before {
+    content: "\f00c";
+}
+.glyphicon-remove:before {
+    content: "\f00d";
+}
+.glyphicon {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+select.form-control.input-sm {
+    width: 200px;
+}

@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Support\Facades\File;
+use App\Author;
+use App\Conference;
+use App\Editorship;
+use App\ResearchGroup;
+use App\Http\Requests\CreatePublicationRequest;
+use App\Http\Requests\EditPublicationRequest;
+use App\Journal;
 use App\Notifications\PublicationNotification;
+use App\Publication;
+use App\Topic;
 use App\User;
+use function PHPSTORM_META\type;
+use GuzzleHttp\Client;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 use Image;
-
-
-use App\Http\Requests\CreatePublicationRequest;
-use App\Http\Requests\EditPublicationRequest;
-
-use App\Publication;
-use App\Journal;
-use App\Conference;
-use App\Editorship;
-use App\Author;
-use App\Topic;
-use function PHPSTORM_META\type;
 
 class PublicationController extends Controller
 {
@@ -68,10 +63,10 @@ class PublicationController extends Controller
     {
         //dd($request->all());
         /*
-        *Create new publications
-        * for all fields of the form fill the field of database
-        * for all elements of the author field form input 
-        */
+         *Create new publications
+         * for all fields of the form fill the field of database
+         * for all elements of the author field form input
+         */
         // TODO resolve the resubmission
 
         // Create new publication
@@ -89,32 +84,31 @@ class PublicationController extends Controller
         }
 
         //Handling Media
-        
+
         //  Random unique folder name for each publication
         //       '/images/publicationMedia/nomefile.png'
-        $folderName = md5(date('c').str_random(25));
+        $folderName = md5(date('c') . str_random(25));
         $folderPath = File::makeDirectory(public_path() . "/images/publicationMedia/" . $folderName);
-        
+
         //  Trattamento media nel form
 
         if ($request->hasFile('pdf_file')) {
-            if ( isset($request->pdf_file) ) {
+            if (isset($request->pdf_file)) {
 
                 $fileName = str_random(15) . '.' . $request->file('pdf_file')->getClientOriginalExtension();
-                $request->file('pdf_file')->move(public_path() . "/images/publicationMedia/" . $folderName.'/', $fileName);
+                $request->file('pdf_file')->move(public_path() . "/images/publicationMedia/" . $folderName . '/', $fileName);
 
             }
         }
 
-
         $files = $request->file('media_file');
         if ($request->hasFile('media_file')) {
-            if ( isset($request->media_file) ) {
+            if (isset($request->media_file)) {
 
                 foreach ($files as $file) {
 
                     $fileName = str_random(15) . '.' . $file->getClientOriginalExtension();
-                    $filePath = public_path() . "/images/publicationMedia/" . $folderName.'/'.$fileName;
+                    $filePath = public_path() . "/images/publicationMedia/" . $folderName . '/' . $fileName;
                     Image::make($file)->save($filePath);
 
                 }
@@ -125,7 +119,6 @@ class PublicationController extends Controller
         //  Salvataggio path del folder '/nomeRandomFolder'
         $newPublication->multimedia_path = '/' . $folderName;
         $newPublication->save();
-
 
         // Handling Publication Details
         switch ($newPublication->type) {
@@ -176,7 +169,6 @@ class PublicationController extends Controller
                 break;
         }
 
-
         // Handling topics
         $topicInputList = $request->input('topics');
         if (isset($topicInputList)) {
@@ -196,12 +188,12 @@ class PublicationController extends Controller
                 }
             }
         }
-        
+
         // Handling Authors and user
         //Add the user as self author
         $newPublication->users()->attach(Auth::user()->id);
         $newPublication->authors()->attach(Auth::user()->author->id);
-                
+
         $authorList = Author::all()->pluck('id');
         $newAuthorList = collect($request->input('authors'));
 
@@ -229,11 +221,9 @@ class PublicationController extends Controller
 
         }
 
-
         return redirect()->route('publications.index');
 
     }
-
 
     /**
      * Display the specified resource.
@@ -258,8 +248,8 @@ class PublicationController extends Controller
     {
         /* Return topic list and author list for dynamic filling of view dropodowns,
 
-          diff method is used to avoid duplicates of <option> html tags due to the ajax calls (ajaxInfo method).
-        */
+        diff method is used to avoid duplicates of <option> html tags due to the ajax calls (ajaxInfo method).
+         */
 
         $publication = Publication::find($id);
         $topicList = Topic::all()->diff($publication->topics);
@@ -276,7 +266,6 @@ class PublicationController extends Controller
      */
     public function update(EditPublicationRequest $request, $id)
     {
-
 
         // Retrieve the publication
         $publication = Publication::find($id);
@@ -301,27 +290,26 @@ class PublicationController extends Controller
         //  Trattamento media nel form
 
         if ($request->hasFile('pdf_file')) {
-            if ( isset($request->pdf_file) ) {
+            if (isset($request->pdf_file)) {
                 $oldPdf = $publication->getPublicationPDF();
                 //dd(realpath(public_path($oldPdf)));
-                if ( !empty($oldPdf) ){
+                if (!empty($oldPdf)) {
                     unlink(realpath(public_path($oldPdf)));
                 }
-                
+
                 $fileName = str_random(15) . '.' . $request->file('pdf_file')->getClientOriginalExtension();
-                $request->file('pdf_file')->move(public_path() . "/images/publicationMedia/" . $folderName.'/', $fileName);
+                $request->file('pdf_file')->move(public_path() . "/images/publicationMedia/" . $folderName . '/', $fileName);
 
             }
         }
 
-
         $files = $request->file('media_file');
         if ($request->hasFile('media_file')) {
-            if ( isset($request->media_file) ) {
+            if (isset($request->media_file)) {
                 foreach ($files as $file) {
 
                     $fileName = str_random(15) . '.' . $file->getClientOriginalExtension();
-                    $filePath = public_path() . "/images/publicationMedia/" . $folderName.'/'.$fileName;
+                    $filePath = public_path() . "/images/publicationMedia/" . $folderName . '/' . $fileName;
                     Image::make($file)->save($filePath);
 
                 }
@@ -334,7 +322,6 @@ class PublicationController extends Controller
         $authorList = Author::all()->pluck('id');
         $publicationAuthorList = Publication::find($id)->authors->pluck('id');
         $newAuthorList = collect($request->input('authors'));
-
 
         $removeList = $publicationAuthorList->diff($newAuthorList); // get items to delete
         $addList = $newAuthorList->diff($publicationAuthorList); //intermediate result
@@ -432,9 +419,7 @@ class PublicationController extends Controller
                 break;
         }
 
-
         return redirect()->route('publications.index');
-
 
     }
 
@@ -453,14 +438,13 @@ class PublicationController extends Controller
         $publication->authors()->detach($publication->id);
         $publication->details()->delete();
 
-
         //$publication->delete();
 
         //Redirect('/users')->with('success', 'Publication deleted correctly.');
-        
+
         return redirect('/users')->with('success', 'Publication deleted correctly.');
-        */
-       
+         */
+
         $publication = Publication::find($id);
 
         $publication->delete();
@@ -471,10 +455,10 @@ class PublicationController extends Controller
     }
 
     public function syncDBLP(Request $request)
-    {   /* Due to nested eand higly variable json structuture from DBLP
-        we must cleanup the json response!
-        -authors and venue could be array so we must iterate trough it and create a 
-        string concatenation of elements */
+    { /* Due to nested eand higly variable json structuture from DBLP
+    we must cleanup the json response!
+    -authors and venue could be array so we must iterate trough it and create a
+    string concatenation of elements */
         $count = 100;
         $client = new Client(['base_uri' => 'http://dblp.org/search/publ/api', 'timeout' => 5.0]);
 
@@ -513,7 +497,7 @@ class PublicationController extends Controller
                         } else { // just one authors
                             $publication['info']['authors'] = $authors;
                         }
-                        // 
+                        //
                         $venueList = '';
                         $venues = $publication['info']['venue'];
                         if (is_array($venues)) {
@@ -560,7 +544,7 @@ class PublicationController extends Controller
             $newPublication->venue = ucwords($publication['venue']);
             $newPublication->public = 1;
 
-            $folderName = md5(date('c').str_random(25));
+            $folderName = md5(date('c') . str_random(25));
             File::makeDirectory(public_path() . "/images/publicationMedia/" . $folderName);
 
             $newPublication->multimedia_path = '/' . $folderName; //TODO handle automatic folder creation
@@ -580,25 +564,37 @@ class PublicationController extends Controller
 
             $newPublication->save();
 
-
             // Handling Publication Details fields
             switch ($newPublication->type) {
                 case 'journal':
                     $journal = new Journal;
-                    if (array_key_exists('volume', $publication))
+                    if (array_key_exists('volume', $publication)) {
                         $journal->volume = $publication['volume'];
-                    if (array_key_exists('number', $publication))
+                    }
+
+                    if (array_key_exists('number', $publication)) {
                         $journal->number = $publication['number'];
-                    if (array_key_exists('pages', $publication))
+                    }
+
+                    if (array_key_exists('pages', $publication)) {
                         $journal->pages = $publication['pages'];
-                    if (array_key_exists('key', $publication))
+                    }
+
+                    if (array_key_exists('key', $publication)) {
                         $journal->key = $publication['key'];
-                    if (array_key_exists('doi', $publication))
+                    }
+
+                    if (array_key_exists('doi', $publication)) {
                         $journal->doi = $publication['doi'];
-                    if (array_key_exists('ee', $publication))
+                    }
+
+                    if (array_key_exists('ee', $publication)) {
                         $journal->ee = $publication['ee'];
-                    if (array_key_exists('url', $publication))
+                    }
+
+                    if (array_key_exists('url', $publication)) {
                         $journal->url = $publication['url'];
+                    }
 
                     $journal->publication_id = $newPublication->id;
                     $journal->save();
@@ -607,16 +603,25 @@ class PublicationController extends Controller
                 case 'conference':
                     $conference = new Conference;
 
-                    if (array_key_exists('pages', $publication))
+                    if (array_key_exists('pages', $publication)) {
                         $conference->pages = $publication['pages'];
-                    if (array_key_exists('key', $publication))
+                    }
+
+                    if (array_key_exists('key', $publication)) {
                         $conference->key = $publication['key'];
-                    if (array_key_exists('doi', $publication))
+                    }
+
+                    if (array_key_exists('doi', $publication)) {
                         $conference->doi = $publication['doi'];
-                    if (array_key_exists('ee', $publication))
+                    }
+
+                    if (array_key_exists('ee', $publication)) {
                         $conference->ee = $publication['ee'];
-                    if (array_key_exists('url', $publication))
+                    }
+
+                    if (array_key_exists('url', $publication)) {
                         $conference->url = $publication['url'];
+                    }
 
                     $conference->publication_id = $newPublication->id;
                     $conference->save();
@@ -624,18 +629,29 @@ class PublicationController extends Controller
 
                 case 'editorship':
                     $editorship = new Editorship;
-                    if (array_key_exists('volume', $publication))
+                    if (array_key_exists('volume', $publication)) {
                         $editorship->volume = $publication['volume'];
-                    if (array_key_exists('publisher', $publication))
+                    }
+
+                    if (array_key_exists('publisher', $publication)) {
                         $editorship->publisher = $publication['publisher'];
-                    if (array_key_exists('key', $publication))
+                    }
+
+                    if (array_key_exists('key', $publication)) {
                         $editorship->key = $publication['key'];
-                    if (array_key_exists('doi', $publication))
+                    }
+
+                    if (array_key_exists('doi', $publication)) {
                         $editorship->doi = $publication['doi'];
-                    if (array_key_exists('ee', $publication))
+                    }
+
+                    if (array_key_exists('ee', $publication)) {
                         $editorship->ee = $publication['ee'];
-                    if (array_key_exists('url', $publication))
+                    }
+
+                    if (array_key_exists('url', $publication)) {
                         $editorship->url = $publication['url'];
+                    }
 
                     $editorship->publication_id = $newPublication->id;
                     $editorship->save();
@@ -649,12 +665,10 @@ class PublicationController extends Controller
                 $newPublication->authors()->attach($theAuthor->id);
             }
 
-
         }
         return response()->json(['message' => 'Your pubblications are now in corman! Take a look',
             'redirectTo' => '/users']);
     }
-
 
     public function syncPublications()
     {
@@ -665,16 +679,29 @@ class PublicationController extends Controller
     public function ajaxInfo(Request $request)
     {
         $topicList = Publication::find($request->query('id'))->topics;
-        $authorList = Publication::find($request->query('id'))->authors;//->where('id','!=',Auth::user()->author->id);
+        $authorList = Publication::find($request->query('id'))->authors; //->where('id','!=',Auth::user()->author->id);
         $data = array('topicList' => $topicList, 'authorList' => $authorList);
 
         return response()->json($data);
     }
 
-
     public function ajaxGetPublications(Request $request)
     {
         $publicationList = Auth::user()->author->publications->shuffle();
+        $data = array('data' => $publicationList);
+
+        return response()->json($data);
+    }
+
+    public function ajaxGetResearchGroupPublications(Request $request)
+    {
+        // error_log('User ' . print_r($request->query('researchGroupID'), true));
+        $researchGroupID = $request->query('researchGroupID');
+        $firstResearchLineID = ResearchGroup::find($researchGroupID)->research_lines[0]->id;
+        $publicationList = Auth::user()->author->publications->shuffle()->map(function ($value, $index) use ($firstResearchLineID) {
+            $value->research_lines = $firstResearchLineID;
+            return $value;
+        });
         $data = array('data' => $publicationList);
 
         return response()->json($data);
