@@ -1,32 +1,27 @@
 $(document).ready(function () {
 
-    $("#btn-share").click(function () {
+    $("#btn-filter").click(function () {
 
-        let toggles = $('[data-toggle=toggle]').each(function (index,myToggle) { 
+        const toggles = $('[data-toggle=toggle]')
+
+        toggles.each(function (index,myToggle) { 
             $(myToggle.id).bootstrapToggle();
         });
 
-        // $('#doTheFilter').click ( function(){
-        //     $.ajaxSetup({
-        //         headers: {
-        //           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         }
-        //     });
-        //     var shareData = {
-        //         groupID: window.location.href.split("/")[4] // hack to get group id
-        //     }
-        //     console.log(shareData);
+        $('#apply-button').click ( function(){
+            const groupID = window.location.href.split("/")[4].split('?')[0];
+            const toggleInputs = $('input[data-toggle=toggle]');
+            let authorsID = toggleInputs.filter(function (idx,toggle) {
+                return toggle.checked && toggle.id.includes('researcher');
+            }).map(function (idx, toggle) {
+                return toggle.id.split('-')[2];
+            }).toArray();
+            authorsID =  authorsID.length != toggleInputs.toArray().length ? authorsID : [];
 
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/leave",
-        //         data: JSON.stringify(shareData),
-        //         contentType: "application/json; charset=utf-8",
-        //         dataType: "json",
-        //         success: function(data, status){
-        //             window.location.href = data.redirectTo;                  
-        //         }
-        //     });
-        // });
+            let queryParam = $.param({author: authorsID});
+            queryParam = queryParam.length > 0 ? '?' + queryParam : ''
+
+            window.location.href = window.location.origin + '/researchGroups/' + groupID + queryParam;
+        });
     });
 });

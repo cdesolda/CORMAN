@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Image;
+use App\Publication;
 
 class ResearchGroupController extends Controller
 {
@@ -151,9 +152,46 @@ class ResearchGroupController extends Controller
         $authUser = Auth::user();
         $researchGroup = ResearchGroup::find($id);
         $isMember = in_array($authUser->id, $researchGroup->users->pluck('id')->toArray());
-        $sharesList = $researchGroup->shares->sortByDesc('created_at');
+        $sharesList = $this->filterPublications($researchGroup->shares);
+        $listSettings = $this->getListSettings($researchGroup);
 
-        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember]);
+        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember, 'listSettings'=>$listSettings]);
+    }
+
+    private function filterPublications($publications) {
+        $authorsFilter = \Route::getCurrentRequest()->query('author');
+        $linesFilter = \Route::getCurrentRequest()->query('research_lines');
+        $typesFilter = \Route::getCurrentRequest()->query('types');
+        $dateSorting = \Route::getCurrentRequest()->query('date');
+
+        if($authorsFilter) {
+            foreach($authorsFilter as $authorID) {
+                error_log('Need to filter for author ' . print_r($authorID, true));
+            }
+            $publications = $publications->filter(function ($value, $key)  use ($authorsFilter) {
+                $publication = $value->publication;
+                $authorsID = $publication->authors->pluck('id')->toArray();
+                $diff = array_diff($authorsFilter, $authorsID);
+                error_log('Authors ' . print_r($authorsID, true));
+                error_log('Diff ' . print_r($diff, true));
+                return count($diff) != count($authorsFilter);
+            });
+        }
+
+        return $publications->sortByDesc('created_at');
+    }
+
+    private function getListSettings($researchGroup) {
+        $publications = $researchGroup->shares()->get();
+        $authors = $publications->map(function ($item, $key) {
+            $publication = Publication::find($item->publication_id);
+            return $publication->authors;
+        })->flatten()->unique('id');
+        $publication_types = $publications->map(function ($item, $key) {
+            $publication = Publication::find($item->publication_id);
+            return $publication->type;
+        })->unique();
+        return array('researchers'=>$authors, 'research_lines'=>collect(), 'publication_types'=>$publication_types);
     }
 
     private function isAdmin($groupID, $userID) {
@@ -202,7 +240,7 @@ class ResearchGroupController extends Controller
                             ->whereIn('id', $thisgroup->members->pluck('id'))
                             ->get()
                             ->sortBy('last_name');
-        $researchLinesList = ResearchLine::all()->diff($thisgroup->research_lines);;
+        $researchLinesList = ResearchLine::all()->diff($thisgroup->research_lines);
         $officesList = Office::all()->diff($thisgroup->offices);
 
         $isAdmin = $this->isAdmin($id, Auth::user()->id);
