@@ -152,10 +152,11 @@ class ResearchGroupController extends Controller
         $authUser = Auth::user();
         $researchGroup = ResearchGroup::find($id);
         $isMember = in_array($authUser->id, $researchGroup->users->pluck('id')->toArray());
+        $isAcceptedMember = in_array($authUser->id, $researchGroup->members->pluck('id')->toArray());
         $sharesList = $this->filterPublications($researchGroup->shares);
         $listSettings = $this->getListSettings($researchGroup);
 
-        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember, 'listSettings'=>$listSettings]);
+        return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember, 'listSettings'=>$listSettings, 'isAccepted'=>$isAcceptedMember]);
     }
 
     private function filterPublications($publications) {
@@ -427,6 +428,10 @@ class ResearchGroupController extends Controller
             $group->admins()->detach();
             $group->offices()->detach();
             $group->research_lines()->detach();
+            foreach ($group->shares as $share) {
+                error_log('Removing share ' . print_r($share->id, true));
+                PublicationResearchGroup::find($share->id)->delete();
+            }
             $group->delete();
 
             return redirect()->route('users.index');

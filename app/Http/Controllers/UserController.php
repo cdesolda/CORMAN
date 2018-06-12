@@ -33,11 +33,8 @@ class UserController extends Controller
         /* TODO: tenere conto che bisogna passare i dati dell'utente (immagine, ecc)*/
         $publicationList = Auth::user()->author->publications->sortByDesc('year')->take(1);
         if(is_null($publicationList)) {
-            error_log('NO PUBS!!');
             $publicationList = collect();
-        } else {
-            error_log('WTF PUBS!!');
-         }
+        }
         /* TODO: vedere come ordinare gruppi (prima quelli di cui è admin, poi utente, ecc)*/
         $groupList = Auth::user()->randomGroupsAsMember->take(1);
         // error_log(print_r($q->first_name, true));
@@ -124,17 +121,17 @@ class UserController extends Controller
                 'duskID' => 'newResearchGroupButton',
                 'item' => $researchGroup
             ] : null,
-            !is_null($group) ?[
+            [
                 'groupTitle' => 'Groups',
-                'title' => $group->name,
-                'subtitle' => $groupTopicNames,
-                'imagePath' => $group->picture_path,
+                'title' => !is_null($group) ? $group->name : 'No Groups',
+                'subtitle' => !is_null($group) ? $groupTopicNames : '',
+                'imagePath' => !is_null($group) ? $group->picture_path : '',
                 'viewMoreRoute' => 'groups.index',
                 'createRoute' => 'groups.create',
                 'createName' => 'New Group',
                 'duskID' => 'newGroupButton',
                 'item' => $group
-            ] : null
+            ]
         ];
     }
 

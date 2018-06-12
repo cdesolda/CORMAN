@@ -24,12 +24,15 @@ function getURLParam(key,target){
 
 function getCheckedIDforKey(key, toggleInputs) {
     const filteredInputs = toggleInputs.filter(function (idx,toggle) {
+        return toggle.id.includes(key);
+    });
+    const checkedInputs = toggleInputs.filter(function (idx,toggle) {
         return toggle.checked && toggle.id.includes(key);
     });
-    const arr =  filteredInputs.map(function (idx, toggle) {
+    const arr = checkedInputs.map(function (idx, toggle) {
         return toggle.id.split('-')[2];
     }).toArray();
-    if (filteredInputs.toArray().length == 0) {
+    if (checkedInputs.toArray().length == 0) {
         return [-1];
     } else if (arr.length == filteredInputs.toArray().length) {
         return [];
@@ -50,8 +53,13 @@ function setEnabledForKey(key, enabled) {
     $('[data-toggle=toggle]').filter(function (idx,toggle) {
         return toggle.id.includes(key);
     }).each(function (idx, toggle) {
-        const isEnabled = enabled.includes('\b' + toggle.id.split('-')[2] + '\b');
-        $(toggle).bootstrapToggle(isEnabled ? 'on' : 'off');
+        // const isEnabled = enabled.includes('\b' + toggle.id.split('-')[2] + '\b');
+        if (enabled == "-1") {
+            $(toggle).bootstrapToggle('off');
+        } else {            
+            const isEnabled = enabled.includes(toggle.id.split('-')[2]);
+            $(toggle).bootstrapToggle(isEnabled ? 'on' : 'off');
+        }
     })
 }
 
