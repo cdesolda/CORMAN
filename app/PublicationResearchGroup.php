@@ -26,4 +26,12 @@ class PublicationResearchGroup extends Model
     public function publication(){
         return $this->belongsTo('App\Publication');
     }
+
+    public function research_lines(){
+        return $this->belongsToMany(
+            'App\ResearchLine',
+            'publication_research_group_rline',
+            'pub_rg_id'
+        );
+    }
 }

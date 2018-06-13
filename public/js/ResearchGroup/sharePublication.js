@@ -16,6 +16,13 @@ $(document).ready(function () {
             idField: "id",
             detailFilter: true,
             clickToSelect: true,
+
+            // onCheck: function (row, $element) {
+            //     // $($element.parent().parent().children()[2]).children().click()
+            //     $($($element.parent().parent().children()[2]).children()).triggerHandler('click')
+            //     return false;
+            // },
+
             queryParams: function () {
                 return {
                     researchGroupID: groupID
@@ -30,33 +37,39 @@ $(document).ready(function () {
             }, {
                 field: 'title',
                 title: 'Title',
-                width: '90%',
             }, {
                 field: 'research_lines',
                 title: 'Research Line',
+                width: '340px',
                 editable: {
-                    type: 'select',
+                    type: 'checklist',
                     source: '/ajaxResearchLineInfo',
                     mode: 'inline',
+                    onblur: 'submit',
+                    showbuttons: true,
                     sourceOptions: {
                         data: {
                             id: groupID
                         }
+                    },
+                    params: function(params) {
+                        //originally params contain pk, name and value
+                        console.log(params);
+                        return params;
                     }
                 }
             }
         ],
         });
 
-        // $.ajax({
-        //     type: "GET",
-        //     url: "/ajaxGetResearchGroupPublications",
-        //     contentType: "application/json; charset=utf-8",
-        //     dataType: "json",
-        //     success: function(data, status){
-        //         console.log(data);
-        //     }
-        // });
+        table.on('check.bs.table', function (e, row, $element) {
+            //Sarebbe bello trovare un modo per aprire le checkbox delle linee di ricerca al click
+            
+            // e.stopPropagation();
+            // e.preventDefault();
+            // $($($element.parent().parent().children()[2]).children()).triggerHandler('show');
+            
+        });
 
         //send to corman publications to post
         $('#addTo').click(function () {

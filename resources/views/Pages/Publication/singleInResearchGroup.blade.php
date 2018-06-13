@@ -30,12 +30,12 @@
     </div>
 
     <!-- third row -->
-    @if($share->rline)
     <hr>
     <div class="row">
-        <div id="venue" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">{{$share->rline->name}}</div>
+            @foreach($share->research_lines as $rline)
+            <div id="venue" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">{{$rline->name}}</div>
+            @endforeach
     </div>
-    @endif
 </div>
 
 <!-- Modal -->

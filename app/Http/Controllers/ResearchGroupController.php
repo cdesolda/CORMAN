@@ -158,6 +158,13 @@ class ResearchGroupController extends Controller
         $sharesList = $this->filterPublications($researchGroup->shares);
         $listSettings = $this->getListSettings($researchGroup);
 
+        foreach($researchGroup->shares as $share) {
+            foreach($share->research_lines as $rline) {
+                error_log(print_r($rline->name, true));
+            }
+        }
+
+
         return view('Pages.ResearchGroup.detail', ['user' => $authUser, 'researchGroup' => $researchGroup, 'sharesList' => $sharesList, 'isMember' => $isMember, 'listSettings'=>$listSettings, 'isAccepted'=>$isAcceptedMember]);
     }
 
@@ -179,15 +186,15 @@ class ResearchGroupController extends Controller
         if($linesFilter) {
             $publications = $publications->filter(function ($value, $key)  use ($linesFilter) {
                 $publication = $value;
-                if ($publication->rline) {
-                    $linesID = collect($publication->rline->id)->toArray();
-                    $diff = array_diff($linesFilter, $linesID);
+                $res = true;
+                foreach ($publication->research_lines as $rline) {
+                    $linesID = $publication->research_lines->pluck('id')->toArray();
                     error_log('linesID ' . print_r($linesID, true) );
+                    $diff = array_diff($linesFilter, $linesID);
                     error_log('Diff ' . print_r($diff, true) );
-                    return count($diff) != count($linesFilter);
-                } else {
-                    return true;
+                    $res = $res && count($diff) != count($linesFilter);
                 }
+                return $res;
             });
         }
 
@@ -227,9 +234,9 @@ class ResearchGroupController extends Controller
         })->unique();
         $research_lines = $publications->map(function ($item, $key) use ($researchGroup) {
             $researchGroupPublication = PublicationResearchGroup::where(['publication_id' => $item->publication_id, 'rgroup_id' => $researchGroup->id])->get()->first();
-            $researchLine = $researchGroupPublication->rline;
+            $researchLine = $researchGroupPublication->research_lines;
             return $researchLine;
-        })->unique('id');
+        })->flatten()->unique('id');
         return array('researchers'=>$authors, 'research_lines'=>$research_lines, 'publication_types'=>$publication_types);
     }
 
@@ -448,13 +455,16 @@ class ResearchGroupController extends Controller
     {
 
         $publicationList = $request->input('publicationList');
+        error_log('Publication List' . print_r($publicationList, true));
         $userId = Auth::user()->id;
         $groupId = $request->input('groupId');
         foreach ($publicationList as $publication) {
-            error_log('Publication ' . print_r($publication['id'], true) . 'to group ' .  print_r($groupId, true) . ' with research line ' . $publication['research_lines']);
+            error_log('Publication ' . print_r($publication['id'], true) . ' to group ' .  print_r($groupId, true) . ' with research line ' . print_r($publication['research_lines'], true) );
             $share = PublicationResearchGroup::firstOrNew(['publication_id' => $publication['id'], 'rgroup_id' => $groupId]);
             $share->user_id = $userId;
-            $share->rline_id = $publication['research_lines'];
+            foreach ($publication['research_lines'] as $rline_id) {
+                $share->research_lines()->save($share, ['research_line_id' => $rline_id]);
+            }
 
             $share->save();
         }
