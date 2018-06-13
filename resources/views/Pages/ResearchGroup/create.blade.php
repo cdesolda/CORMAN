@@ -60,8 +60,13 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-3" align="left">Research Group Logo</label>
+                    <input class="col-8" type="file" class="group_picture" id="upload" name="picture">
+                </div>
                 
-                <input type="file" class="group_picture" id="upload" name="picture">
+                
                 
                 <input type="submit" name="next" class="next action-button" value="Create"/>
             </fieldset>
