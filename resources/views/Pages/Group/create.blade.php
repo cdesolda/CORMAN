@@ -25,10 +25,10 @@
             {{csrf_field()}}
             <!-- fieldsets -->
             <fieldset>
-                <h2 class="fs-title">Create Group</h2>
-                <h3 class="fs-subtitle">Insert some informations about the group</h3>
+                <h2 class="fs-title">Create Community</h2>
+                <h3 class="fs-subtitle">Insert some informations about the community</h3>
 
-                <input type="text" name="name" placeholder="Group Name"/>
+                <input type="text" name="name" placeholder="Community Name"/>
                 
                 <textarea rows="4" name="description" placeholder="Description" ></textarea>
                 

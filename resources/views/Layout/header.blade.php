@@ -57,7 +57,11 @@
         @if(Request::segment($i) != 'users' && !is_numeric(Request::segment($i)))
             <li class="breadcrumb-item">
                 <a href="{{ URL::to( implode( '/', array_slice(Request::segments(), 0 ,$i, true))) }}">
-                    {{ ucfirst(Request::segment($i)) }}
+                    @if(ucfirst(Request::segment($i)) == 'Groups')
+                        {{ 'Communities' }}
+                    @else
+                        {{ ucfirst(Request::segment($i)) }}
+                    @endif
                 </a>
             </li>
         @endif

@@ -122,13 +122,13 @@ class UserController extends Controller
                 'item' => $researchGroup
             ] : null,
             [
-                'groupTitle' => 'Groups',
-                'title' => !is_null($group) ? $group->name : 'No Groups',
+                'groupTitle' => 'Communities',
+                'title' => !is_null($group) ? $group->name : 'No Communities',
                 'subtitle' => !is_null($group) ? $groupTopicNames : '',
                 'imagePath' => !is_null($group) ? $group->picture_path : '',
                 'viewMoreRoute' => 'groups.index',
                 'createRoute' => 'groups.create',
-                'createName' => 'New Group',
+                'createName' => 'New Community',
                 'duskID' => 'newGroupButton',
                 'item' => $group
             ]

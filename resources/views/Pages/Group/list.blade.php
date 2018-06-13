@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="btn-toolbar justify-content-between col-lg-12">
             <a id="specialButton" role="button" class="btn btn-warning pull-left" href="{{ route('groups.create')}}">
-                <span class="ion-plus-circled ion-plus"> New Group</span>
+                <span class="ion-plus-circled ion-plus"> New Community</span>
             </a>
             <i class="fa fa-filter fa-2x pull-right" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="@include('Pages.filter')"></i>
         </div>

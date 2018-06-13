@@ -129,7 +129,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="addPublication">Add Publications in this Group</h6>
+                        <h6 class="modal-title" id="addPublication">Add Publications in this Community</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -146,7 +146,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="addPublication">Add Publications in this Group</h6>
+                        <h6 class="modal-title" id="addPublication">Add Publications in this Community</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -154,7 +154,7 @@
                     <div class="modal-body">
                         <div class="row justify-content-center">
                             <div class="col-lg-12" align="center">
-                                <p>Your Publication has been added in group</p>
+                                <p>Your Publication has been added in community</p>
                             </div>
                             <div class="col-lg-12" align="center">
                                 <a href="{{route('groups.show', ['id'=>$theGroup->id]) }}" id="btn-newgroup" class="btn btn-primary btn-sm" role="button">OK</a>
@@ -170,7 +170,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="addPublication">Leave Group</h6>
+                        <h6 class="modal-title" id="addPublication">Leave Community</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -178,7 +178,7 @@
                     <div class="modal-body">
                         <div class="row justify-content-center">
                             <div class="col-lg-12" align="center">
-                                <p>Are you sure to leave this group?</p>
+                                <p>Are you sure to leave this community?</p>
                             </div>
                             <div class="col-lg-12" align="center">
                                 <a id="yesLeaveGroup" class="btn btn-success" role="button">Yes</a>
@@ -195,7 +195,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="addPost">Public Post in this Group</h6>
+                        <h6 class="modal-title" id="addPost">Public Post in this Community</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

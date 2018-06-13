@@ -26,8 +26,8 @@
             {{ csrf_field() }} {{ method_field('PUT') }}
             <!-- fieldsets HEAD-->
             <fieldset id="edit_group" class="edit_group">
-                <h2 class="fs-title">Edit Group</h2>
-                <h3 class="fs-subtitle">Edit informations of the group</h3>
+                <h2 class="fs-title">Edit Community</h2>
+                <h3 class="fs-subtitle">Edit informations of the community</h3>
 
                 <div class="form-group">
                     <img src="{{ url($group->picture_path) }}" alt="" width="200" height="200">
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-12 col-md-3 col-lg-3" align="right">Group Name</label>
+                    <label class="col-sm-12 col-md-3 col-lg-3" align="right">Community Name</label>
                     <input class="col-sm-12 col-md-9 col-lg-8" name="group_name" type="text" placeholder="{{ $group->name }}" value="{{ $group->name }}"
                     />
                 </div>
@@ -86,7 +86,7 @@
                 </div>
                 <!-- inserire if per bottone visibile solo da admin -->
                 <hr>
-                <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deleteGro">Delete Group</a>
+                <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deleteGro">Delete Community</a>
                 <hr>
 
                 <input type="submit" name="submit" class="next action-button" value="Update" />
@@ -99,14 +99,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h6 class="modal-title" id="">Confirm Group Delete</h6>
+                    <h6 class="modal-title" id="">Confirm Community Delete</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row align-items-center">
-                        <div class="col-lg-12" align="center">Really, do you want to delete this group?</div>
+                        <div class="col-lg-12" align="center">Really, do you want to delete this community?</div>
                         <form action="{{ route('groups.destroy', ['id'=>$group->id]) }}"
                             method="POST">
                             <fieldset id="edit_group" class="edit_group">
