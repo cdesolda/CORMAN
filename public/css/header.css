@@ -54,6 +54,7 @@ body {
 	padding-top: 0;
 	padding-bottom: 0rem;
 	margin-bottom: 0.25rem;
+	border: 10px solid white;
 }
 
 #menuIcon img {

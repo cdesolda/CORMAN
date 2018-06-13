@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-7 col-md-7 col-lg-7">
+            <div class="col-12 col-sm-7 col-md-8 col-md-70">
                 <div id="titleActivitiesDash">Recent Activities</div>
                 @foreach($activities as $activity)
                     @switch($activity['type'])
@@ -19,7 +19,7 @@
                     @endswitch
                 @endforeach
             </div>
-            <div class="col-12 col-sm-5 col-md-5 col-lg-5">
+            <div class="col-12 col-sm-5 col-md-4 col-md-30">
                 @foreach($items as $item)
                     @if(!is_null($item))
                         @include('Pages.User.dashboardItem', ['item'=>$item])

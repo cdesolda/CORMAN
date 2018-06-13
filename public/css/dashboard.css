@@ -1,5 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
+body {
+    background: #f5f5f5
+}
+#breadcrumb {
+    border: 10px solid white;
+}
+
 #titlePubblDash{
     text-align: left;
     font-size: 1.3em;
@@ -87,4 +94,19 @@ button.myBtn:hover {
 div.comment-content {
     background-color: #f3f3f3;
 }
+
+div.activity-container {
+    background: white;
+}
+
+@media (min-width: 768px) {
+    .col-md-30 { 
+        flex: 0 0 30%;
+        max-width: 30%;
+     }
+    .col-md-70 { 
+        flex: 0 0 70%;
+        max-width: 70%;
+     }
+  }
 
