@@ -33,8 +33,10 @@ class ResearchGroupController extends Controller
 
     public function index()
     {
+        $search = \Route::getCurrentRequest()->query('q');
+        error_log('Search ' . print_r($search, true));
         /* vedere todo dashboard pubblicazioni*/
-        $researchGroupList = ResearchGroup::get();
+        $researchGroupList = ResearchGroup::where('name', 'like', '%'.$search.'%')->get();
         // $researchGroupList = Auth::user()->researchGroups;
         return view('Pages.ResearchGroup.list', ['researchGroupList' => $researchGroupList]);
     }

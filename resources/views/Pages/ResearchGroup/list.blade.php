@@ -7,8 +7,13 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="btn-toolbar justify-content-end col-lg-12">
-            <div></div>
+        <div class="btn-toolbar justify-content-between col-lg-12">
+            <div class="input-group">
+                <input id="searchQuery" type="text" class="search-query" placeholder="Search research groups by name..." />
+                <a class="searchButton" href="#" id="searchButton">
+                    <i class="ion-search"></i> Search
+                </a>
+            </div>
             <a id="specialButton" role="button" class="btn btn-warning" href="{{ route('researchGroups.create') }}">
                 <span class="ion-plus-circled ion-plus"> New Research Group</span>
             </a>

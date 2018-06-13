@@ -5,10 +5,10 @@
             <img src="{{ asset('images/logo_corman.png') }}" height="50" width="50" alt="CORMAN Logo" />
         </a>
     </div>
-    <form class="form-inline order-lg-2 order-md-2 order-sm-3 order-3 my-lg-0 col-lg-5 col-md-6 col-sm-12 col-xl-4">
+<!--    <form class="form-inline order-lg-2 order-md-2 order-sm-3 order-3 my-lg-0 col-lg-5 col-md-6 col-sm-12 col-xl-4" action="{{ '/' . Request::segments()[0] . '?search=' }}" method="get">
         <input class="form-control mr-sm-2 col-xl-8 col-lg-8 col-md-6" type="search" placeholder="Search" aria-label="Search">
         <button id="searchBox" class="btn btn-outline my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </form>-->
     <div class="button-div order-sm-2 order-2">
         <button id="buttonMenu" class="navbar-toggler order-sm-2 order-2" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

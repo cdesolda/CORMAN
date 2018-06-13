@@ -266,3 +266,14 @@ div.h4.border-primary {
 select.form-control.input-sm {
     width: 200px;
 }
+
+input.search-query {
+    margin-bottom: 24px;
+    border-radius: 4px;
+    width: 350px;
+}
+input.search-query+a {
+    display: inline-block;
+    margin-top: -6px;
+    margin-left: 8px;
+}
