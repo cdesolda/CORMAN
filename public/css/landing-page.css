@@ -1,5 +1,6 @@
 body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #f2f2f2;
 }
 
 h1,
@@ -10,29 +11,188 @@ h5,
 h6 {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
+  font-size: 2.8em;
 }
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+
+//animazione
+.animationbox{
+  -webkit-animation-name: animation;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-fill-mode: backwards;
+}
+
+.animationbox2{
+  -webkit-animation-name: animation;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-fill-mode: backwards;
+  animation-delay: 1s;
+}
+
+@-webkit-keyframes 'animation' {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(1.0);
+  }
+  20% {
+    opacity: 0.2;
+    -webkit-transform: scale(1.1);
+  }
+  40% {
+    opacity: 0.4;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.8; 
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// fine animazione
 
 header.masthead {
   position: relative;
-  background-color: #000000;
-  background: url("/images/landing_bg2.jpeg") no-repeat center center;
+  background-color: red; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   padding-top: 8rem;
-  padding-bottom: 8rem;
+  padding-bottom: 10rem;
 }
 
 header.masthead .overlay {
   position: absolute;
-  background-color: #b1b7d1;
+  background-color: #001a33;
   height: 100%;
   width: 100%;
   top: 0;
   left: 0;
-  opacity: 0.3;
+  opacity: 0.1;
 }
+
+h2.animated{
+  animation-delay: 2s;
+  animation-duration: 4s;
+  animation-fill-mode: backwards;
+}
+
+h1.animated{
+  animation-duration: 4s;
+  animation-fill-mode: backwards;
+}
+
+section.cover {
+  position: relative;
+  background-color: #000000;
+  background: url("/images/cover.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 10rem;
+  padding-bottom: 12rem;
+  margin-top: 0.5rem;
+
+}
+
+
+section.cover .overlay {
+  position: absolute;
+  background-color: #001a33;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+
+section.img1 {
+  position: relative;
+  background-color: #000000;
+  background: url("/images/collaborate.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 18rem;
+  padding-bottom: 18rem;
+  margin-top: 0.5rem;
+
+}
+
+
+section.img1 .overlay {
+  position: absolute;
+  background-color: #001a33;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+section.img2 {
+  position: relative;
+  background-color: #000000;
+  background: url("/images/research.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 18rem;
+  padding-bottom: 18rem;
+  margin-top: 0.5rem;
+}
+
+section.img2 .overlay {
+  position: absolute;
+  background-color: #001a33;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+
+
+section.img3 {
+  position: relative;
+  background-color: #000000;
+  background: url("/images/manage.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 18rem;
+  padding-bottom: 18rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+section.img3 .overlay {
+  position: absolute;
+  background-color: #001a33;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
 
 header.masthead h1 {
   font-size: 2rem;
@@ -100,14 +260,13 @@ header.masthead h1 {
 
 .call-to-action {
   position: relative;
-  background-color: #343a40;
-  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  background-color: #000000;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .call-to-action .overlay {

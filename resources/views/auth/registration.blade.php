@@ -9,26 +9,26 @@
 @endsection
 
 @section('content')
-    
+
     <!-- Handling Form errors -->
-    <div class="row">    
+    <div class="row">
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
     </div>
 
     <!-- MultiStep Form -->
-    <div class="row">
-        <form id="msform" action="{{ route('register')}}" method="post" enctype="multipart/form-data">
-            {{ method_field('POST') }}
-            {{csrf_field()}}
-            <!-- progressbar -->
+    <div class="row" align="left">
+        <form id="msform" action="{{ route('register')}}" method="post" enctype="multipart/form-data" autocomplete="on">
+        {{ method_field('POST') }}
+        {{csrf_field()}}
+        <!-- progressbar -->
             <ul id="progressbar" class="up_fix">
                 <li class="active">Personal Info</li>
                 <li>Professional info</li>
@@ -37,46 +37,62 @@
             <fieldset>
                 <h2 class="fs-title">Personal info</h2>
                 <h3 class="fs-subtitle"></h3>
-                <input type="text" name="first_name" placeholder="First Name*"/>
-                <input type="text" name="last_name" placeholder="Last Name*"/>
-                <input type="date" name="birth_date" placeholder="Birth Date*"/>
-                <input type="email" name="email" placeholder="Email*"/>
-                <input type="password" name="password" placeholder="Password*"/>
-                <input type="password" name="password_confirmation" placeholder="Confirm Password*"/>
-                <input type="file" name="profilePic" placeholder="Profile Photo" />
-                
+
+
+                    <label style="float: left;">First Name*</label>
+                    <input type="text" name="first_name" placeholder="Es. Mario" value="{{ Request::old('first_name') }}" />
+
+                    <label style="float: left;">Last Name*</label>
+                    <input type="text" name="last_name" placeholder="Es. Rossi" value="{{ Request::old('last_name') }}" />
+
+                    <label style="float: left;">Birth Date*</label>
+                    <input type="date" name="birth_date" placeholder="Birth Date" value="{{ Request::old('birth_date') }}" />
+
+                    <label style="float: left;">Email*</label>
+                    <input type="email" name="email" placeholder="Es. mariorossi@gmail.com" value="{{ Request::old('email') }}" />
+
+                    <label style="float: left;">Password (min. 6 caratteri)*:</label>
+                    <input type="password" name="password" placeholder="Es. informatica95" value="{{ Request::old('password') }}" />
+
+                    <label style="float: left;">Confirm Password*</label>
+                    <input type="password" name="password_confirmation" placeholder="Confirm Password*" value="{{ Request::old('password_confirmation') }}" />
+
+                    <label style="float: left;">Profile Photo</label>
+                    <input type="file" name="profilePic" placeholder="Profile Photo" />
+
                 <input type="button" name="next" class="next action-button" value="Next"/>
             </fieldset>
 
             <fieldset>
                 <h2 class="fs-title">Professional info</h2>
                 <h3 class="fs-subtitle"></h3>
-                
-                <div clas="row">
-                    <label for="role"> Role </label>
+
+
+                    <label style="float: left;"> Role* </label>
                     <select class="form-control" id="role" name="role">
                         @foreach($roleList as $role)
-                        <option>{{$role->name}}</option>
+                            <option>{{$role->name}}</option>
                         @endforeach
                     </select>
-                </div>
-                <div class="row">
-                    <select class="form-control" id="affiliationDropdown" name="affiliation">
-                        <option value=""></option> <!-- needed for select2.js library don't remove!-->
+
+
+
+                    <label style="float: left;">Affiliation*</label>
+                    <select class="form-control" id="role" name="affiliation">
                         @foreach($affiliationList as $affiliation)
-                            <option value="{{$affiliation->name}}">{{$affiliation->name}}</option>
+                            <option>{{$affiliation->name}}</option>
                         @endforeach
                     </select>
-                </div>
-                <div class="row">
-                <select class="form-control row" id="topicsDropdown" name="topics[]" multiple>
-                    <option value=""></option> <!-- needed for selct2.js library don't remove!-->
-                    @foreach($topicList as $topic)
-                        <option value="{{$topic->name}}">{{$topic->name}}</option>
-                    @endforeach
-                </select>
-                </div>
-                <input type="text" name="personal_link" placeholder="Personal Page"/>
+
+                    <label style="float: left;" for="topicsDropdown"> Research Area* </label>
+                    <select class="form-control row" id="topicsDropdown" name="topics[]" multiple>
+                        <option value=""></option> <!-- needed for selct2.js library don't remove!-->
+                        @foreach($topicList as $topic)
+                            <option value="{{$topic->name}}">{{$topic->name}}</option>
+                        @endforeach
+                    </select>
+                <label style="float: left;"> Personal Page</label>
+                <input type="text" name="personal_link" placeholder="http://www.mariorossi.com"/>
 
                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                 <input type="submit" name="submit" class="submit action-button" value="Submit"/>

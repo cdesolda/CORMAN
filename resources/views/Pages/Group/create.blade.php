@@ -28,28 +28,32 @@
                 <h2 class="fs-title">Create Community</h2>
                 <h3 class="fs-subtitle">Insert some informations about the community</h3>
 
-                <input type="text" name="name" placeholder="Community Name"/>
+                <label style="float: left;">Community Name *</label>
+                <input type="text" name="name" placeholder="Es. DIB"/>
                 
-                <textarea rows="4" name="description" placeholder="Description" ></textarea>
+                <label style="float: left;">Description</label>
+                <textarea rows="4" name="description" placeholder="Es. DIB Group is..." ></textarea>
                 
-                <div class="row">
-                    <select class="form-control" id="usersDropdown" name="users[]" multiple>
-                        <option value=""></option> <!-- needed for selct2.js library don't remove!-->
-                        @foreach($userList as $user)
-                            <option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
-                        @endforeach
-                    </select>
-                </div> 
+                <label style="float: left;">Invite Members</label>
+                <select class="form-control" id="usersDropdown" name="users[]" multiple>
+                    <option value=""></option> <!-- needed for selct2.js library don't remove!-->
+                    @foreach($userList as $user)
+                        <option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
+                    @endforeach
+                </select>
 
-                <div class="row">
-                    <select class="form-control" id="topicsDropdown" name="topics[]" multiple>
-                        <option value=""></option> <!-- needed for selct2.js library don't remove!-->
-                        @foreach($topicList as $topic)
-                            <option value="{{$topic->name}}">{{$topic->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
+                <div class="row"></div>
+                 
+
+                <label style="float: left;">Add topic to your Group</label>
+                <select class="form-control" id="topicsDropdown" name="topics[]" multiple>
+                    <option value=""></option> <!-- needed for selct2.js library don't remove!-->
+                    @foreach($topicList as $topic)
+                        <option value="{{$topic->name}}">{{$topic->name}}</option>
+                    @endforeach
+                </select>
+               <div class="row"></div>
+                <label style="float: left;">Group Picture</label>
                 <input type="file" class="group_picture" id="upload" name="picture">
                 
                 <div class="form-group">

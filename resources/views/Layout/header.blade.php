@@ -2,7 +2,7 @@
     <!-- Navbar content -->
     <div class="brand-div col-lg-4 col-md-4 col-sm-8 col-8 col-xl-4">
         <a href="{{ route('users.index') }}">
-            <img src="{{ asset('images/logo_corman.png') }}" height="50" width="50" alt="CORMAN Logo" />
+            <img src="{{ asset('images/logo_corman.png') }}" height="50" width="100" alt="CORMAN Logo" />
         </a>
     </div>
 <!--    <form class="form-inline order-lg-2 order-md-2 order-sm-3 order-3 my-lg-0 col-lg-5 col-md-6 col-sm-12 col-xl-4" action="{{ '/' . Request::segments()[0] . '?search=' }}" method="get">

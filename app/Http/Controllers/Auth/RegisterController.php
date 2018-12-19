@@ -57,7 +57,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['bail','required','regex:/^[A-Za-z\- ]+$/','max:255','unique_with:users,last_name'], //Don't remove the space!
             'last_name' => ['bail','required','regex:/^[A-Za-z\-àéèìòù ]+$/','max:255'], //Don't remove the space!
-            'birth_date' => 'bail|required|date|after:01/01/1900|before:01/01/2000',
+            'birth_date' => 'bail|date|after:01/01/1900|before:01/01/2000',
             'email' => 'bail|required|email|unique:users|max:255',
             'password' => 'bail|required|confirmed|min:6|max:255',
             'password_confirmation' => 'bail|required',

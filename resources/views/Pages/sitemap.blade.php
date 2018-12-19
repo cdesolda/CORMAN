@@ -9,7 +9,6 @@
     <ul class="sitemap">
         <li><a href="{{route('landing')}}">Homepage - CORMAN.com</a></li>
         <ul>
-            <li><a href="#">How it works</a></li>
             <li><a href="{{url('login')}}">Login</a></li>
             <li><a href="{{url('signUp')}}">Join Us</a></li>
         </ul>

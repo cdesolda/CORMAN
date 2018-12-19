@@ -109,14 +109,13 @@
                 </div>
                 
                 <hr>
-                <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#deleteUser">Delete User</a>
                 <hr>
 
                 <input type="submit" name="submit" class="submit action-button" value="Submit"/>
         </div>
     </form>
 
-    <!-- MODAL CONFIRM DELETE USER -->
+    <!-- MODAL CONFIRM DELETE USER
     <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -129,12 +128,19 @@
                 <div class="modal-body">    
                     <div class="row align-items-center">
                         <div class="col-lg-12" align="center">Really, do you want to delete from Corman?</div>
-                        <a href="#" id="btn-newgroup" class="btn btn-danger btn-sm" role="button">Yes, Delete</a>
+                            <form method="post" action="{{route('users.destroy', ['id' => $user->id])}}">
+                                <div class="align-items-center" align="center">
+                                    {{ csrf_field() }}
+                                    {{method_field('DELETE')}}
+                                    <button type="submit" class="btn btn-danger btn-sm" dusk="btn-confirmDeleteComment">Yes, Delete</button>
+                                </div>
+                            </form>    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 @endsection
 
 @section('script')
